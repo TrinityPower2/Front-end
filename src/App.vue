@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <nav v-if="false">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
@@ -26,5 +26,36 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+</style> -->
+
+
+<template>
+  <div id="nav">
+      <!-- <router-link to="/">HelloWorld</router-link> |
+      <router-link to="/landing-page">Landing Page</router-link> -->
+  <router-view /> 
+  </div>
+</template>
+
+<!-- <script>
+import HelloWorld from './views/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+      HelloWorld
+  }
+}
+</script> -->
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #222634;
+  margin-top: 60px; */
 }
 </style>
