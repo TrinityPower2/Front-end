@@ -1246,7 +1246,7 @@ body.dark .TodoList {
 .List-Title {
   color: rgba(252, 240, 255, 0.986);
   text-align: center;
-  margin-top: 3.5%;
+  /* margin-top: 3.5%; */
   margin-bottom: 10%;
   text-shadow: 2px 2px rgba(211, 116, 240, 0.437);
   font-size: 2em;
@@ -1773,6 +1773,32 @@ body.dark .modal1{
 .AddTaskInputBox input[type="submit"]:active {
   background-color: rgba(190, 188, 188, 0.2);
   color: #c38cda;
+}
+
+.delete-list-button{
+  width:100%;
+  display:flex; 
+  justify-content:space-evenly; 
+  margin-top: 30px;
+}
+
+.AddInputBox,no {
+  margin-left: 0px;
+}
+
+.CloseTodoList-container{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.CloseTodoList{
+  padding-right: 25px;
+  padding-top: 15px;
+  border: none;
+  background: none;
+  font-size: large;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
 }
 
 /*--------------------------------------------------------------------------------------------------*/
