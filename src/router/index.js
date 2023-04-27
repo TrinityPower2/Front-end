@@ -39,7 +39,6 @@
 // })
 
 // export default router
-
 import { createWebHistory, createRouter } from "vue-router";
 import HelloWorld from "@/views/HelloWorld.vue";
 import LandingPage from "@/views/LandingPage.vue";
@@ -50,6 +49,7 @@ import ForgotPwd from "@/views/ForgotPwd.vue";
 import ResetPwd from "@/views/ResetPwd.vue";
 import EntryForm from "@/views/EntryForm.vue";
 import EntryForm1 from "@/views/EntryForm copy.vue";
+import TodoListPage from "@/views/TodolistPage.vue";
 
 const routes = [
   {
@@ -97,11 +97,17 @@ const routes = [
     name: "EntryFormPage1",
     component: EntryForm1,
   },
+  {
+    path: "/todo-list-page",
+    name: "TodoListPage",
+    component: TodoListPage,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
 
 export default router;
