@@ -30,8 +30,15 @@
                         <font-awesome-icon id="AddList" icon="fa-solid fa-plus" size="2xl" class="Plus-todo" />
                     </div>
                     <div class="Todolist-shape">
+
+                        <!-- CA CHANGE A PARTIR DICI  -->
                         <div class="TodoList">
+                            <div class="CloseTodoList-container">
+                                <button id="CloseTodoList" class="CloseTodoList">x</button>
+                            </div>
                             <div class="List-Title">Due Today</div>
+                        <!-- CA CHANGE JUSQUA LA  -->
+
                             <div class="Task">
                                 <label for="scales" class="task-container">Finish this page
                                     <input type="checkbox" id="scales" name="test1" checked="checked" />
@@ -53,7 +60,6 @@
                                 </label>
                                 <font-awesome-icon icon="fa-solid fa-plus" size="s" />
                             </div>
-
                             <button type="submit" class="Task-add-btn" id="addBtn">
                                 Add Task
                             </button>
@@ -196,7 +202,29 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- CA CHANGE A PARTIR DICI  -->
+                <div id="myModalDelete" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h1 class="modal-Title">Delete Todo List</h1>
+                        <div class="modal-center">
+                            <p style="margin-top: 50px;">Are you sure you want to delete this List ?</p>
+                            <div class ="delete-list-button">
+                            <div class="AddTaskInputBox no">
+                                <input class="close" type="submit" value="Cancel" name="submit" />
+                            </div>
+                            <div class="AddTaskInputBox no">
+                                <input style="margin-left: 0px;" type="submit" value="Delete" name="submit" />
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- CA CHANGE JUSQUA LA  -->
         </div>
         <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
         <footer>
@@ -416,7 +444,43 @@ window.onload = function () {
             modal2.style.display = "none";
         }
     };
+    // <!-- CA CHANGE A PARTIR DICI  -->
+   
+
+    // Get the modal2
+    var modal3 = document.getElementById("myModalDelete");
+
+    // Get the button that opens the modal
+    var btn3 = document.getElementById("CloseTodoList");
+
+    // Get the <span> element that closes the modal
+    var span3 = document.getElementsByClassName("close")[3];
+
+    // When the user clicks the button, open the modal
+    if (btn3) {
+        btn3.onclick = function () {
+            modal3.style.display = "block";
+        };
+    } else {
+        console.log("element not found");
+    }
+    if (span3) {
+        // When the user clicks on <span> (x), close the modal
+        span3.onclick = function () {
+            modal3.style.display = "none";
+        };
+    } else {
+        console.log("element not found");
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal3) {
+            modal2.style.display = "none";
+        }
+    };
 };
+
+// <!-- CA CHANGE JUSQUA LA  -->
 </script>
 
 <style></style>
