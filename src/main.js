@@ -14,10 +14,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faUserLarge } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import VScrollLock from 'v-scroll-lock'
 
 /* add icons to the library */
-library.add(faGoogle,faLinkedinIn,faGithub)
+library.add(faGoogle,faLinkedinIn,faGithub,faUserLarge,faPlus)
 
 createApp(App).use(router).use(VScrollLock).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
