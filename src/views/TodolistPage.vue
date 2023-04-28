@@ -44,21 +44,21 @@
                                     <input type="checkbox" id="scales" name="test1" checked="checked" />
                                     <span class="checkmark"></span>
                                 </label>
-                                <font-awesome-icon id="TaskPlus" icon="fa-solid fa-plus" size="s" />
+                                <font-awesome-icon id="TaskPlus" icon="fa-solid fa-plus" size="sm" />
                             </div>
                             <div class="Task">
                                 <label class="task-container">Buy food for party
                                     <input type="checkbox" />
                                     <span class="checkmark"></span>
                                 </label>
-                                <font-awesome-icon icon="fa-solid fa-plus" size="s" />
+                                <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
                             </div>
                             <div class="Task">
                                 <label class="task-container">Upload finished work on Github with the bros
                                     <input type="checkbox" />
                                     <span class="checkmark"></span>
                                 </label>
-                                <font-awesome-icon icon="fa-solid fa-plus" size="s" />
+                                <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
                             </div>
                             <button type="submit" class="Task-add-btn" id="addBtn">
                                 Add Task
@@ -163,7 +163,7 @@
                                         <input type="text" id="fname" name="fname" class="new-task-input" placeholder="..."><br>
                                     </div>
                                     <div class="new-task-create">
-                                        <font-awesome-icon icon="fa-solid fa-plus" size="s" />
+                                        <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
                                         <p>New Task</p>
                                     </div>
                                 </div>
