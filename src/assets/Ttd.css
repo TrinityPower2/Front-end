@@ -1548,6 +1548,7 @@ body.dark .modal{
   display: none; /*hide original SELECT element:*/
 }
 
+
 .select-selected {
   background-color: #d6a5e9;
   border-radius: 15px;
@@ -1586,7 +1587,7 @@ body.dark .modal{
 /*style items (options):*/
 .select-items {
   position: absolute;
-  background-color: #d6a5e9;
+  background-color: #af8dc6;
   top: 100%;
   left: 0;
   right: 0;
@@ -1800,6 +1801,150 @@ body.dark .modal1{
   color: rgb(255, 255, 255);
   font-weight: 600;
 }
+
+
+
+/*--------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------CREATE CONTAINER PAGE----------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------------------*/
+
+.create-calendar-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 60px ;
+}
+
+.create-container{
+  margin-top:40px ;
+}
+
+.MoveOn btn {
+  color: #c18cd6c4;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.forgotPswd btn:hover {
+  color: rgb(240, 248, 255);
+}
+
+.modal-content-create {
+  background-color: #fffffffc;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid rgba(158, 2, 99, 0.282);
+  border-right: 1px solid rgba(94, 58, 58, 0.2);
+  border-bottom: 1px solid rgba(49, 43, 43, 0.2);
+  width: 100%; 
+  border-radius: 30px;
+}
+
+.modal-center2{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  align-items: flex-start;
+}
+
+
+.create-select{
+  margin-top: 0px;
+}
+
+.Create-planning-Btn{
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: aliceblue;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+  background-color: #c18cd665;
+  color: #ffffff;
+  width: fit-content;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 110px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  /*margin-left: 30%;*/
+}
+
+.Create-planning-Btn:hover {
+  background-color: #c18cd6;
+  color: aliceblue;
+}
+
+.created-tasks-new{
+  display: flex;
+  justify-content: space-between;
+  border-radius: 15px;
+  background-color: var(--color);
+  margin: 20px;
+  padding-top: 2px;
+}
+
+.created-tasks-container{
+  margin-top: 50px;
+  margin-bottom: 90px;
+}
+
+.created-tasks-title{
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.New-list-element1{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  float: left;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  min-width: 500px;
+  margin-top: 10px;
+}
+
+.Add-another-task{
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Add-another-container{
+  display: flex;
+  justify-content: end;
+  width:85%;
+}
+
+.Timeslots-choice{
+  display:flex;
+}
+
+.import-button-container{
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+}
+
+.import-button-container button{
+  margin : 0px;
+}
+
 
 /*--------------------------------------------------------------------------------------------------*/
 
