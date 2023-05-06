@@ -13,6 +13,7 @@ import DarkLightMode from '@/components/DarkLightMode.vue';
     <router-link to="/todo-list-page">Todo List Page 1</router-link> |
     <router-link to="/create-calendar-page">Create Calendar Page 1</router-link> |
     <router-link to="/help-page">Help Page</router-link> |
+    <router-link to="/profile-page">Profile Page</router-link> |
   </div>
   <!-- <HeaderLine></HeaderLine> -->
 </template>
