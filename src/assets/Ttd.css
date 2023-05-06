@@ -787,6 +787,42 @@ p {
   color: aliceblue;
 }
 
+
+
+
+.loginInputBox select {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: aliceblue;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+}
+
+.loginInputBox select::placeholder {
+  color: rgba(225, 254, 253, 0.858);
+}
+
+.loginInputBox select::selection {
+  color: #c18cd6;;
+}
+
+/*------------Input box backgrounds after auto fill-------------*/
+
+.loginInputBox select:-webkit-autofill,
+.loginInputBox select:-webkit-autofill:hover,
+.loginInputBox select:-webkit-autofill:focus,
+.loginInputBox select:-webkit-autofill:active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
 /*------------Messages and redirections at bottom of the box-------------*/
 
 .forgotPswd {
@@ -1943,6 +1979,248 @@ body.dark .modal1{
 
 .import-button-container button{
   margin : 0px;
+}
+
+
+/*--------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------HELP PAGE----------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------------------*/
+
+.help-page{
+  display:flex;
+  justify-content: center;
+}
+
+.help-page-container{
+  background-color: white;
+  border-radius: 15px;
+  margin: 40px;
+  padding: 5px 20px;
+  padding-bottom: 40px;
+  box-shadow: 0 5px 45px rgba(77, 77, 77, 0.226);
+  border-bottom: 1px solid rgba(65, 64, 64, 0.5);
+  border-right: 1px solid rgba(19, 19, 19, 0.2);
+  border-left: 1px solid rgba(19, 19, 19, 0.2);
+  border-top: 1px solid rgba(93, 88, 88, 0.282);
+}
+
+body.dark .help-page-container{
+  background-color: white;
+  border-radius: 15px;
+  margin: 40px;
+  padding: 5px 20px;
+  padding-bottom: 40px;
+  box-shadow: 0 5px 45px rgba(241, 241, 241, 0.83);
+  border-bottom: 1px solid rgba(65, 64, 64, 0.5);
+  border-right: 1px solid rgba(19, 19, 19, 0.2);
+  border-left: 1px solid rgba(19, 19, 19, 0.2);
+  border-top: 1px solid rgba(93, 88, 88, 0.282);
+}
+
+.help-prompt{
+  text-align:center; 
+  font-weight:500; 
+  color:rgba(85, 84, 85, 0.986);
+}
+
+.help-form{
+  width: 100%;
+}
+
+.all-questions{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  width:100%;
+}
+
+.help-question{
+  width:75%;
+  display: flex;
+  flex-direction: column;
+}
+
+.help-label{
+  margin: 15px;
+  color :rgba(85, 84, 85, 0.986);
+}
+
+.help-input{
+  width:100%;
+  float: center;
+  background-color: rgba(206, 204, 204, 0.2);
+  border: none;
+  outline: none;
+  padding: 5px 20px;
+  border-radius: 15px;
+  border-bottom: 1px solid rgba(65, 64, 64, 0.5);
+  border-right: 1px solid rgba(19, 19, 19, 0.2);
+  /* borde: 1px solid rgba(48, 48, 48, 0.2); */
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgba(27, 27, 27, 0.858);
+  box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
+}
+
+.help-task-input::placeholder {
+  color: rgba(27, 27, 27, 0.473);
+  font-size: smaller;
+}
+
+/*------------Input box backgrounds after auto fill-------------*/
+
+.help-task-input:-webkit-autofill,
+.help-task-input:-webkit-autofill:hover,
+.help-task-input:-webkit-autofill:focus,
+.help-task-input:-webkit-autofill:active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+
+#drop_zone {
+  width: 100%;
+  height: 300px;
+}
+
+
+/*--------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------EDIT USER PAGE----------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------------------*/
+
+
+
+.edit-profile-container{
+  background: #000;
+  width: 100%;
+  display: flex ;
+  justify-content:center;
+  flex-direction: column;
+  align-content: space-around;
+  flex-wrap: wrap;
+  padding : 80px;
+  background: linear-gradient(
+    55deg,
+    #16dcff,
+    #90b5ff,
+    #c18cd6,
+    #f291bb,
+    #ff9ca3
+  );
+  border-radius: 18px;
+  position: relative;
+  box-shadow: 20px 20px 256px 20px rgba(255, 255, 255, 0.778) inset;
+}
+
+
+.edit-profile-container:before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    55deg,
+    #16dcff,
+    #90b5ff,
+    #c18cd6,
+    #f291bb,
+    #ff9ca3
+  );
+  transform: translate3d(20px, 10px, 20px) scale(1.5);
+  filter: blur(120px);
+  opacity: var(0.9);
+  transition: opacity 0.3s;
+  border-radius: inherit;
+}
+
+.edit-profile-container::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: inherit;
+  border-radius: inherit;
+}
+
+
+/* yes/no toggle */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;  
+  border-radius: 10px;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  border-radius: 5px;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #e2b4f5;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #f291bbe0;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.Switch-label{
+  color: rgba(255, 255, 255, 0.986);
+  text-align: center;
+  text-shadow: 2px 2px rgba(211, 116, 240, 0.437);
+  font-size: larger;
+}
+
+.Switch-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 
