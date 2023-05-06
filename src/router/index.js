@@ -52,6 +52,7 @@ import EntryForm1 from "@/views/EntryForm copy.vue";
 import TodoListPage from "@/views/TodolistPage.vue";
 import CreateCalendarPage from "@/views/CreateCalendar.vue";
 import HelpPage from "@/views/HelpPage.vue";
+import ProfilePage from "@/views/UserProfilePage.vue";
 
 const routes = [
   {
@@ -113,6 +114,11 @@ const routes = [
     path: "/help-page",
     name: "HelpPage",
     component: HelpPage,
+  },
+  {
+    path: "/profile-page",
+    name: "ProfilePage",
+    component: ProfilePage,
   },
 ];
 
