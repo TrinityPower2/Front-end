@@ -14,9 +14,7 @@
                     <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
-
-                <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large"
-                        style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link>
+                <UserMenu></UserMenu>
                 <div class="light">
                     <DarkLightMode></DarkLightMode>
                 </div>
@@ -67,8 +65,7 @@
 
             </div>
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
-        <footer>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>        <footer>
             <div class="content-footer">
                 <div class="top">
                     <div class="logo-details">
@@ -91,44 +88,58 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
     name: "HelpPage",
     components: {
         DarkLightMode,
+        UserMenu
     },
-};
-window.onload = function () {
-    function dropHandler(ev) {
-        console.log("File(s) dropped");
-
-        // Prevent default behavior (Prevent file from being opened)
-        ev.preventDefault();
-
-        if (ev.dataTransfer.items) {
-            // Use DataTransferItemList interface to access the file(s)
-            [...ev.dataTransfer.items].forEach((item, i) => {
-                // If dropped items aren't files, reject them
-                if (item.kind === "file") {
-                    const file = item.getAsFile();
-                    console.log(`… file[${i}].name = ${file.name}`);
-                }
-            });
+    mounted(){
+        var thisID = document.getElementById("TopBtn");
+        var myScrollFunc = function () {
+        var y = window.scrollY;
+        if (y >= 300) {
+            thisID.className = "fa fa-angle-double-up show";
         } else {
-            // Use DataTransfer interface to access the file(s)
-            [...ev.dataTransfer.files].forEach((file, i) => {
-                console.log(`… file[${i}].name = ${file.name}`);
-            });
+            thisID.className = "fa fa-angle-double-up hide";
         }
-    }
-
-    function dragOverHandler(ev) {
-        console.log("File(s) in drop zone");
-
-        // Prevent default behavior (Prevent file from being opened)
-        ev.preventDefault();
+    };
+        window.addEventListener("scroll", myScrollFunc);
     }
 };
+// window.onload = function () {
+//     function dropHandler(ev) {
+//         console.log("File(s) dropped");
+
+//         // Prevent default behavior (Prevent file from being opened)
+//         ev.preventDefault();
+
+//         if (ev.dataTransfer.items) {
+//             // Use DataTransferItemList interface to access the file(s)
+//             [...ev.dataTransfer.items].forEach((item, i) => {
+//                 // If dropped items aren't files, reject them
+//                 if (item.kind === "file") {
+//                     const file = item.getAsFile();
+//                     console.log(`… file[${i}].name = ${file.name}`);
+//                 }
+//             });
+//         } else {
+//             // Use DataTransfer interface to access the file(s)
+//             [...ev.dataTransfer.files].forEach((file, i) => {
+//                 console.log(`… file[${i}].name = ${file.name}`);
+//             });
+//         }
+//     }
+
+//     function dragOverHandler(ev) {
+//         console.log("File(s) in drop zone");
+
+//         // Prevent default behavior (Prevent file from being opened)
+//         ev.preventDefault();
+//     }
+// };
 </script>
 
 <style></style>
