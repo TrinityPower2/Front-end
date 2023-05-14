@@ -10,11 +10,9 @@
                 <div class="Navbar">
                     <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
                     <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">Create a Planning</router-link>
+                    <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
-
-                <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large"
-                        style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link>
+                <UserMenu></UserMenu>
                 <div class="light">
                     <DarkLightMode></DarkLightMode>
                 </div>
@@ -66,10 +64,10 @@
             <div class="create-calendar-event" id="create-calendar-event">
                 <div class="modal-content-create">
                     <span class="close">&times;</span>
-                    <h1 class="modal-Title" style="margin-bottom : 40px;">New Task</h1>
+                    <h1 class="modal-Title" style="margin-bottom : 40px;">New Event</h1>
                     <div class="modal-center1">
                         
-                        <input type="text" id="fname" name="fname" class="new-task-input" placeholder="Task Name"><br>
+                        <input type="text" id="fname" name="fname" class="new-task-input" placeholder="Event Name"><br>
                         <div class="New-list-element1" style="margin-top : 40px;">
                             <!-- <div class="new-list-desc">
                                     Day
@@ -78,7 +76,7 @@
                                 style="color: rgba(85, 84, 85, 0.986);" />
                             <div class="custom-select create-select">
                                 <select>
-                                    <option value="0">Length of task :</option>
+                                    <option value="0">Length of event :</option>
                                     <option value="1">1H</option>
                                     <option value="2">2H</option>
                                     <option value="3">3H</option>
@@ -141,7 +139,7 @@
                                 style="color: rgba(85, 84, 85, 0.986);" />
                             <div class="custom-select create-select">
                                 <select>
-                                    <option value="0">Type of task :</option>
+                                    <option value="0">Type of event :</option>
                                     <option value="1"><font-awesome-icon icon="fa-solid fa-circle"
                                             style="color: #00ff88;" /> Party</option>
                                     <option value="2"><font-awesome-icon icon="fa-solid fa-circle"
@@ -204,14 +202,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="New-list-element1">
+                        <div class="New-list-element">
                             <font-awesome-icon icon="fa-solid fa-list-check" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
-                            <div class="custom-select create-select">
+                            <!-- <div class="custom-select create-select">
                                 <select>
                                     <option value="0">ToDo List :</option>
                                 </select>
-                            </div>
+                            </div> -->
 
                         </div>
                         <div class="Add-another-container">
@@ -221,11 +219,11 @@
                                         <input type="checkbox" />
                                         <span class="checkmark"></span>
                                     </label>
-                                    <input type="text" id="fname" name="fname" class="new-task-input" placeholder="..."><br>
+                                    <input type="text" id="fname" name="fname" class="new-task-input" placeholder="My Task"><br>
                                 </div>
                                 <div class="new-task-create">
                                     <font-awesome-icon icon="fa-solid fa-plus" size="s" />
-                                    <p>New Task</p>
+                                    <p>Add Task</p>
                                 </div>
                             </div>
                         </div>
@@ -375,7 +373,7 @@
         <button class="Create-planning-Btn" id="importCalendar">
             Import Planning
         </button></div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
         <footer>
             <div class="content-footer">
                 <div class="top">
@@ -399,12 +397,26 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
     name: "CreateCalendarPage",
     components: {
         DarkLightMode,
+        UserMenu
     },
+    mounted(){
+        var thisID = document.getElementById("TopBtn");
+        var myScrollFunc = function () {
+        var y = window.scrollY;
+        if (y >= 300) {
+            thisID.className = "fa fa-angle-double-up show";
+        } else {
+            thisID.className = "fa fa-angle-double-up hide";
+        }
+    };
+        window.addEventListener("scroll", myScrollFunc);
+    }
 };
 
 window.onload = function () {
