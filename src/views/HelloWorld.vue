@@ -15,18 +15,13 @@ import DarkLightMode from '@/components/DarkLightMode.vue';
     <router-link to="/help-page">Help Page</router-link> |
     <router-link to="/profile-page">Profile Page</router-link> |
   </div>
-  <!-- <HeaderLine></HeaderLine> -->
 </template>
 
 <script>
-import HeaderLine from "../components/HeaderLine.vue";
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
-  },
-  components: {
-    HeaderLine,
   },
 };
 </script>
