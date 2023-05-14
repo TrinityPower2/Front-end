@@ -12,11 +12,13 @@
                     <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
-
-                <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large"
-                        style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link>
-                <div class="light">
-                </div>
+                <UserMenu></UserMenu>
+                
+                <!-- <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large" -->
+                        <!-- style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link> -->
+                <!-- <div class="light">
+                    <DarkLightMode></DarkLightMode>
+                </div> -->
             </div>
         </header>
         <a id="top"></a>
@@ -330,7 +332,7 @@
                 </div>
             </div>
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
         <footer>
             <div class="content-footer">
                 <div class="top">
@@ -354,8 +356,26 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
+// import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
     name: "ProfilePage",
+    components: {
+    UserMenu,
+    // DarkLightMode
+    },
+    mounted(){
+        var thisID = document.getElementById("TopBtn");
+        var myScrollFunc = function () {
+        var y = window.scrollY;
+        if (y >= 300) {
+            thisID.className = "fa fa-angle-double-up show";
+        } else {
+            thisID.className = "fa fa-angle-double-up hide";
+        }
+    };
+        window.addEventListener("scroll", myScrollFunc);
+    }
 };
 </script>
 

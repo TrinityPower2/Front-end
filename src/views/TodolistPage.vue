@@ -10,11 +10,9 @@
                 <div class="Navbar">
                     <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
                     <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">Create a Planning</router-link>
+                    <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
-
-                <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large"
-                        style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link>
+                <UserMenu></UserMenu>
                 <div class="light">
                     <DarkLightMode></DarkLightMode>
                 </div>
@@ -30,15 +28,11 @@
                         <font-awesome-icon id="AddList" icon="fa-solid fa-plus" size="2xl" class="Plus-todo" />
                     </div>
                     <div class="Todolist-shape">
-
-                        <!-- CA CHANGE A PARTIR DICI  -->
                         <div class="TodoList">
                             <div class="CloseTodoList-container">
                                 <button id="CloseTodoList" class="CloseTodoList">x</button>
                             </div>
                             <div class="List-Title">Due Today</div>
-                        <!-- CA CHANGE JUSQUA LA  -->
-
                             <div class="Task">
                                 <label for="scales" class="task-container">Finish this page
                                     <input type="checkbox" id="scales" name="test1" checked="checked" />
@@ -202,8 +196,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- CA CHANGE A PARTIR DICI  -->
+
                 <div id="myModalDelete" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
@@ -223,10 +216,8 @@
                     </div>
                 </div>
             </div>
-
-            <!-- CA CHANGE JUSQUA LA  -->
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
         <footer>
             <div class="content-footer">
                 <div class="top">
@@ -250,12 +241,26 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
     name: "TodoListPage",
     components: {
         DarkLightMode,
+        UserMenu
     },
+    mounted(){
+        var thisID = document.getElementById("TopBtn");
+        var myScrollFunc = function () {
+        var y = window.scrollY;
+        if (y >= 300) {
+            thisID.className = "fa fa-angle-double-up show";
+        } else {
+            thisID.className = "fa fa-angle-double-up hide";
+        }
+    };
+        window.addEventListener("scroll", myScrollFunc);
+    }
 };
 window.onload = function () {
     // Get the modal
@@ -444,7 +449,7 @@ window.onload = function () {
             modal2.style.display = "none";
         }
     };
-    // <!-- CA CHANGE A PARTIR DICI  -->
+
    
 
     // Get the modal2
@@ -479,8 +484,6 @@ window.onload = function () {
         }
     };
 };
-
-// <!-- CA CHANGE JUSQUA LA  -->
 </script>
 
 <style></style>
