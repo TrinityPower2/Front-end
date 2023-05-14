@@ -42,7 +42,8 @@ body {
 /*-------------------------------------Top of the page Logo---------------------------------------*/
 
 .VueLogo {
-  width: 10em;
+  width: 130px;
+  height: 90px;
   margin: 40px;
   margin-bottom: 50px;
   justify-self: start;
@@ -53,6 +54,42 @@ body {
     margin-left: 40px;
   }
 }
+
+/*--------------------------------------------------------------------------------------------------*/
+
+/*-----------------------------------Back to top button-----------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------------------*/
+
+#TopBtn {
+  display: block;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99; /* Make sure it does not overlap */
+  border: none;
+  outline: none;
+  background-color: rgba(46, 40, 45, 0.371);
+  padding: 10px;
+  padding-left: 17px;
+  padding-right: 17px;
+  border-radius: 50%;
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+#TopBtn:hover {
+  color: rgb(27, 30, 27);
+  background-color: rgba(245, 215, 244, 0.619);
+}
+
+.hide {
+  opacity: 0;
+}
+.show {
+  opacity: 1;
+}
+
 
 /*--------------------------------------------------------------------------------------------------*/
 
@@ -180,9 +217,9 @@ body.dark .container-toggle {
   /* position: absolute; */
   /* top: 50px;
   right : 20px; */
-  width: 40px;
-  height: 40px;
-  border-radius: 17px;
+  width: 54px;
+  height: 52px;
+  border-radius: 26px;
   padding: 8px;
   background: rgba(237, 236, 236, 0.885);
   display: flex;
@@ -2223,7 +2260,102 @@ input:checked + .slider:before {
   align-items: center;
 }
 
+/* ------------- user drop down menu --------------- */
 
+.nav-user-menu{
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.User-menu-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.User-profile-icon {
+  margin: 50px;
+  margin-left:75px;
+  margin-right:65px;
+  border-radius: 50px;
+  background: #f7def1 ;
+  color: #c18cd6d0;
+  border-color: #c18cd6d0;
+  box-shadow: 0px 0px 25px rgba(213, 94, 237, 0.562);
+  padding: 20px;
+  /* top : 0; */
+}
+/* 
+@media (min-width: 1100px) {
+  .User-profile-icon {
+    margin-bottom: 95px;
+  }
+} */
+
+.user-menu{
+  position: relative;
+  width: 200px;
+  min-height: 100px;
+  background: #f7def1;
+  /*top: calc( + 30px);*/
+  box-shadow: 0 50px 50px rgba(0, 0, 0, 0.1);
+  display:none;
+  transition: 0.5s;
+  border-radius: 10px;
+  z-index: 9;
+  margin-bottom : 10px;
+  margin-top : -22px;
+}
+/* 
+.user-menu::before{
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 85px;
+  width: 20px;
+  height: 20px;
+  background: #f7def1;
+  transform: rotate(45deg);
+} */
+  
+.user-menu.active {
+  display: block;
+}
+
+.user-menu ul{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  background: #f7def1;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.user-menu ul li{
+  list-style: none;
+  padding : 15px 20px;
+  transition : 0.5s;
+  border-bottom: 1px solid rgba(71, 71, 71, 0.293);
+}
+
+.user-menu ul li:last-child{
+  border-bottom:none;
+}
+
+.user-menu ul li:hover{
+  background-color: #a9a5a64d;
+  transition : 0.5s;
+}
+
+.user-menu ul li:active{
+  background-color: #2121214d;
+}
+
+.to-page-user-nav{
+  text-decoration: none;
+  color: #8b8b8b;
+}
 /*--------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------------FOOTER----------------------------------------------------*/
