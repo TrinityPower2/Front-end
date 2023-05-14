@@ -1,0 +1,95 @@
+<template>
+  <!-- <?php 
+include 'dbConn.php';
+session_start();
+
+if(isset($_POST['btnRegister'])){
+    $fname=$_POST['txtFName'];
+    $email=$_POST['txtEmail'];
+    $confirmationemail=$_POST['txtConfirmationEmail'];
+    if($email != $confirmationemail){
+        echo '<script type="text/javascript">
+        window.onload = function () { alert("The two emails are different : please enter the same email in both fields."); } 
+        </script>';
+    }
+    else{
+        $checkquery="SELECT * FROM tblusers WHERE email='$email'";
+        $checkresult=mysqli_query($connection,$checkquery);
+        $row = mysqli_num_rows($checkresult); 
+        if($row!=0){
+            echo '<script type="text/javascript">
+                window.onload = function () { alert("You already have an account : please log in."); } 
+            </script>';
+            header("refresh:1;url=login.php");
+        }
+        else{
+            $password=md5($_POST['txtPassword']); /*32 character output*/
+
+            $query = "INSERT INTO `tblusers`(`firstname`, `email`, `password`) VALUES ('$fname','$email','$password')";
+            if(mysqli_query($connection,$query)){
+                $_SESSION['fullname'] = $fname;
+                $_SESSION['email'] = $email;
+                echo $email;
+                $newquery="SELECT * FROM tblusers WHERE email='$email'";
+                $newresult=mysqli_query($connection,$newquery);
+                $newrow=mysqli_fetch_assoc($newresult);
+                echo var_dump($newrow);
+                $_SESSION['admin'] = $newrow['admin'];
+                echo $_SESSION['admin'];
+                $_SESSION['uid'] = $newrow['ID'];
+                echo $_SESSION['uid'];
+                echo 'Record succesfully added!';
+                //redirect user to another page
+                header("refresh:2,url=confirmRegistration.php");
+            }else{
+                echo 'Error in inserting data, please try again.';
+            }
+        }
+    }
+mysqli_close($connection);
+}
+
+?> -->
+
+<body>
+    <section class="RegisterPage">
+        <div class="loginBox">
+            <div class="loginContainer">
+                <div class="loginForm">
+                    <h2>Get Started</h2>
+                    <form action="" method="post">
+                        <div class="loginInputBox">
+                            <input type="text" placeholder="Username" name="txtFName">
+                        </div>
+                        <div class="loginInputBox">
+                            <input type="text" placeholder="Email" name="txtEmail">
+                        </div>
+                        <div class="loginInputBox">
+                            <input type="text" placeholder="Verify Email" name="txtConfirmationEmail">
+                        </div>
+                        <div class="loginInputBox">
+                            <input type="password" placeholder="Password" name="txtPassword">
+                        </div>
+                        <div class="loginInputBox">
+                            <input id="Registerbtn" type="submit" value="Register" name="btnRegister">
+                        </div>
+                    </form>
+                    <p class="forgotPswd">Already have an account ? <router-link to="/login-page">Login</router-link></p>
+                </div>
+            </div>
+            <img src="../assets/Register.webp" alt="Calendar people" class="login-img">
+        </div>
+    </section>
+</body>
+
+</template>
+
+<script>
+export default {
+    name: 'RegisterPage',
+}
+</script>
+
+<style>
+
+</style>
