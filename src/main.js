@@ -24,10 +24,11 @@ import { faRepeat } from '@fortawesome/free-solid-svg-icons'
 import { faBell } from '@fortawesome/free-regular-svg-icons'
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { faListCheck } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 import VScrollLock from 'v-scroll-lock'
 
 /* add icons to the library */
-library.add(faGoogle,faLinkedinIn,faGithub,faUserLarge,faPlus, faCircle, faClock, faCalendarDays, faHourglassHalf, faPalette, faRepeat, faBell, faCircleExclamation, faListCheck)
+library.add(faGoogle,faLinkedinIn,faGithub,faUserLarge,faPlus, faCircle, faClock, faCalendarDays, faHourglassHalf, faPalette, faRepeat, faBell, faCircleExclamation, faListCheck, faArrowUp)
 
 createApp(App).use(router).use(VScrollLock).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
