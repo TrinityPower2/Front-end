@@ -28,16 +28,13 @@
                             <form action="#" method="post">
                                 <h2 class="List-Title">Edit Profile</h2>
                                 <div class="loginInputBox">
-                                    <input type="text" name="txtFName" placeholder="First name"
-                                        value="<?php echo $row['firstname']?>"><br>
+                                    <input type="text" name="txtFName" placeholder="First name" value=""><br>
                                 </div>
                                 <div class="loginInputBox">
-                                    <input type="email" name="txtEmail" placeholder="Email Address"
-                                        value="<?php echo $row['email']?>"><br>
+                                    <input type="email" name="txtEmail" placeholder="Email Address" value=""><br>
                                 </div>
                                 <div class="loginInputBox">
-                                    <input type="password" placeholder="Password" name="txtpassword"
-                                        value="<?php echo $row['password']?>"><br>
+                                    <input type="password" placeholder="Password" name="txtpassword" value=""><br>
                                 </div>
                                 <div class="loginInputBox">
                                     <input id="party" type="date" name="partydate">
@@ -356,7 +353,26 @@
 <script>
 export default {
     name: "ProfilePage",
+    data() {
+        return {
+            firstName: "",
+            email: "",
+            password: "",
+            partyDate: "",
+            importHolidays: false
+        }
+    },
+    methods: {
+        updateInformation() {
+            // Send the updated information to the server
+        },
+        toggleImportHolidays() {
+            this.importHolidays = !this.importHolidays;
+        }
+    }
+    
 };
+
 </script>
 
 <style></style>
