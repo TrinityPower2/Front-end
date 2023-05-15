@@ -49,10 +49,12 @@ import ForgotPwd from "@/views/ForgotPwd.vue";
 import ResetPwd from "@/views/ResetPwd.vue";
 import EntryForm from "@/views/EntryForm.vue";
 import EntryForm1 from "@/views/EntryForm copy.vue";
+import EntryForm2 from "@/views/EntryForm copy 2.vue";
 import TodoListPage from "@/views/TodolistPage.vue";
 import CreateCalendarPage from "@/views/CreateCalendar.vue";
 import HelpPage from "@/views/HelpPage.vue";
 import ProfilePage from "@/views/UserProfilePage.vue";
+import CalendarPage from "@/views/CalendarPage.vue";
 
 const routes = [
   {
@@ -101,6 +103,11 @@ const routes = [
     component: EntryForm1,
   },
   {
+    path: "/entry-form2-page",
+    name: "EntryFormPage2",
+    component: EntryForm2,
+  },
+  {
     path: "/todo-list-page",
     name: "TodoListPage",
     component: TodoListPage,
@@ -119,6 +126,11 @@ const routes = [
     path: "/profile-page",
     name: "ProfilePage",
     component: ProfilePage,
+  },
+  {
+    path: "/calendar-page",
+    name: "CalendarPage",
+    component: CalendarPage,
   },
 ];
 
