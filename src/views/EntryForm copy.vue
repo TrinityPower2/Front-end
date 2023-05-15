@@ -11,9 +11,9 @@
                     <div class="Form-banner-container">
                         <div class="loginForm">
                             <h2>Your Preferences</h2>
-                            <p class="Form-presentation"> <br> TimeToDo depends on an <i class="fa fa-bold" aria-hidden="true">algorithm</i>  to optimize your plannings. <br><br> The following questions will help us <i class="fa fa-bold" aria-hidden="true">taylor your planning</i> , depending on your needs <br><br></p>
+                            <p class="Form-presentation"> <br> TimeToDo depends on an <i class="fa fa-bold" aria-hidden="true">algorithm</i>  to optimize your plannings. <br><br> The following questions will help us <i class="fa fa-bold" aria-hidden="true">taylor your planning</i> , depending on your needs :<br><br></p>
                             <form action="#" method="post">
-                                <p class="Form-question">On which days do you have the most free time ?</p>
+                                <p class="Form-question">On which timeslot is your lunch break ?</p>
                                 <input type="hidden" name="nbquestion" style="display: none"
                                     value="<?php echo $row['nbquestion']; ?>" />
                                 
@@ -26,15 +26,27 @@
                                 <input type="hidden" name="level" style="display: none"
                                     value="<?php echo $row['level']?>" />
                                 <div class="loginInputBox">
-                                    <input type="text" name="txtNbQuestion" value="ex: Mon, Tue" />
+                                    <input type="time" step="900" name="txtQuestion" style="width:50%;"/>
+                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
                                 </div>
-                                <p class="Form-question">On which timeslots are you often free ?</p>
+                                <p class="Form-question">On which timeslot is your diner break ?</p>
                                 <div class="loginInputBox">
-                                    <input type="text" name="txtQuestion" value="ex: Mon 8h-16h" />
+                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
                                 </div>
-                                <p class="Form-question">On what timeslots should no tasks be planned ?</p>
+                                <p class="Form-question">What is your sleeping schedule ?</p>
                                 <div class="loginInputBox">
-                                    <input type="text" name="txtAnswer" value="ex: Wed 10h-12h" />
+                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                </div>
+                                <p class="Form-question">Would you rather have schedules in the morning or the afternoon ?</p>
+                                <div class="Switch-container">
+                                    <p class="Switch-label">Morning</p>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <p class="Switch-label">Afternoon</p>
                                 </div>
                                 <!-- <div class="loginInputBox">
                                     <input type="text" name="txtCategory" value="<?php echo $row['category']?>" />
