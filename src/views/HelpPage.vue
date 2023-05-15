@@ -97,9 +97,8 @@ export default {
     components: {
         DarkLightMode,
     },
-};
-window.onload = function () {
-    function dropHandler(ev) {
+    methods:{
+        dropHandler(ev) {
         console.log("File(s) dropped");
 
         // Prevent default behavior (Prevent file from being opened)
@@ -120,15 +119,17 @@ window.onload = function () {
                 console.log(`… file[${i}].name = ${file.name}`);
             });
         }
-    }
+    },
 
-    function dragOverHandler(ev) {
+    dragOverHandler(ev) {
         console.log("File(s) in drop zone");
 
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
     }
+    }
 };
+
 </script>
 
 <style></style>

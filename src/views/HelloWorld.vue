@@ -19,15 +19,13 @@ import DarkLightMode from '@/components/DarkLightMode.vue';
 </template>
 
 <script>
-import HeaderLine from "../components/HeaderLine.vue";
+
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
   },
-  components: {
-    HeaderLine,
-  },
+
 };
 </script>
 
