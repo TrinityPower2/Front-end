@@ -1,10 +1,20 @@
 <template>
     <body>
+        <a id="top"></a>
         <div class="FormPage1">
+            <div class="headernav" >
+                <div class="header-container1">
             <div class="header-image">
                 <img alt="Vue logo" style="opacity: 0.7;" src="../assets/TimeToDo1.png" class="VueLogo" />
             </div>
-
+            <div class="Navbar">
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
+                </div>
+                <UserMenu></UserMenu>
+                </div>
+            </div>
             <div class="FormBox">
                 <div class="FormContainer">
                     <div class="Form-banner-container">
@@ -30,11 +40,12 @@
                                 <div class="Switch-container">
                                     <p class="Switch-label">Morning</p>
                                     <label class="switch">
-                                        <input type="checkbox"  v-model="isMorningSelected">
+                                        <input type="checkbox">
                                         <span class="slider"></span>
                                     </label>
                                     <p class="Switch-label">Afternoon</p>
                                 </div>
+                                
                                 <br><br>
                                 <p class = "message">{{ message }}</p>
                                 <div class="loginInputBox FormInputBox">
@@ -43,12 +54,12 @@
                                 <p class="forgotPswd MoveOn">
                                     Skip for now ?<a href="./Register.html">Move on</a>
                                 </p>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
         <footer style="margin-top: 0%">
             <div class="content-footer">
                 <div class="top">
@@ -72,11 +83,18 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
+// import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
-    name: "EntryFormPage1",
+    name: "EntryFormPage2",
+    components: {
+    UserMenu,
+    // DarkLightMode
+    },
     data(){
           return{
             Questions: ["lunchtime", "dinnertime","sleeptime"],
+            Pref : [],
             Lunch1 : "",
             Lunch2 : "",
             Dinner1 : "",
@@ -92,6 +110,54 @@ export default {
         },
 
     methods:{
+        async GetPref() {
+        const token = localStorage.getItem('token');
+
+        try {
+        const response = await fetch("http://127.0.0.1:8000/api/timepref/", {
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+            }
+        });
+
+        const data = await response.json();
+        this.prefs = JSON.parse(JSON.stringify(data.list));
+        } catch (error) {
+        console.error(error);
+        }
+        },
+
+        async initializePage() {
+        /*Initilialized the page by getting all the current to do list and tasks of the user*/
+        await this.GetPref();
+        
+        this.Pref = this.prefs.map(pref => {
+            return {
+                "id_timepref": pref.id_timepref,
+                "name_timepref": pref.name_timepref,
+                "start_time": pref.start_time,
+                "length": pref.length,
+                "id_users": pref.id_users,
+                "miscellaneous": pref.miscellaneous
+            };
+        })
+
+        if(this.Pref[0].name_timepref == "lunchtime"){
+            this.Lunch1 = this.Pref[0].start_time;
+            this.Lunch2 = this.addDurationToTime(this.Pref[0].start_time, this.Pref[0].length)
+        }
+
+        if(this.Pref[1].name_timepref == "dinnertime"){
+            this.Dinner1 = this.Pref[1].start_time;
+            this.Dinner2 = this.addDurationToTime(this.Pref[1].start_time, this.Pref[1].length)
+        }
+        if(this.Pref[2].name_timepref == "sleeptime"){
+            this.Sleeping1 = this.Pref[2].start_time;
+            this.Sleeping2 = this.addDurationToTime(this.Pref[2].start_time, this.Pref[2].length)
+        }
+    },
         convertToISO(event, field) {
             const time = event.target.value;
             const [hours, minutes] = time.split(':');
@@ -110,21 +176,23 @@ export default {
             const Duration = [lunchDuration, dinnerDuration, sleepingDuration]
             for (let i = 0; i < 3; i++) {
                 const token = localStorage.getItem('token');
-                console.log(token)
-                fetch("http://127.0.0.1:8000/api/timepref", {
-                    method: 'POST',
+                console.log(StartTime[i])
+                console.log(this.Questions[i])
+                fetch("http://127.0.0.1:8000/api/timepref/" + this.Questions[i] , {
+                   
+                    method: 'PATCH',
                     headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                     },
                     body: JSON.stringify({
-                    name_timepref: this.Questions[i],
                     start_time: StartTime[i],
                     length: Duration[i]
                     })
                 }).then((response)=>{
-        
+
                 if (response.ok) {
+                    this.message = "Update Successfully"
                     return response.json();
                 }
                 else {   
@@ -132,11 +200,8 @@ export default {
                             throw new Error(JSON.stringify(error));
                     });
                 }})
-                
-                .then((parsed) => {localStorage.setItem('token',parsed.token);
-                })
-                .then(()=>{this.$router.push('/entry-form1-page');})
                 .catch((error) => {
+                    
                     let errorMessage;
                     try {
                         errorMessage = JSON.parse(error.message);
@@ -156,7 +221,9 @@ export default {
                 
                     
                 });
-            }}}                
+            }}
+            
+            }                
             ,
               
             calculateDuration(time1, time2) {
@@ -167,10 +234,39 @@ export default {
                 const minutesTime2 = hours2 * 60 + minutes2;
 
                 return minutesTime2 - minutesTime1;
-            }
-      }
+            },
+            addDurationToTime(time, durationInMinutes) {
+                const [hours, minutes] = time.split(":").map(Number);
 
+                const timeInMinutes = hours * 60 + minutes;
+
+                const endTimeInMinutes = timeInMinutes + durationInMinutes;
+                const resultingHours = Math.floor(endTimeInMinutes / 60);
+                const resultingMinutes = endTimeInMinutes % 60;
+
+                const endTime = `${String(resultingHours).padStart(2, "0")}:${String(resultingMinutes).padStart(2, "0")}`;
+
+                return endTime;
+            }
+      },
+      beforeMount(){
+        
+        this.initializePage();
+      
+    },
+    mounted(){
+        var thisID = document.getElementById("TopBtn");
+        var myScrollFunc = function () {
+        var y = window.scrollY;
+        if (y >= 300) {
+            thisID.className = "fa fa-angle-double-up show";
+        } else {
+            thisID.className = "fa fa-angle-double-up hide";
+        }
+    };
+        window.addEventListener("scroll", myScrollFunc);
     }
+};
 </script>
 
 <style></style>
@@ -203,4 +299,3 @@ export default {
                 </div>
             </section>
     <?php } ?> -->
-    

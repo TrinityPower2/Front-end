@@ -7,11 +7,11 @@
 <script>
 import SiteHeader from '@/components/SiteHeader.vue';
 import Calendar from '@/components/Calendar.vue';
-import TodoList from '@/components/TodoList.vue';
+
 
 export default {
     name:'CalendarView',
-    components: { SiteHeader, Calendar, TodoList },
+    components: { SiteHeader, Calendar },
     beforeMount(){
       if(localStorage.getItem("token")){
             console.log(localStorage.getItem("token"));

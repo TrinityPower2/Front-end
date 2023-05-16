@@ -8,9 +8,9 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">Create a Planning</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
 
                 <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large"
@@ -150,6 +150,21 @@
                                         </select>
                                     </div>
                             </div>
+                            <div class="New-list-element"  v-show="selectedCalendar !== '0'">
+                                    <div class="new-list-desc" >
+                                        Importance
+                                    </div>
+                                <div class="custom-select">  
+                                <select  class="select-items" v-model="priorityEvent">
+                                    <option value="0">Choose Importance :</option>
+                                    <option value="1">Urgent</option>
+                                    <option value="2">Important</option>
+                                    <option value="3">Medium</option>
+                                    <option value="4">Minor</option>
+                                    <option value="5">Do Later</option>
+                                </select>
+                                </div>
+                            </div>
                             <div class = "message" > {{message}}</div>
                             <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
                             <div class="AddTaskInputBox">
@@ -282,7 +297,22 @@
                                             
                                         </select>
                                     </div>
-                                </div>                            
+                                </div>           
+                                <div class="New-list-element"  v-show="selectedCalendar !== '0'">
+                                    <div class="new-list-desc" >
+                                        Importance
+                                    </div>
+                                <div class="custom-select">  
+                                <select  class="select-items" v-model="priorityEvent">
+                                    <option value="0">Choose Importance :</option>
+                                    <option value="1">Urgent</option>
+                                    <option value="2">Important</option>
+                                    <option value="3">Medium</option>
+                                    <option value="4">Minor</option>
+                                    <option value="5">Do Later</option>
+                                </select>
+                                </div>
+                            </div>                 
                             <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
                                 <div class="AddTaskInputBox">
                                     <input @click ="()=>SubmitList()" type="submit" value="Add" name="submit" />
@@ -344,6 +374,7 @@ export default {
         TaskToDo : [],
         AddTasks : [],
         taskChecked : '',
+        priorityEvent : '0',
         message : '',
         Duration : '0',
         DeleteName : '',
@@ -681,6 +712,7 @@ export default {
         }
     },
     async OpenUpdate(index){
+        console.log("HELLO ? ")
         var UpdateToDoCopy = {...this.ToDoList[index]}
         this.UpdateToDo = JSON.parse(JSON.stringify(UpdateToDoCopy));
         console.log(this.UpdateToDo)
@@ -702,11 +734,10 @@ export default {
         this.message = 'You must provide a To Do List Name';
     } else if (this.UpdateToDo.task.some(task => task.name_task === '' || task.priority_level === '0')) {
         this.message = 'You must fill all fields for the task';
-    } else if(this.selectedDate !== '' && (this.selectedCalendar == "0" || this.Duration == 0)){
+    } else if(this.selectedDate !== '' && (this.selectedCalendar == "0" || this.Duration == 0 || this.priorityEvent == "0")){
                     this.message = "You must choose a calendar and a duration"
             }
-            else if ((this.selectedDate !== '' && (this.selectedCalendar !== '0' && this.Duration !== 0)) || this.selectedDate === '') {
-
+    else if ((this.selectedDate !== '' && (this.selectedCalendar !== '0' && this.Duration !== 0 && this.priorityEvent !== "0" )) || this.selectedDate === '') {
         const updateToDoPromise = fetch('api/api/todolist/' + this.UpdateToDo.id_todo, {
             method: 'PATCH',
             headers: {
@@ -734,108 +765,69 @@ export default {
 
         }
         }
-
-    if (this.selectedDate !== '') {
-      if (this.selectedCalendar === '0' || this.Duration === '0') {
-        this.message = 'You must choose a calendar and a duration';
-      } else {
-        const date = this.selectedDate.split('T')[0].substring(0, 10);
-        const time = this.selectedDate.split('T')[1].substring(0, 5);
-        console.log(date)
-        fetch('api/api/events', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-          },
-          body: JSON.stringify({
-            name_event: this.UpdateToDo.name_todo,
-            description: 'Description',
-            start_date: date + ' ' + time,
-            length: this.Duration,
-            movable: false,
-            priority_level: 0,
-            to_repeat: 0,
-            id_calendar: this.selectedCalendar
-          })
-        })
-          .then(response => {
-            if (response.ok) {
-              return response.json();
+   
+        if (this.selectedDate !== '') {
+            if (this.selectedCalendar == "0" || this.Duration == 0) {
+                this.message = "You must choose a calendar and a duration";
             } else {
-              throw new Error(response.statusText);
-            }
-          })
-          .then(data => {
-            const event_Id = data.list.id_event;
-            console.log("HI", this.UpdateToDo.task)
-            const attachTaskPromises = this.UpdateToDo.task.map(task => 
-            {
-              return fetch('api/api/attachTaskToEvent/' + task.id_task, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + token
-                },
-                body: JSON.stringify({ id_event: event_Id })
+                const date = this.selectedDate.split('T')[0].substring(0, 10);
+                const time = this.selectedDate.split('T')[1].substring(0, 5);
+                console.log("SELECTED CALENDAR ", this.selectedCalendar);
+                fetch("api/api/convertToDoToEvent/" + this.UpdateToDo.name_todo, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        id_calendar: this.selectedCalendar,
+                        description: "Description",
+                        start_date: date + ' ' + time,
+                        length: this.Duration,
+                        priority_level: this.priorityEvent
+                    })
                 })
-                .then(response => {
-                  if (!response.ok) {
-                    response.json().then((data) => {
-                        throw new Error(data.message);
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            return response.json().then(error => {
+                                throw new Error(JSON.stringify(error));
+                            });
+                        }
                     });
-                  }
-                });
-            });
+            }
+        }
 
-            return Promise.all(attachTaskPromises)
-              .then(() => {
-                this.message = '';
-                this.Duration = '0';
-                this.selectedDate = '';
-                this.selectedCalendar = '0';
-                this.Reload();
-              })
-              .catch(error => {
-                let errorMessage;
-                try {
-                  errorMessage = JSON.parse(error.message);
-                } catch {
-                  errorMessage = {
-                    message: 'An error occurred while processing your request.'
-                  };
-                }
+        return Promise.resolve();
+        })
+        .then(() => {
 
-                this.message = errorMessage.message;
-                
-              });
-          });
-      }
-    
-    }
-    }).catch(error => {
-                let errorMessage;
-                try {
-                  errorMessage = JSON.parse(error.message);
-                } catch {
-                  errorMessage = {
-                    message: 'An error occurred while processing your request.'
-                  };
-                }
-
-                this.message = errorMessage.message;
-                
-              });
-        console.log(this.message);
-    
-        if(this.message == ""){
             this.message = '';
             this.Duration = '0';
-            this.selectedDate = '';
-            this.selectedCalendar = '0';
+            this.selectedDate = "";
+            this.selectedCalendar = "0";
             this.Reload();
-        }
-        }      
+            })
+        .catch(error => {
+            let errorMessage;
+            try {
+                errorMessage = JSON.parse(error.message);
+            } catch {
+                errorMessage = {
+                    message: 'An error occurred while processing your request.'
+                };
+            }
+
+            this.message = errorMessage.message;
+        });
+            } else {
+                this.message = '';
+                this.Duration = '0';
+                this.selectedDate = "";
+                this.selectedCalendar = "0",
+                this.Reload();
+            }
     },
   
     OpenTask(index){    
@@ -909,7 +901,6 @@ export default {
                 this.message = "You must enter a name for your to do list"
                 
         }else if (
-            
         (this.taskInputArray.some((task) => task === '') && !this.selectedImportanceArray.some((priority) => priority === '0')) ||
         (!this.taskInputArray.some((task) => task === '') && this.selectedImportanceArray.some((priority) => priority === '0'))
         ||(!this.taskInput == '' && this.selectedImportance == '0')){
@@ -920,12 +911,10 @@ export default {
         }
         else{
            
-            if(this.selectedDate !== '' && (this.selectedCalendar == "0" || this.Duration == 0)){
-                    console.log("oh ...?")
+            if(this.selectedDate !== '' && (this.selectedCalendar == "0" || this.Duration == 0 || this.priorityEvent == "0")){
                     this.message = "You must choose a calendar and a duration"
             }
-            else if ((this.selectedDate !== '' && (this.selectedCalendar !== '0' && this.Duration !== 0)) || this.selectedDate === '') {
-            console.log("oh ?")
+            else if ((this.selectedDate !== '' && (this.selectedCalendar !== '0' && this.Duration !== 0  && this.priorityEvent !== "0")) || this.selectedDate === '') {
             const List = [];
             if(this.taskInput !== ''){
                 if(this.taskChecked != true){ this.taskChecked = false}
@@ -938,7 +927,6 @@ export default {
                 
             }
             this.AddTasks.forEach((new_task, index) => {
-            //const inputElement = document.getElementById('taskInput_' + index);
             const checkboxElement = document.getElementById('taskChecked_' + index);
             const inputElement = this.taskInputArray[index];
             const importanceElement = this.selectedImportanceArray[index]
@@ -985,63 +973,76 @@ export default {
         }
 
 
-    Promise.all([CreateToDoPromise, ...createTaskPromises])
-    .then(responses => {
-        for (let response of responses) {
-        if (!response.ok) {
-            console.log(response.message)
-            this.message = "List already created"
-            throw new Error(response.statusText);
-        }
-        }
-        let event_Id;
-        if(this.selectedDate !== ''){
-            if(this.selectedCalendar == "0" || this.Duration == 0){
-                this.message = "You must choose a calendar and a duration"
-            }
-            else{
-            const date = this.selectedDate.split('T')[0].substring(0, 10);
-            const time = this.selectedDate.split('T')[1].substring(0, 5);
-            console.log("SELECTED CALENDAR ", this.selectedCalendar)
-            fetch("api/api/events", 
-            {
-                method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({name_event : this.ToDo, description : "Description", start_date : date + ' ' + time,
-            length : this.Duration, movable: false, priority_level:0, to_repeat : 0, id_calendar : this.selectedCalendar})})
-            .then((response)=>{ 
-                if (response.ok) {
-                    return response.json()
-                }
-                else { 
-                    
+        Promise.all([CreateToDoPromise, ...createTaskPromises])
+        .then(responses => {
+            for (let response of responses) {
+                if (!response.ok) {
                     return response.json().then(error => {
-                        throw new Error(JSON.stringify(error));
-                });
-            }})
-            .then((data) => {
-                event_Id = data.list.id_event;
-                const attachTaskPromises = List.map(task => 
-            {
-              return fetch("api/api/atasks", 
-                    {
-                        method: 'POST',
+                            throw new Error(JSON.stringify(error));
+                    });
+                    
+                }
+            }
+
+        if (this.selectedDate !== '') {
+            if (this.selectedCalendar == "0" || this.Duration == 0 || this.priotityEvent == "0") {
+                this.message = "You must choose a calendar and a duration";
+            } else {
+                const date = this.selectedDate.split('T')[0].substring(0, 10);
+                const time = this.selectedDate.split('T')[1].substring(0, 5);
+                console.log("SELECTED CALENDAR ", this.selectedCalendar);
+                fetch("api/api/convertToDoToEvent/" + this.ToDo, {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token
                     },
-                    body: JSON.stringify({name_task : task.name_task, description : "Description", priority_level : task.priority_level, id_event : event_Id})})
-                    .then(response => {
-                  if (!response.ok) {
-                    throw new Error(response.statusText);
-                  }
-                });
-            });
-            return Promise.all(attachTaskPromises)
-              .then(() => {
+                    body: JSON.stringify({
+                        id_calendar: this.selectedCalendar,
+                        description: "Description",
+                        start_date: date + ' ' + time,
+                        length: this.Duration,
+                        priority_level: this.priorityEvent
+                    })
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            return response.json().then(error => {
+                                throw new Error(JSON.stringify(error));
+                            });
+                        }
+                    });
+            }
+        }
+
+        return Promise.resolve();
+        })
+        .then(() => {
+            this.ToDo = '';
+            this.message = '';
+            this.Duration = '0';
+            this.selectedDate = "";
+            this.selectedCalendar = "0";
+            this.selectedImportanceArray = ["0"];
+            this.taskInputArray = [];
+            this.Reload();
+            })
+        .catch(error => {
+            console.log("HELLOOOOO ", error.message)
+            let errorMessage;
+            try {
+                errorMessage = JSON.parse(error.message);
+            } catch {
+                errorMessage = {
+                    message: 'An error occurred while processing your request.'
+                };
+            }
+
+            this.message = errorMessage.message;
+        });
+            } else {
                 this.ToDo = '';
                 this.message = '';
                 this.Duration = '0';
@@ -1050,34 +1051,8 @@ export default {
                 this.selectedImportanceArray = ["0"];
                 this.taskInputArray = [];
                 this.Reload();
-              })
-              .catch(error => {
-                let errorMessage;
-                try {
-                  errorMessage = JSON.parse(error.message);
-                } catch {
-                  errorMessage = {
-                    message: 'An error occurred while processing your request.'
-                  };
-                }
-
-                this.message = errorMessage.message;
-              });
-          });
-      }
-    } else {
-        this.ToDo = '';
-            this.message = '';
-            this.Duration = '0';
-            this.selectedDate = "";
-            this.selectedCalendar = "0";
-            this.selectedImportanceArray = ["0"];
-            this.taskInputArray = [];
-      this.Reload();
-    }
-    });
-    }
-    }
+            }
+        }
     },
     OpenPlus(task){
         this.Task = task;
