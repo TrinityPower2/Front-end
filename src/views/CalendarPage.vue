@@ -44,24 +44,77 @@
                 <div class="calendar-container">
                     <div class="calendar">
                         <div class="timeline">
-                            <div class="spacer"></div>
+                            
                             <div class="time-marker">6 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">6H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">7 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">7H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">8 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">8H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">9 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">9H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">10 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">10H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">11 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">11H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">12 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">12H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">13 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">13H30</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker">14 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">14H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">15 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">15H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">16 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">16H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">17 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">17H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">18 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">18H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">19 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">19H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">20 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">20H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">21 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">21H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">22 H</div>
+                            <div class="time-marker"></div>
+                            <div class="time-marker mid">22H30</div>
+                            <div class="time-marker"></div>
                             <div class="time-marker">23 H</div>
+
                         </div>
                         <div class="days">
                             <div class="day mon">
@@ -70,9 +123,9 @@
                                     <p class="date-day">Mon</p>
                                 </div>
                                 <div class="events">
-                                    <div class="event start-2 end-5 securities">
+                                    <div class="event start-13 end-15 project calendar-2">
                                         <p class="calendar-title">Physics exam</p>
-                                        <p class="calendar-time">2 PM - 5 PM</p>
+                                        <p class="calendar-time">13H - 15H</p>
                                     </div>
                                 </div>
                             </div>
@@ -82,13 +135,13 @@
                                     <p class="date-day">Tues</p>
                                 </div>
                                 <div class="events">
-                                    <div class="event start-10 end-12 corp-fi" id="event">
+                                    <div class="event start-16 end-18-30 health calendar-1" id="event">
                                         <p class="calendar-title">Volleyball Practice</p>
-                                        <p class="calendar-time">10 AM - 12 PM</p>
+                                        <p class="calendar-time">16H - 18H30</p>
                                     </div>
-                                    <div class="event start-1 end-4 ent-law">
-                                        <p class="calendar-title">Entertainment</p>
-                                        <p class="calendar-time">1PM - 4PM</p>
+                                    <div class="event start-10 end-11-30 class calendar-8">
+                                        <p class="calendar-title">Meeting</p>
+                                        <p class="calendar-time">10H - 11H30</p>
                                     </div>
                                 </div>
                             </div>
@@ -98,13 +151,13 @@
                                     <p class="date-day">Wed</p>
                                 </div>
                                 <div class="events">
-                                    <div class="event start-12 end-1 writing">
+                                    <div class="event start-12 end-19 holiday calendar-4">
                                         <p class="calendar-title">Dentist Apointment</p>
-                                        <p class="calendar-time">11 AM - 12 PM</p>
+                                        <p class="calendar-time">12H - 19H</p>
                                     </div>
-                                    <div class="event start-2 end-5 securities">
+                                    <div class="event start-8 end-9-30 project calendar-6">
                                         <p class="calendar-title">Maths Exam</p>
-                                        <p class="calendar-time">2 PM - 5 PM</p>
+                                        <p class="calendar-time">8H - 9H30</p>
                                     </div>
                                 </div>
                             </div>
@@ -114,13 +167,13 @@
                                     <p class="date-day">Thurs</p>
                                 </div>
                                 <div class="events">
-                                    <div class="event start-10 end-12 corp-fi">
+                                    <div class="event start-10 end-12 health calendar-4">
                                         <p class="calendar-title">Volleyball Practice</p>
-                                        <p class="calendar-time">10 AM - 12 PM</p>
+                                        <p class="calendar-time">10H - 12H</p>
                                     </div>
-                                    <div class="event start-1 end-4 ent-law">
+                                    <div class="event start-19 end-23 party calendar-5">
                                         <p class="calendar-title">Entertainment</p>
-                                        <p class="calendar-time">1PM - 4PM</p>
+                                        <p class="calendar-time">19H - 23H</p>
                                     </div>
                                 </div>
                             </div>
@@ -138,13 +191,13 @@
                                     <p class="date-day">Sat</p>
                                 </div>
                                 <div class="events">
-                                    <div class="event start-10 end-12 corp-fi">
+                                    <div class="event start-11 end-16 work calendar-7">
                                         <p class="calendar-title">Volleyball Practice</p>
-                                        <p class="calendar-time">10 AM - 12 PM</p>
+                                        <p class="calendar-time">11H - 16H</p>
                                     </div>
-                                    <div class="event start-1 end-4 ent-law">
-                                        <p class="calendar-title">Entertainment</p>
-                                        <p class="calendar-time">1PM - 4PM</p>
+                                    <div class="event start-15 end-20 family calendar-2">
+                                        <p class="calendar-title">Family Gathering</p>
+                                        <p class="calendar-time">15H - 20H</p>
                                     </div>
                                 </div>
                             </div>
@@ -154,13 +207,13 @@
                                     <p class="date-day">Sun</p>
                                 </div>
                                 <div class="events">
-                                    <div class="event start-10 end-12 corp-fi">
-                                        <p class="calendar-title">Volleyball Practice</p>
-                                        <p class="calendar-time">10 AM - 12 PM</p>
+                                    <div class="event start-11 end-15 holiday calendar-1">
+                                        <p class="calendar-title">Flight to Dubai</p>
+                                        <p class="calendar-time">11H - 15H</p>
                                     </div>
-                                    <div class="event start-1 end-4 ent-law">
-                                        <p class="calendar-title">Entertainment</p>
-                                        <p class="calendar-time">1PM - 4PM</p>
+                                    <div class="event start-7 end-9 project calendar-3">
+                                        <p class="calendar-title">English Exam</p>
+                                        <p class="calendar-time">7H - 9H</p>
                                     </div>
                                 </div>
                             </div>

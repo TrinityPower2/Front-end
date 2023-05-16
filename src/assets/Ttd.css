@@ -2463,29 +2463,44 @@ input:checked + .slider:before {
 
 :root {
   --numDays: 7;
-  --numHours: 17;
-  --timeHeight: 60px;
+  --numHours: 69;
+  --timeHeight: 20px;
   --calBgColor: #fff1f8;
   --eventBorderColor: #f2d3d8;
   --eventColor1: #ffd6d1;
   --eventColor2: #fafaa3;
   --eventColor3: #e2f8ff;
   --eventColor4: #d1ffe6;
-  --CalendarColor1: rgb(105, 105, 245);
-  --CalendarColor2: pink;
-  --CalendarColor3: rgb(251, 110, 110);
+  --eventColor5: #f3baff;
+  --eventColor6: #f1a1d7;
+  --eventColor7: #f7bb77;
+  --CalendarColor1: pink;
+  --CalendarColor2: #00ff88;
+  --CalendarColor3: #0084ff;
+  --CalendarColor4: #d400ff;
+  --CalendarColor5: #ff00ae;
+  --CalendarColor6: #020000;
+  --CalendarColor7: #9e9595;
+  --CalendarColor8: #ffdd00;
+
 }
 
 .calendar {
   display: grid;
-  gap: 10px;
+  gap: 6px;
   grid-template-columns: auto 1fr;
   margin: 2rem;
 }
 
+
 .timeline {
+  margin-top: 60px;
   display: grid;
   grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+}
+
+.mid{
+  font-size: x-small;
 }
 
 .days {
@@ -2502,43 +2517,569 @@ input:checked + .slider:before {
   background: var(--calBgColor);
 }
 
+
+
 /* Place on Timeline*/
 
-.start-10 {
+
+.start-6 {
+  grid-row-start: 1;
+}
+
+.start-6-15 {
   grid-row-start: 2;
 }
 
-.start-12 {
+.start-6-30 {
+  grid-row-start: 3;
+}
+
+.start-6-45 {
   grid-row-start: 4;
 }
 
-.start-1 {
+.start-7 {
   grid-row-start: 5;
 }
 
-.start-2 {
+.start-7-15 {
   grid-row-start: 6;
 }
 
-.end-12 {
+.start-7-30 {
+  grid-row-start: 7;
+}
+
+.start-7-45 {
+  grid-row-start: 8;
+}
+
+.start-8 {
+  grid-row-start: 9;
+}
+
+.start-8-15 {
+  grid-row-start: 10;
+}
+
+.start-8-30 {
+  grid-row-start: 11;
+}
+
+.start-8-45 {
+  grid-row-start: 12;
+}
+
+.start-9 {
+  grid-row-start: 13;
+}
+
+.start-9-15 {
+  grid-row-start: 14;
+}
+
+.start-9-30 {
+  grid-row-start: 15;
+}
+
+.start-9-45 {
+  grid-row-start: 16;
+}
+
+.start-10 {
+  grid-row-start: 17;
+}
+
+.start-10-15 {
+  grid-row-start: 18;
+}
+
+.start-10-30 {
+  grid-row-start: 19;
+}
+
+.start-10-45 {
+  grid-row-start: 20;
+}
+
+.start-11 {
+  grid-row-start: 21;
+}
+
+.start-11-15 {
+  grid-row-start: 22;
+}
+
+.start-11-30 {
+  grid-row-start: 23;
+}
+
+.start-11-45 {
+  grid-row-start: 24;
+}
+
+.start-12 {
+  grid-row-start: 25;
+}
+
+.start-12-15 {
+  grid-row-start: 26;
+}
+
+.start-12-30 {
+  grid-row-start: 27;
+}
+
+.start-12-45 {
+  grid-row-start: 28;
+}
+
+.start-13 {
+  grid-row-start: 29;
+}
+
+.start-13-15 {
+  grid-row-start: 30;
+}
+
+.start-13-30 {
+  grid-row-start: 31;
+}
+
+.start-13-45 {
+  grid-row-start: 32;
+}
+
+.start-14 {
+  grid-row-start: 33;
+}
+
+.start-14-15 {
+  grid-row-start: 34;
+}
+
+.start-14-30 {
+  grid-row-start: 35;
+}
+
+.start-14-45 {
+  grid-row-start: 36;
+}
+
+.start-15 {
+  grid-row-start: 37;
+}
+
+.start-15-15 {
+  grid-row-start: 38;
+}
+
+.start-15-30 {
+  grid-row-start: 39;
+}
+
+.start-15-45 {
+  grid-row-start: 40;
+}
+
+.start-16 {
+  grid-row-start: 41;
+}
+
+.start-16-15 {
+  grid-row-start: 42;
+}
+
+.start-16-30 {
+  grid-row-start: 43;
+}
+
+.start-16-45 {
+  grid-row-start: 44;
+}
+
+.start-17 {
+  grid-row-start: 45;
+}
+
+.start-17-15 {
+  grid-row-start: 46;
+}
+
+.start-17-30 {
+  grid-row-start: 47;
+}
+
+.start-17-45 {
+  grid-row-start: 48;
+}
+
+.start-18 {
+  grid-row-start: 49;
+}
+
+.start-18-15 {
+  grid-row-start: 50;
+}
+
+.start-18-30 {
+  grid-row-start: 51;
+}
+
+.start-18-45 {
+  grid-row-start: 52;
+}
+
+.start-19 {
+  grid-row-start: 53;
+}
+
+.start-19-15 {
+  grid-row-start: 54;
+}
+
+.start-19-30 {
+  grid-row-start: 55;
+}
+
+.start-19-45 {
+  grid-row-start: 56;
+}
+
+.start-20 {
+  grid-row-start: 57;
+}
+
+.start-20-15 {
+  grid-row-start: 58;
+}
+
+.start-20-30 {
+  grid-row-start: 59;
+}
+
+.start-20-45 {
+  grid-row-start: 60;
+}
+
+.start-21 {
+  grid-row-start: 61;
+}
+
+.start-21-15 {
+  grid-row-start: 62;
+}
+
+.start-21-30 {
+  grid-row-start: 63;
+}
+
+.start-21-45 {
+  grid-row-start: 64;
+}
+
+.start-22 {
+  grid-row-start: 65;
+}
+
+.start-22-15 {
+  grid-row-start: 66;
+}
+
+.start-22-30 {
+  grid-row-start: 67;
+}
+
+.start-22-45 {
+  grid-row-start: 68;
+}
+
+.start-23 {
+  grid-row-start: 69;
+}
+
+
+
+
+
+.end-6 {
+  grid-row-end: 1;
+}
+
+.end-6-15 {
+  grid-row-end: 2;
+}
+
+.end-6-30 {
+  grid-row-end: 3;
+}
+
+.end-6-45 {
   grid-row-end: 4;
 }
 
-.end-1 {
+.end-7 {
   grid-row-end: 5;
 }
 
-.end-3 {
+.end-7-15 {
+  grid-row-end: 6;
+}
+
+.end-7-30 {
   grid-row-end: 7;
 }
 
-.end-4 {
+.end-7-45 {
   grid-row-end: 8;
 }
 
-.end-5 {
+.end-8 {
   grid-row-end: 9;
 }
+
+.end-8-15 {
+  grid-row-end: 10;
+}
+
+.end-8-30 {
+  grid-row-end: 11;
+}
+
+.end-8-45 {
+  grid-row-end: 12;
+}
+
+.end-9 {
+  grid-row-end: 13;
+}
+
+.end-9-15 {
+  grid-row-end: 14;
+}
+
+.end-9-30 {
+  grid-row-end: 15;
+}
+
+.end-9-45 {
+  grid-row-end: 16;
+}
+
+.end-10 {
+  grid-row-end: 17;
+}
+
+.end-10-15 {
+  grid-row-end: 18;
+}
+
+.end-10-30 {
+  grid-row-end: 19;
+}
+
+.end-10-45 {
+  grid-row-end: 20;
+}
+
+.end-11 {
+  grid-row-end: 21;
+}
+
+.end-11-15 {
+  grid-row-end: 22;
+}
+
+.end-11-30 {
+  grid-row-end: 23;
+}
+
+.end-11-45 {
+  grid-row-end: 24;
+}
+
+.end-12 {
+  grid-row-end: 25;
+}
+
+.end-12-15 {
+  grid-row-end: 26;
+}
+
+.end-12-30 {
+  grid-row-end: 27;
+}
+
+.end-12-45 {
+  grid-row-end: 28;
+}
+
+.end-13 {
+  grid-row-end: 29;
+}
+
+.end-13-15 {
+  grid-row-end: 30;
+}
+
+.end-13-30 {
+  grid-row-end: 31;
+}
+
+.end-13-45 {
+  grid-row-end: 32;
+}
+
+.end-14 {
+  grid-row-end: 33;
+}
+
+.end-14-15 {
+  grid-row-end: 34;
+}
+
+.end-14-30 {
+  grid-row-end: 35;
+}
+
+.end-14-45 {
+  grid-row-end: 36;
+}
+
+.end-15 {
+  grid-row-end: 37;
+}
+
+.end-15-15 {
+  grid-row-end: 38;
+}
+
+.end-15-30 {
+  grid-row-end: 39;
+}
+
+.end-15-45 {
+  grid-row-end: 40;
+}
+
+.end-16 {
+  grid-row-end: 41;
+}
+
+.end-16-15 {
+  grid-row-end: 42;
+}
+
+.end-16-30 {
+  grid-row-end: 43;
+}
+
+.end-16-45 {
+  grid-row-end: 44;
+}
+
+.end-17 {
+  grid-row-end: 45;
+}
+
+.end-17-15 {
+  grid-row-end: 46;
+}
+
+.end-17-30 {
+  grid-row-end: 47;
+}
+
+.end-17-45 {
+  grid-row-end: 48;
+}
+
+.end-18 {
+  grid-row-end: 49;
+}
+
+.end-18-15 {
+  grid-row-end: 50;
+}
+
+.end-18-30 {
+  grid-row-end: 51;
+}
+
+.end-18-45 {
+  grid-row-end: 52;
+}
+
+.end-19 {
+  grid-row-end: 53;
+}
+
+.end-19-15 {
+  grid-row-end: 54;
+}
+
+.end-19-30 {
+  grid-row-end: 55;
+}
+
+.end-19-45 {
+  grid-row-end: 56;
+}
+
+.end-20 {
+  grid-row-end: 57;
+}
+
+.end-20-15 {
+  grid-row-end: 58;
+}
+
+.end-20-30 {
+  grid-row-end: 59;
+}
+
+.end-20-45 {
+  grid-row-end: 60;
+}
+
+.end-21 {
+  grid-row-end: 61;
+}
+
+.end-21-15 {
+  grid-row-end: 62;
+}
+
+.end-21-30 {
+  grid-row-end: 63;
+}
+
+.end-21-45 {
+  grid-row-end: 64;
+}
+
+.end-22 {
+  grid-row-end: 65;
+}
+
+.end-22-15 {
+  grid-row-end: 66;
+}
+
+.end-22-30 {
+  grid-row-end: 67;
+}
+
+.end-22-45 {
+  grid-row-end: 68;
+}
+
+.end-23 {
+  grid-row-end: 69;
+}
+
+
+
 
 
 
@@ -2559,9 +3100,9 @@ input:checked + .slider:before {
   overflow: hidden;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-around;
-  align-items: flex-start;
-  align-content: stretch;
+  justify-content: center;
+  align-items: baseline;
+  align-content: flex-start;
 }
 
 
@@ -2572,26 +3113,66 @@ input:checked + .slider:before {
 
 /* Global / Etc*/
 
+.calendar-1{
+  border: 2px solid var(--CalendarColor1) ;
+}
 
-.corp-fi {
-  background: var(--eventColor1);
+.calendar-2{
+  border: 2px solid var(--CalendarColor2) ;
+}
+
+.calendar-3{
   border: 2px solid var(--CalendarColor3) ;
 }
 
-.ent-law {
+.calendar-4{
+  border: 2px solid var(--CalendarColor4) ;
+}
+
+.calendar-5{
+  border: 2px solid var(--CalendarColor5) ;
+}
+
+.calendar-6{
+  border: 2px solid var(--CalendarColor6) ;
+}
+
+.calendar-7{
+  border: 2px solid var(--CalendarColor7) ;
+}
+
+.calendar-8{
+  border: 2px solid var(--CalendarColor8) ;
+}
+
+.holiday {
+  background: var(--eventColor1);
+}
+
+.class{
   background: var(--eventColor2);
-  border: 2px solid var(--CalendarColor2) ;
 }
 
-.writing {
+.project {
   background: var(--eventColor3);
-  border: 2px solid var(--CalendarColor2) ;
 }
 
-.securities {
+.party {
   background: var(--eventColor4);
-  border: 2px solid var(--CalendarColor1) ;
 }
+
+.work  {
+  background: var(--eventColor5);
+}
+
+.health {
+  background: var(--eventColor6);
+}
+
+.family {
+  background: var(--eventColor7);
+}
+
 
 .date {
   display: flex;
