@@ -53,7 +53,7 @@
                                             <div class="loginInputBox">
                                                 <input v-model = "password" type="password" placeholder="Password">
                                             </div>
-                                            <div  style="color: red;">{{message}}</div>
+                                            <div class = "message" style="color: red;">{{message}}</div>
                                             <div class="loginInputBox">
                                                 <input @click="()=>login()" type="submit" value="Login">
                                             </div>
@@ -98,9 +98,7 @@
                 });
             }})
             
-            .then((parsed) => {localStorage.setItem('token',parsed.token);
-            })
-            
+            .then((parsed) => {localStorage.setItem('token',parsed.token);})
             .then(()=>{this.$router.push('/entry-form1-page');})
             .catch((error) => {
                         let errorMessage;

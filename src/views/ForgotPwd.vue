@@ -94,7 +94,7 @@
                                 <div class="loginInputBox">
                                     <input  v-model = "email" type="text" placeholder="Email Address" name="email">
                                 </div>
-                                <div style="color: red;" >{{message}}</div>
+                                <div class = "message" style="color: red;" >{{message}}</div>
                                 <div class="loginInputBox">
                                     <input @click="()=>send()" type="submit" value="Send" name="submit">
                                 </div>

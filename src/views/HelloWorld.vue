@@ -8,6 +8,8 @@
     <router-link to="/reset-password-page">Reset Pwd Page</router-link> |
     <router-link to="/entry-form-page">Entry Form Page</router-link> |
     <router-link to="/entry-form1-page">Entry Form Page 1</router-link> |
+    <router-link to="/todo-list-page">To Do List</router-link> |
+    <router-link to="/todo-list2-page">To Do List 2</router-link> |
   </div>
 
   <div class="hello">

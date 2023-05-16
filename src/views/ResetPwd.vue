@@ -29,7 +29,7 @@
                           <div class="loginInputBox">
                               <input v-model = "newpassword" type="password" placeholder="New Password" name="newpassword">
                           </div>
-                          <div style="color: red;"> {{message}}</div>
+                          <div class = "message" > {{message}}</div>
                           <div class="loginInputBox">
                               <input @click ="()=>reset()"  id="NewPwdbtn" type="submit" value="Edit" name="btnChange">
                           </div>
@@ -56,7 +56,6 @@
       methods:{
         reset(){
           const token = localStorage.getItem('token');
-          console.log(token)
           fetch("api/api/auth/password", 
           {
               method: 'PATCH',
@@ -69,7 +68,7 @@
             if (response.ok) {
               this.message = 'Password Changed Successfully';
               return response.json();
-  
+
             }
             else { 
                   

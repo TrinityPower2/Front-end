@@ -80,7 +80,62 @@
 <script>
 export default {
     name: "EntryFormPage1",
-};
+    data(){
+          return{
+            
+            name_timepref: "",
+            start_time: "",
+            length : "",
+          }
+        },
+
+    methods:{
+            submit(){
+                fetch("http://127.0.0.1:8000/api/auth/timepref", 
+                {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({name_timepref :this.name_timepref,start_time:this.start_time, length :this.length})})
+                .then((response)=>{
+                
+                if (response.ok) {
+                    return response.json();
+                }
+                else {   
+                        return response.json().then(error => {
+                            throw new Error(JSON.stringify(error));
+                    });
+                }})
+                
+                .then((parsed) => {localStorage.setItem('token',parsed.token);
+                })
+                .then(()=>{this.$router.push('/entry-form1-page');})
+                .catch((error) => {
+                      let errorMessage;
+                      try {
+                          errorMessage = JSON.parse(error.message);
+                      } catch {
+                          errorMessage = {
+                          message: 'An error occurred while processing your request.'
+                          };
+                          this.message = errorMessage.message;
+                      }
+                      if(errorMessage.status === false){
+  
+                          this.message = errorMessage.message;
+                      }
+                      else{
+                          this.message = errorMessage.errors;
+                      }
+                  
+                      
+                  });
+              }
+        
+      }
+      }
 </script>
 
 <style></style>

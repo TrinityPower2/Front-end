@@ -27,7 +27,7 @@
                     <div class="high-part-todo">
                         <div></div>
                         <h1 class="Todo-title">My Todo Lists</h1>
-                        <font-awesome-icon id="AddList" icon="fa-solid fa-plus" size="2xl" class="Plus-todo" />
+                        <font-awesome-icon @click ="()=>AddList()" id="AddList" icon="fa-solid fa-plus" size="2xl" class="Plus-todo" />
                     </div>
                     <div class="Todolist-shape">
                         <div class="TodoList">
@@ -37,7 +37,7 @@
                                     <input type="checkbox" id="scales" name="test1" checked="checked" />
                                     <span class="checkmark"></span>
                                 </label>
-                                <font-awesome-icon id="TaskPlus" icon="fa-solid fa-plus" size="s" />
+                                <font-awesome-icon @click ="()=>AddPlus()" id="TaskPlus" icon="fa-solid fa-plus" size="s" />
                             </div>
                             <div class="Task">
                                 <label class="task-container">Buy food for party
@@ -54,7 +54,7 @@
                                 <font-awesome-icon icon="fa-solid fa-plus" size="s" />
                             </div>
 
-                            <button type="submit" class="Task-add-btn" id="addBtn">
+                            <button @click ="()=>AddTask()" type="submit" class="Task-add-btn" id="addBtn">
                                 Add Task
                             </button>
                         </div>
@@ -67,7 +67,7 @@
                 <div id="myModal" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
-                        <span class="close">&times;</span>
+                        <span @click ="()=>CloseTask()" class="close">&times;</span>
                         <h1 class="modal-Title">Due Today</h1>
                         <div class="modal-center">
                             <div class="AddInputBox">
@@ -84,7 +84,7 @@
                                 </select>
                             </div>
                             <div class="AddInputBox">
-                                <input type="submit" value="Add" name="submit" />
+                                <input @click ="()=>Reload()" type="submit" value="Add" name="submit" />
                             </div>
                         </div>
                     </div>
@@ -93,11 +93,11 @@
                 <div id="myModalPlus" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
-                        <span class="close">&times;</span>
+                        <span @click ="()=>ClosePlus()" class="close">&times;</span>
                         <h1 class="modal-Title">Add to Planner</h1>
                         <div class="modal-center">
                             <div class="custom-select">
-                                <select>
+                                <select id = "Selected_Task">
                                     <option value="0">Add to Task :</option>
                                     <option value="1">Urgent</option>
                                     <option value="2">Important</option>
@@ -107,7 +107,7 @@
                                 </select>
                             </div>
                             <div class="AddInputBox">
-                                <input type="submit" value="Add" name="submit" />
+                                <input @click ="()=>SubmitTask()" type="submit" value="Add" name="submit" />
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                 <div id="NewListModal" class="modal1">
                     <!-- Modal content -->
                     <div class="modal-content">
-                        <span class="close">&times;</span>
+                        <span @click ="()=>CloseList()" class="close">&times;</span>
                         <h1 class="modal-Title" style="margin-bottom : 40px;">New Todo List</h1>
                         <div class="modal-center1">
                             <div class="New-list-element">
@@ -190,7 +190,7 @@
                             </div>
                             <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
                             <div class="AddTaskInputBox">
-                                <input type="submit" value="Add" name="submit" />
+                                <input @click ="()=>Reload()" type="submit" value="Add" name="submit" />
                             </div>
                             </div>
                         </div>
@@ -228,19 +228,155 @@ export default {
     components: {
         DarkLightMode,
     },
-};
-window.onload = function () {
-    // Get the modal
-    var modal = document.getElementById("myModal");
+    data() {
+        return{
+        modal : ""
+        }
+    },
+    methods : {
+        DropList(){
+                    //dropdown list
+            var x, i, j, l, ll, selElmnt, a, b, c;
+            /*look for any elements with the class "custom-select":*/
+            x = document.getElementsByClassName("custom-select");
+            l = x.length;
+            for (i = 0; i < l; i++) {
+                selElmnt = x[i].getElementsByTagName("select")[0];
+                ll = selElmnt.length;
+                /*for each element, create a new DIV that will act as the selected item:*/
+                a = document.createElement("DIV");
+                a.setAttribute("class", "select-selected");
+                a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+                x[i].appendChild(a);
+                /*for each element, create a new DIV that will contain the option list:*/
+                b = document.createElement("DIV");
+                b.setAttribute("class", "select-items select-hide");
+                for (j = 1; j < ll; j++) {
+                    /*for each option in the original select element,
+                        create a new DIV that will act as an option item:*/
+                    c = document.createElement("DIV");
+                    c.innerHTML = selElmnt.options[j].innerHTML;
+                    c.addEventListener("click", function () {
+                        /*when an item is clicked, update the original select box,
+                                and the selected item:*/
+                        var y, i, k, s, h, sl, yl;
+                        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                        sl = s.length;
+                        h = this.parentNode.previousSibling;
+                        for (i = 0; i < sl; i++) {
+                            if (s.options[i].innerHTML == this.innerHTML) {
+                                s.selectedIndex = i;
+                                h.innerHTML = this.innerHTML;
+                                y = this.parentNode.getElementsByClassName("same-as-selected");
+                                yl = y.length;
+                                for (k = 0; k < yl; k++) {
+                                    y[k].removeAttribute("class");
+                                }
+                                this.setAttribute("class", "same-as-selected");
+                                break;
+                            }
+                        }
+                        h.click();
+                    });
+                    b.appendChild(c);
+                }
+                x[i].appendChild(b);
+                a.addEventListener("click", function (e) {
+                    /*when the select box is clicked, close any other select boxes,
+                        and open/close the current select box:*/
+                    e.stopPropagation();
+                    closeAllSelect(this);
+                    this.nextSibling.classList.toggle("select-hide");
+                    this.classList.toggle("select-arrow-active");
+                });
+            }
 
+            function closeAllSelect(elmnt) {
+                /*a function that will close all select boxes in the document,
+                    except the current select box:*/
+                var x,
+                    y,
+                    i,
+                    xl,
+                    yl,
+                    arrNo = [];
+                x = document.getElementsByClassName("select-items");
+                y = document.getElementsByClassName("select-selected");
+                xl = x.length;
+                yl = y.length;
+                for (i = 0; i < yl; i++) {
+                    if (elmnt == y[i]) {
+                        arrNo.push(i);
+                    } else {
+                        y[i].classList.remove("select-arrow-active");
+                    }
+                }
+                for (i = 0; i < xl; i++) {
+                    if (arrNo.indexOf(i)) {
+                        x[i].classList.add("select-hide");
+                    }
+                }
+            }
+        },
+
+        AddTask(){      
+            document.getElementById("myModal").style.display = "block";
+            this.DropList()
+        },
+        CloseTask(){
+            document.getElementById("myModal").style.display = "none";
+        },
+        SubmitTask(){
+           
+            var select_task =  document.getElementById("Selected_Task");
+            var selectedValue = select_task.value;
+            console.log("Selected Value:", selectedValue);
+
+        },
+        AddList(){
+            document.getElementById("NewListModal").style.display = "block";
+            this.DropList()
+        },
+        CloseList(){
+    
+            document.getElementById("NewListModal").style.display = "none";
+        }, 
+        AddPlus(){
+            document.getElementById("myModalPlus").style.display = "block";
+            this.DropList()
+        },
+        ClosePlus(){
+            document.getElementById("myModalPlus").style.display = "none";
+        },
+        Reload(){
+            window.location.reload();
+        }
+        },
+        beforeMount(){
+            /*if the user clicks anywhere outside the select box,
+            then close all select boxes:*/
+            //document.addEventListener("click", this.closeAllSelect(this));
+        }
+    };
+
+window.onload = function () {
+
+    window.onclick = function (event) {
+        if (event.target == document.getElementById("myModal") | event.target == document.getElementById("myModalPlus") | event.target == document.getElementById("NewListModal")) {
+            window.location.reload();
+        }
+    };
+
+    // Get the modal
+    //var modal = document.getElementById("myModal");
+    //var modal = document.getElementById("myModal");
     // Get the button that opens the modal
-    var btn = document.getElementById("addBtn");
+    //var btn = document.getElementById("addBtn");
 
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
+    //var span = document.getElementsByClassName("close")[0];
     // When the user clicks the button, open the modal
-    if (btn) {
+    /*if (btn) {
         btn.onclick = function () {
             modal.style.display = "block";
         };
@@ -254,40 +390,46 @@ window.onload = function () {
         };
     } else {
         console.log("element not found");
-    }
+    }*/
     // When the user clicks anywhere outside of the modal, close it
+  
+/*
     window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == document.getElementById("myModalPlus")) {
+            document.getElementById("myModalPlus").style.display = "none";
         }
     };
 
+    window.onclick = function (event) {
+        if (event.target == document.getElementById("NewListModal")) {
+            document.getElementById("NewListModal").style.display = "none";
+        }
+    };*/
     //dropdown list
-
-    var x, i, j, l, ll, selElmnt, a, b, c;
+    //var x, i, j, l, ll, selElmnt, a, b, c;
     /*look for any elements with the class "custom-select":*/
-    x = document.getElementsByClassName("custom-select");
+ /*   x = document.getElementsByClassName("custom-select");
     l = x.length;
     for (i = 0; i < l; i++) {
         selElmnt = x[i].getElementsByTagName("select")[0];
         ll = selElmnt.length;
         /*for each element, create a new DIV that will act as the selected item:*/
-        a = document.createElement("DIV");
+ /*       a = document.createElement("DIV");
         a.setAttribute("class", "select-selected");
         a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
         x[i].appendChild(a);
         /*for each element, create a new DIV that will contain the option list:*/
-        b = document.createElement("DIV");
+  /*      b = document.createElement("DIV");
         b.setAttribute("class", "select-items select-hide");
         for (j = 1; j < ll; j++) {
             /*for each option in the original select element,
                   create a new DIV that will act as an option item:*/
-            c = document.createElement("DIV");
+   /*         c = document.createElement("DIV");
             c.innerHTML = selElmnt.options[j].innerHTML;
             c.addEventListener("click", function () {
                 /*when an item is clicked, update the original select box,
                         and the selected item:*/
-                var y, i, k, s, h, sl, yl;
+  /*              var y, i, k, s, h, sl, yl;
                 s = this.parentNode.parentNode.getElementsByTagName("select")[0];
                 sl = s.length;
                 h = this.parentNode.previousSibling;
@@ -312,16 +454,17 @@ window.onload = function () {
         a.addEventListener("click", function (e) {
             /*when the select box is clicked, close any other select boxes,
                   and open/close the current select box:*/
-            e.stopPropagation();
+   /*         e.stopPropagation();
             closeAllSelect(this);
             this.nextSibling.classList.toggle("select-hide");
             this.classList.toggle("select-arrow-active");
         });
     }
+
     function closeAllSelect(elmnt) {
         /*a function that will close all select boxes in the document,
             except the current select box:*/
-        var x,
+   /*     var x,
             y,
             i,
             xl,
@@ -343,13 +486,9 @@ window.onload = function () {
                 x[i].classList.add("select-hide");
             }
         }
-    }
-    /*if the user clicks anywhere outside the select box,
-      then close all select boxes:*/
-    document.addEventListener("click", closeAllSelect);
-
-
-
+    }*/
+    
+/*
     // Get the modal2
     var modal1 = document.getElementById("myModalPlus");
 
@@ -375,16 +514,11 @@ window.onload = function () {
     } else {
         console.log("element not found");
     }
+
+    */
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal1) {
-            modal1.style.display = "none";
-        }
-    };
-
-
-
-
+  
+/*
     // Get the modal2
     var modal2 = document.getElementById("NewListModal");
 
@@ -410,12 +544,9 @@ window.onload = function () {
     } else {
         console.log("element not found");
     }
+*/
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal2) {
-            modal2.style.display = "none";
-        }
-    };
+   
 };
 </script>
 

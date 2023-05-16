@@ -70,8 +70,8 @@
                           <div class="loginInputBox">
                               <input v-model = "password" type="password" placeholder="Password" name="txtPassword">
                           </div>
-                          <div style="color: red;" v-if = !matching> Email must be the same </div>
-                          <div  style="color: red;">{{message}}</div>
+                          <div class = "message" v-if = !matching> Email must be the same </div>
+                          <div class = "message"> {{message}} </div>
                           <div class="loginInputBox">
                               <input @click="()=>register()" id="Registerbtn" type="submit" value="Register" name="btnRegister">
                           </div>           
