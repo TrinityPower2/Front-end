@@ -8,8 +8,8 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
                 <UserMenu></UserMenu>
@@ -24,7 +24,7 @@
                 <button class="Your-calendar-button">
                     <p class="your-calendar-letter">P</p>
                 </button>
-                <div class="Add-calendar-sidebar"><font-awesome-icon id="AddCalendar" icon="fa-solid fa-plus" size="lg"
+                <div class="Add-calendar-sidebar" @click = "OpenmyModalNewCalendar"><font-awesome-icon id="AddCalendar" icon="fa-solid fa-plus" size="lg"
                         style="color:rgba(47, 43, 44, 0.648)" />
                 </div>
             </div>
@@ -37,7 +37,7 @@
                         <font-awesome-icon icon="fa-solid fa-angle-left" class="arrow-left-calendar" />
                         <font-awesome-icon icon="fa-solid fa-angle-right" class="arrow-left-calendar" />
                     </div>
-                    <button class="Create-planning-Btn" id="addCalendar">
+                    <button class="Create-planning-Btn" id="addCalendar" @click = "OpenNewCalendar">
                         Add Event
                     </button>
                 </div>
@@ -139,7 +139,7 @@
                                         <p class="calendar-title">Volleyball Practice</p>
                                         <p class="calendar-time">16H - 18H30</p>
                                     </div>
-                                    <div class="event start-10 end-11-30 class calendar-8">
+                                    <div class="event start-10 end-11-30 class calendar-8" @click = "OpenLoadCalendarModal">
                                         <p class="calendar-title">Meeting</p>
                                         <p class="calendar-time">10H - 11H30</p>
                                     </div>
@@ -223,7 +223,7 @@
             </div>
             <div id="NewCalendarModal" class="modal1">
                 <div class="modal-content-create" style="max-width:800px;">
-                    <span class="close">&times;</span>
+                    <span class="close" @click = "CloseNewCalendar">&times;</span>
                     <h1 class="modal-Title" style="margin-bottom: 40px">New Event</h1>
                     <div class="modal-center1">
                         <input type="text" id="fname" name="fname" class="new-task-input" placeholder="Event Name" /><br />
@@ -417,7 +417,7 @@
 
             <div id="LoadCalendarModal" class="modal1">
                 <div class="modal-content-create" style="max-width:800px;">
-                    <span class="close">&times;</span>
+                    <span class="close" @click = "CloseLoadCalendarModal" >&times;</span>
                     <h1 class="modal-Title" style="margin-bottom: 40px">Edit Event</h1>
                     <div class="modal-center1">
                         <input type="text" id="fname" name="fname" class="new-task-input" placeholder="Event Name" /><br />
@@ -612,13 +612,13 @@
             <div id="myModalNewCalendar" class="modal">
                 <!-- Modal content -->
                 <div class="modal-content">
-                    <span class="close">&times;</span>
+                    <span class="close" @click = "ClosemyModalNewCalendar">&times;</span>
                     <h1 class="modal-Title">Add New Calendar</h1>
                     <div class="modal-center">
                         <p style="margin-top: 50px;">How would you like to create you new calendar ?</p>
                         <div class="delete-list-button">
                             <div class="AddTaskInputBox no">
-                                <input class="close" type="submit" value="Import Calendar" name="submit"
+                                <input class="close" type="submit" @click = "OpenImportCalendarModal" value="Import Calendar" name="submit"
                                     id="import-pop-up" />
                             </div>
                             <div class="AddTaskInputBox no">
@@ -641,8 +641,8 @@
         <div id="ImportCalendarModal" class="modal1">
             <!-- Modal content -->
             <div class="modal-content">
-                <span class="close">&times;</span>
-                <h1 class="modal-Title" style="margin-bottom : 40px;">Import Planning</h1>
+                <span class="close" @click = "CloseImportCalendarModal">&times;</span>
+                <h1 class="modal-Title" style="margin-bottom : 40px;" >Import Planning</h1>
                 <div class="modal-center2">
                     <div class="New-list-element">
                         <div class="new-list-desc">
@@ -739,6 +739,39 @@ export default {
         DarkLightMode,
         UserMenu,
     },
+    methods : {
+        OpenNewCalendar(){
+            document.getElementById("NewCalendarModal").style.display = "block";
+        },
+        CloseNewCalendar(){
+            document.getElementById("NewCalendarModal").style.display = "none";
+        },
+        OpenLoadCalendarModal(){
+            document.getElementById("LoadCalendarModal").style.display = "block";
+        },
+        CloseLoadCalendarModal(){
+            document.getElementById("LoadCalendarModal").style.display = "none";
+        },
+        OpenmyModalNewCalendar(){
+            document.getElementById("myModalNewCalendar").style.display = "block";
+        }, 
+        ClosemyModalNewCalendar(){
+            document.getElementById("myModalNewCalendar").style.display = "none";
+        },
+        OpenImportCalendarModal(){
+            document.getElementById("ImportCalendarModal").style.display = "block";
+        },
+        CloseImportCalendarModal(){
+            document.getElementById("ImportCalendarModal").style.display = "none";
+        },
+        OpenEvent(){
+            document.getElementById("event").style.display = "block";
+        },
+        CloseEvent(){
+            document.getElementById("event").style.display = "none";
+        }
+
+    },
     mounted() {
         var thisID = document.getElementById("TopBtn");
         var myScrollFunc = function () {
@@ -752,6 +785,8 @@ export default {
         window.addEventListener("scroll", myScrollFunc);
     },
 };
+
+/*
 window.onload = function () {
 
 
@@ -901,32 +936,32 @@ window.onload = function () {
     } else {
         console.log("element not found");
     }
-
+*/
     //dropdown list
 
-    var x, i, j, l, ll, selElmnt, a, b, c;
+//    var x, i, j, l, ll, selElmnt, a, b, c;
     /*look for any elements with the class "custom-select":*/
-    x = document.getElementsByClassName("custom-select");
+  /*  x = document.getElementsByClassName("custom-select");
     l = x.length;
     for (i = 0; i < l; i++) {
         selElmnt = x[i].getElementsByTagName("select")[0];
         ll = selElmnt.length;
-        /*for each element, create a new DIV that will act as the selected item:*/
+        
         a = document.createElement("DIV");
         a.setAttribute("class", "select-selected");
         a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
         x[i].appendChild(a);
-        /*for each element, create a new DIV that will contain the option list:*/
+      
         b = document.createElement("DIV");
         b.setAttribute("class", "select-items select-hide");
         for (j = 1; j < ll; j++) {
             /*for each option in the original select element,
-                  create a new DIV that will act as an option item:*/
+              
             c = document.createElement("DIV");
             c.innerHTML = selElmnt.options[j].innerHTML;
             c.addEventListener("click", function () {
                 /*when an item is clicked, update the original select box,
-                        and the selected item:*/
+                        and the selected item:
                 var y, i, k, s, h, sl, yl;
                 s = this.parentNode.parentNode.getElementsByTagName("select")[0];
                 sl = s.length;
@@ -951,7 +986,7 @@ window.onload = function () {
         x[i].appendChild(b);
         a.addEventListener("click", function (e) {
             /*when the select box is clicked, close any other select boxes,
-                  and open/close the current select box:*/
+                  and open/close the current select box:
             e.stopPropagation();
             closeAllSelect(this);
             this.nextSibling.classList.toggle("select-hide");
@@ -960,7 +995,7 @@ window.onload = function () {
     }
     function closeAllSelect(elmnt) {
         /*a function that will close all select boxes in the document,
-            except the current select box:*/
+            except the current select box:
         var x,
             y,
             i,
@@ -985,12 +1020,12 @@ window.onload = function () {
         }
     }
     /*if the user clicks anywhere outside the select box,
-      then close all select boxes:*/
+      then close all select boxes:
     document.addEventListener("click", closeAllSelect);
 
 
 
-};
+};*/
 </script>
 
 <style></style>

@@ -99,7 +99,7 @@
             }})
             
             .then((parsed) => {localStorage.setItem('token',parsed.token);})
-            .then(()=>{this.$router.push('/entry-form1-page');})
+            .then(()=>{this.$router.push('/calendar-page');})
             .catch((error) => {
                         let errorMessage;
                         try {

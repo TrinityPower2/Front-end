@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/todo-list2-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/calendar-page" c class="to-page-nav">My Plannings</router-link>
                     <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>

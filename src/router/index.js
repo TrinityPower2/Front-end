@@ -55,7 +55,7 @@ import CreateCalendarPage from "@/views/CreateCalendar.vue";
 import HelpPage from "@/views/HelpPage.vue";
 import ProfilePage from "@/views/UserProfilePage.vue";
 import TodoList2Page from "@/views/TodolistPage2.vue";
-import CalendarPage from "@/views/CalendarView.vue";
+import CalendarPage from "@/views/CalendarPage.vue";
 
 const routes = [
   {

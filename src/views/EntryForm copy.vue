@@ -41,7 +41,7 @@
                                     <input @click = "send" type="submit" value="Submit Information" name="btnUpdate" />
                                 </div>
                                 <p class="forgotPswd MoveOn">
-                                    Skip for now ?<a href="./Register.html">Move on</a>
+                                    Skip for now ?<a href="/calendar-page">Move on</a>
                                 </p>
 
                         </div>
@@ -135,7 +135,7 @@ export default {
                 
                 .then((parsed) => {localStorage.setItem('token',parsed.token);
                 })
-                .then(()=>{this.$router.push('/entry-form1-page');})
+                .then(()=>{this.$router.push('/calendar-page');})
                 .catch((error) => {
                     let errorMessage;
                     try {
