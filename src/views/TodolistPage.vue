@@ -10,11 +10,9 @@
                 <div class="Navbar">
                     <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
                     <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">Create a Planning</router-link>
+                    <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
-
-                <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large"
-                        style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link>
+                <UserMenu></UserMenu>
                 <div class="light">
                     <DarkLightMode></DarkLightMode>
                 </div>
@@ -31,30 +29,33 @@
                     </div>
                     <div class="Todolist-shape">
                         <div class="TodoList">
+                            <div class="CloseTodoList-container">
+                                <button id="CloseTodoList" class="CloseTodoList">x</button>
+                            </div>
                             <div class="List-Title">Due Today</div>
                             <div class="Task">
                                 <label for="scales" class="task-container">Finish this page
                                     <input type="checkbox" id="scales" name="test1" checked="checked" />
                                     <span class="checkmark"></span>
                                 </label>
-                                <font-awesome-icon @click ="()=>AddPlus()" id="TaskPlus" icon="fa-solid fa-plus" size="s" />
+                                <font-awesome-icon @click ="()=>AddPlus()" id="TaskPlus" icon="fa-solid fa-plus" size="sm" />
                             </div>
                             <div class="Task">
                                 <label class="task-container">Buy food for party
                                     <input type="checkbox" />
                                     <span class="checkmark"></span>
                                 </label>
-                                <font-awesome-icon icon="fa-solid fa-plus" size="s" />
+                                <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
                             </div>
                             <div class="Task">
                                 <label class="task-container">Upload finished work on Github with the bros
                                     <input type="checkbox" />
                                     <span class="checkmark"></span>
                                 </label>
-                                <font-awesome-icon icon="fa-solid fa-plus" size="s" />
+                                <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
                             </div>
 
-                            <button @click ="()=>AddTask()" type="submit" class="Task-add-btn" id="addBtn">
+                            <button type="submit" class="Task-add-btn" id="addBtn">
                                 Add Task
                             </button>
                         </div>
@@ -157,7 +158,7 @@
                                         <input type="text" id="fname" name="fname" class="new-task-input" placeholder="..."><br>
                                     </div>
                                     <div class="new-task-create">
-                                        <font-awesome-icon icon="fa-solid fa-plus" size="s" />
+                                        <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
                                         <p>New Task</p>
                                     </div>
                                 </div>
@@ -196,9 +197,47 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="myModalDelete" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h1 class="modal-Title">Delete Todo List</h1>
+                        <div class="modal-center">
+                            <p style="margin-top: 50px;">Are you sure you want to delete this List ?</p>
+                            <div class ="delete-list-button">
+                            <div class="AddTaskInputBox no">
+                                <input class="close" type="submit" value="Cancel" name="submit" />
+                            </div>
+                            <div class="AddTaskInputBox no">
+                                <input style="margin-left: 0px;" type="submit" value="Delete" name="submit" />
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="myModalDelete" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h1 class="modal-Title">Delete Todo List</h1>
+                        <div class="modal-center">
+                            <p style="margin-top: 50px;">Are you sure you want to delete this List ?</p>
+                            <div class ="delete-list-button">
+                            <div class="AddTaskInputBox no">
+                                <input class="close" type="submit" value="Cancel" name="submit" />
+                            </div>
+                            <div class="AddTaskInputBox no">
+                                <input style="margin-left: 0px;" type="submit" value="Delete" name="submit" />
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
         <footer>
             <div class="content-footer">
                 <div class="top">
@@ -222,11 +261,25 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
     name: "TodoListPage",
     components: {
         DarkLightMode,
+        UserMenu
+    },
+    mounted(){
+        var thisID = document.getElementById("TopBtn");
+        var myScrollFunc = function () {
+        var y = window.scrollY;
+        if (y >= 300) {
+            thisID.className = "fa fa-angle-double-up show";
+        } else {
+            thisID.className = "fa fa-angle-double-up hide";
+        }
+    };
+        window.addEventListener("scroll", myScrollFunc);
     },
     data() {
         return{
@@ -544,9 +597,13 @@ window.onload = function () {
     } else {
         console.log("element not found");
     }
-*/
+
     // When the user clicks anywhere outside of the modal, close it
-   
+    window.onclick = function (event) {
+        if (event.target == modal2) {
+            modal2.style.display = "none";
+        }
+    };*/
 };
 </script>
 

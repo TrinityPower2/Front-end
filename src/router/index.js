@@ -50,6 +50,9 @@ import ResetPwd from "@/views/ResetPwd.vue";
 import EntryForm from "@/views/EntryForm.vue";
 import EntryForm1 from "@/views/EntryForm copy.vue";
 import TodoListPage from "@/views/TodolistPage.vue";
+import CreateCalendarPage from "@/views/CreateCalendar.vue";
+import HelpPage from "@/views/HelpPage.vue";
+import ProfilePage from "@/views/UserProfilePage.vue";
 import TodoList2Page from "@/views/TodolistPage2.vue";
 
 const routes = [
@@ -107,6 +110,21 @@ const routes = [
     path: "/todo-list2-page",
     name: "TodoList2Page",
     component: TodoList2Page,
+  },
+  {
+    path: "/create-calendar-page",
+    name: "CreateCalendarPage",
+    component: CreateCalendarPage,
+  },
+  {
+    path: "/help-page",
+    name: "HelpPage",
+    component: HelpPage,
+  },
+  {
+    path: "/profile-page",
+    name: "ProfilePage",
+    component: ProfilePage,
   },
 ];
 
