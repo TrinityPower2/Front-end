@@ -1759,6 +1759,13 @@ body.dark .modal1{
   align-items: flex-start;
 }
 
+.modal-center3{
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
 .new-task-create{
   display: flex;
   flex-direction: row;
@@ -1973,6 +1980,15 @@ body.dark .modal1{
   color: aliceblue;
 }
 
+.created-tasks-new-container{
+  display: flex;
+  display: flex;
+  flex-wrap: no-wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .created-tasks-new{
   display: flex;
   justify-content: space-between;
@@ -1980,6 +1996,7 @@ body.dark .modal1{
   background-color: var(--color);
   margin: 20px;
   padding-top: 2px;
+  width: 100%;
 }
 
 .created-tasks-container{
@@ -2114,6 +2131,7 @@ body.dark .help-page-container{
   box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
 }
 
+
 .help-task-input::placeholder {
   color: rgba(27, 27, 27, 0.473);
   font-size: smaller;
@@ -2132,6 +2150,11 @@ body.dark .help-page-container{
 #drop_zone {
   width: 100%;
   height: 300px;
+}
+
+#drop_zone1 {
+  width: 70%;
+  height: 90px;
 }
 
 
