@@ -387,6 +387,7 @@ export default {
         }
     },
     methods : {
+    /* This function is used for the + button in the NewListModal to add each time a new empty task*/
     addTask() {
       const newTask = {
         checked: false,
@@ -397,15 +398,17 @@ export default {
       this.AddTasks.push(newTask);
       
     },
+    /*This function is called each time a checkbox is checked/unchecked so that it will fetch in the db*/
     onCheckboxChange(event, taskIndex, todoIndex){
 
         const token = localStorage.getItem('token');
 
-
         const checkbox = event.target;
         const checked = (checkbox.checked ? 1 : 0)
-
         const selectedTask = this.ToDoList
+
+        /*Finding the corresponding task that was checked/unchecked*/
+
         .find(todo => todo.id_todo === todoIndex)
         ?.task.find(task => task.id_task === taskIndex);
         selectedTask.is_done = checked;
@@ -442,14 +445,9 @@ export default {
                         console.log(errorMessage.message)
                         
                     });
-            if (checkbox.checked) {
-                // Checkbox is checked
-                console.log(`Checkbox  is checked ` + checkbox.checked)
-            } else {
-                // Checkbox is unchecked
-                console.log(`Checkbox is unchecked` + checkbox.checked )
-            }
+
     },
+    /*All the functions Get are used in the initialized function to retrieve the database information*/
     async GetList() {
         const token = localStorage.getItem('token');
 
@@ -529,7 +527,7 @@ export default {
         this.selectedCalendar = "0";
     },
     async GetEventByDateCalendar(date, calendar) {
-        console.log(date);
+       
         await this.GetEvent();
     
         this.Events = this.events
@@ -570,7 +568,6 @@ export default {
         })
     },
     OpenDelete(name){
-        console.log(name)
         this.DeleteName = name;
         document.getElementById("myModalDelete").style.display = "block";
     },
@@ -621,7 +618,7 @@ export default {
         closeTaskContainer.parentNode.removeChild(closeTaskContainer);
     },
     OpenDeleteTask(name){
-        console.log(name)
+  
         this.DeleteTaskName = name;
         document.getElementById("myModalDeleteTask").style.display = "block";
     },
@@ -712,10 +709,9 @@ export default {
         }
     },
     async OpenUpdate(index){
-        console.log("HELLO ? ")
+        
         var UpdateToDoCopy = {...this.ToDoList[index]}
         this.UpdateToDo = JSON.parse(JSON.stringify(UpdateToDoCopy));
-        console.log(this.UpdateToDo)
         document.getElementById("UpdateModal").style.display = "block";
         this.OldTodo = this.UpdateToDo.name_todo;
     },
@@ -757,6 +753,8 @@ export default {
                 body: JSON.stringify({ name_task: task.name_task, description: 'Description', priority_level: task.priority_level, name_todo: this.UpdateToDo.name_todo })
             });
         });
+    /*Promise is used to ensure the execution of fetch before*/
+
     Promise.all([updateToDoPromise, ...updateTasksPromises])
     .then(responses => {
         for (let response of responses) {
@@ -772,7 +770,7 @@ export default {
             } else {
                 const date = this.selectedDate.split('T')[0].substring(0, 10);
                 const time = this.selectedDate.split('T')[1].substring(0, 5);
-                console.log("SELECTED CALENDAR ", this.selectedCalendar);
+      
                 fetch("api/api/convertToDoToEvent/" + this.UpdateToDo.name_todo, {
                     method: 'POST',
                     headers: {
@@ -904,8 +902,7 @@ export default {
         (this.taskInputArray.some((task) => task === '') && !this.selectedImportanceArray.some((priority) => priority === '0')) ||
         (!this.taskInputArray.some((task) => task === '') && this.selectedImportanceArray.some((priority) => priority === '0'))
         ||(!this.taskInput == '' && this.selectedImportance == '0')){
-            console.log(this.taskInputArray)
-            console.log(this.selectedImportanceArray)
+        
             
                 this.message = "You must fill all fields for the task";
         }
@@ -990,7 +987,7 @@ export default {
             } else {
                 const date = this.selectedDate.split('T')[0].substring(0, 10);
                 const time = this.selectedDate.split('T')[1].substring(0, 5);
-                console.log("SELECTED CALENDAR ", this.selectedCalendar);
+                
                 fetch("api/api/convertToDoToEvent/" + this.ToDo, {
                     method: 'POST',
                     headers: {
@@ -1030,7 +1027,7 @@ export default {
             this.Reload();
             })
         .catch(error => {
-            console.log("HELLOOOOO ", error.message)
+
             let errorMessage;
             try {
                 errorMessage = JSON.parse(error.message);
@@ -1070,9 +1067,6 @@ export default {
     beforeMount(){
         
         this.initializePage();
-        /*if the user clicks anywhere outside the select box,
-        then close all select boxes:*/
-        //document.addEventListener("click", this.closeAllSelect(this));
     }
 };
 
