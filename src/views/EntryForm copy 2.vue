@@ -1,11 +1,21 @@
 <template>
     <body>
+        <a id="top"></a>
         <!-- <?php if($_SESSION['admin']==1){?> -->
         <div class="FormPage1">
+            <div class="headernav" >
+                <div class="header-container1">
             <div class="header-image">
                 <img alt="Vue logo" style="opacity: 0.7;" src="../assets/TimeToDo1.png" class="VueLogo" />
             </div>
-
+            <div class="Navbar">
+                    <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
+                </div>
+                <UserMenu></UserMenu>
+                </div>
+            </div>
             <div class="FormBox">
                 <div class="FormContainer">
                     <div class="Form-banner-container">
@@ -67,6 +77,7 @@
                 </div>
             </div>
         </div>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
         <footer style="margin-top: 0%">
             <div class="content-footer">
                 <div class="top">
@@ -90,8 +101,26 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
+// import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
-    name: "EntryFormPage1",
+    name: "EntryFormPage2",
+    components: {
+    UserMenu,
+    // DarkLightMode
+    },
+    mounted(){
+        var thisID = document.getElementById("TopBtn");
+        var myScrollFunc = function () {
+        var y = window.scrollY;
+        if (y >= 300) {
+            thisID.className = "fa fa-angle-double-up show";
+        } else {
+            thisID.className = "fa fa-angle-double-up hide";
+        }
+    };
+        window.addEventListener("scroll", myScrollFunc);
+    }
 };
 </script>
 
