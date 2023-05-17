@@ -132,7 +132,7 @@ export default {
         window.addEventListener("scroll", myScrollFunc);
     }
     }
-};
+}}}
 // window.onload = function () {
 //     function dropHandler(ev) {
 //         console.log("File(s) dropped");

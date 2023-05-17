@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import UserMenu from "../components/UserMenu.vue";
+//import UserMenu from "../components/UserMenu.vue";
 // import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
   name: 'ProfilePage',
