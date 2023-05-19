@@ -2156,7 +2156,7 @@ body.dark .modal1{
 
 /*--------------------------------------------------------------------------------------------------*/
 
-/*------------------------------------------------CREATE CONTAINER PAGE----------------------------------------------------*/
+/*------------------------------------------------CREATE CALENDAR PAGE----------------------------------------------------*/
 
 /*--------------------------------------------------------------------------------------------------*/
 
@@ -2237,6 +2237,10 @@ body.dark .modal1{
   background-color: #c18cd6;
   color: aliceblue;
 }
+
+/* body .dark .calendar-dark-btn{
+  background-color: #c18cd6;
+} */
 
 .created-tasks-new{
   display: flex;
@@ -2399,6 +2403,52 @@ body.dark .help-page-container{
   height: 300px;
 }
 
+
+
+
+.submit-help-btn {
+  margin: 10px;
+  margin-top: 110px;
+  margin-bottom: 50px;
+  border: 0.4px solid #c9bccd;
+  font-size: 1em;
+  width: 230px;
+  height: 60px;
+  border-radius: 15px;
+  padding: 17px 25px;
+  font-weight: 200;
+  background: #c18cd6d0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: 0px 0px 25px rgba(124, 9, 147, 0.562);
+  transition: all 0.4s ease-in-out;
+  z-index: 1;
+  color: rgb(255, 255, 255);
+  text-shadow: 1px 1px rgb(196, 205, 255);
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  align-self: center;
+}
+
+.submit-help-btn:active {
+  background: #d341ccbb;
+  box-shadow: 0px 0px 25px rgba(236, 140, 216, 0.562);
+}
+
+.submit-help-btn:hover {
+  background: #ff9ca3;
+  box-shadow: 0px 0px 25px rgba(236, 140, 216, 0.562);
+  border-bottom: 0.4px solid #c711ac;
+  border-right: 0.4px solid #ee79de;
+}
+/* .submit-help-btn{
+  background-color: #c18cd6;
+  border-radius: 15px;
+
+} */
 
 /*--------------------------------------------------------------------------------------------------*/
 
@@ -2722,6 +2772,12 @@ input:checked + .slider:before {
   border-bottom: 0.2px solid rgba(0, 0, 0, 0.178);
 }
 
+
+body.dark .Calendar-page-container{
+  border-top: 0.2px solid rgba(255, 255, 255, 0.178);
+  border-bottom: 0.2px solid rgba(255, 255, 255, 0.178);
+}
+
 .calendar-sidebar-container{
   display: flex;
   flex-direction: column;
@@ -2751,6 +2807,15 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: space-around;
   margin-top:30px;
+}
+
+@media (max-width: 1100px) {
+  .buttons-calendar-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .arrow-left-calendar{
@@ -2835,6 +2900,10 @@ input:checked + .slider:before {
   grid-template-rows: repeat(var(--numHours), var(--timeHeight));
 }
 
+body.dark .timeline{
+  color:aliceblue;
+}
+
 .mid{
   font-size: x-small;
 }
@@ -2846,6 +2915,10 @@ input:checked + .slider:before {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
+body.dark .days {
+  color:aliceblue;
+}
+
 .events {
   display: grid;
   grid-template-rows: repeat(var(--numHours), var(--timeHeight));
@@ -2853,7 +2926,13 @@ input:checked + .slider:before {
   background: var(--calBgColor);
 }
 
+.calendar-title{
+  color:#000;
+}
 
+.calendar-time{
+  color:#000;
+}
 
 /* Place on Timeline*/
 
