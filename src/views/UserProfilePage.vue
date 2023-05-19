@@ -32,7 +32,7 @@
                                 <div class="loginInputBox">
                                 <input v-model="txtEmail" type="email" name="txtEmail" :placeholder="placeholderEmail"><br>
                                 </div>
-                                <div style="color: red;">{{ message }}</div>
+                                <div class="error-message-profile">{{ message }}</div>
                                 <div class="loginInputBox" style="margin-left: -60px;">
                                 <input @click="updateInformation" type="submit" value="Update Information" name="btnUpdate">
                                 </div>
