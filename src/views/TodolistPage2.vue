@@ -8,13 +8,11 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/calendar-page" c class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
                     <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
-
-                <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large"
-                        style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link>
+                <UserMenu></UserMenu>
                 <div class="light">
                     <DarkLightMode></DarkLightMode>
                 </div>
@@ -31,7 +29,10 @@
                         class="Plus-todo" />
                 </div>
                 <div class="Todolists-disp1">
-                <div v-for="(title, index) in ToDoList" :key="index" style="width:fit-content">
+                <div v-for="(title, index) in ToDoList" :key="index" style="width:fit-content;margin-bottom: 1%;
+  margin-top: 2%;
+  margin-right: 3%;
+  margin-left: 3%; ">
 
                         <div class="Todolist-shape">
                             <div class="TodoList">
@@ -387,11 +388,13 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
     name: "TodoList2Page",
     components: {
         DarkLightMode,
+        UserMenu
     },
     data() {
         return {
