@@ -28,7 +28,7 @@
                     <h1 class="Todo-title">My Todo Lists</h1>
                     <font-awesome-icon @click ="()=>OpenList()" id="AddList" icon="fa-solid fa-plus" size="2xl" class="Plus-todo" />
                 </div>
-                <template v-for="(title,index) in ToDoList" :key="index" >
+                <template v-for="(title,index) in ToDoList" :key="index">
                     <div class="Todolists-disp">    
                         <div class="Todolist-shape">
                             <div class="TodoList" >
