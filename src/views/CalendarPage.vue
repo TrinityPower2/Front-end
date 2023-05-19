@@ -32,14 +32,18 @@
                 <div class="calendar-top-buttons">
                     <div class="choose-week">
                         <div>
-                            <input id="party" type="week" name="partydate" class="Create-planning-Btn">
+                            <input id="party" type="week" name="partydate" class="Create-planning-Btn calendar-dark-btn">
                         </div>
                         <font-awesome-icon icon="fa-solid fa-angle-left" class="arrow-left-calendar" />
                         <font-awesome-icon icon="fa-solid fa-angle-right" class="arrow-left-calendar" />
                     </div>
-                    <button class="Create-planning-Btn" id="addCalendar" @click = "OpenNewCalendar">
+                    <div class="buttons-calendar-container">
+                    <button class="Create-planning-Btn calendar-dark-btn" id="deleteCalendar" @click = "OpenNewCalendar">
                         Add Event
                     </button>
+                    <button class="Create-planning-Btn calendar-dark-btn" id="addCalendar" @click = "OpenDeleteCalendar">
+                        Delete Calendar
+                    </button></div>
                 </div>
                 <div class="calendar-container">
                     <div class="calendar">
@@ -706,6 +710,26 @@
             </div>
         </div>
 
+        <div id="myCalendarDelete" class="modal1">
+            <!-- Modal content -->
+            <div class="modal-content1">
+                <span class="close">&times;</span>
+                <h1 class="modal-Title">Delete Calendar</h1>
+                <div class="modal-center">
+                    <!-- Je te laisse rajouter la drop down list de calendriers que tu as -->
+                    <p style="margin-top: 50px;">Are you sure you want to delete this Calendar ?</p>
+                    <div class="delete-list-button">
+                        <div class="AddTaskInputBox no">
+                            <input class="close" type="submit" value="Cancel" name="submit" />
+                        </div>
+                        <div class="AddTaskInputBox no">
+                            <input style="margin-left: 0px;" type="submit" value="Delete" name="submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon
                 icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe" /></a>
         <footer>
@@ -769,6 +793,12 @@ export default {
         },
         CloseEvent(){
             document.getElementById("event").style.display = "none";
+        },
+        OpenDeleteCalendar(){
+            document.getElementById("myCalendarDelete").style.display = "block";
+        },
+        CloseDeleteCalendar(){
+            document.getElementById("myCalendarDelete").style.display = "none";
         }
 
     },
