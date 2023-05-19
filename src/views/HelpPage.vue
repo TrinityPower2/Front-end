@@ -58,8 +58,9 @@
                                 <p style="color: rgba(27, 27, 27, 0.473);">Drag one or more files here...</p>
                             </div>
                         </div>
-                    </div>
-
+                    <button @click="OpenUpdate(index)" type="submit" class="submit-help-btn" id="UpdateBtn">
+                                        Update
+                                    </button></div>
                 </form>
                 <p class="help-prompt">Thank you for your feedback !</p>
 
