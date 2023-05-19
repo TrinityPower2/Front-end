@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
+import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
   name: 'ProfilePage',
   data() {
@@ -79,6 +81,10 @@ export default {
       placeholderEmail: 'Email Address',
     };
   },
+  components: {
+        DarkLightMode,
+        UserMenu
+    },
   methods: {
   updateInformation() {
     const token = localStorage.getItem('token');
