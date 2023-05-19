@@ -10,8 +10,8 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
                 <UserMenu></UserMenu>
@@ -58,8 +58,9 @@
                                 <p style="color: rgba(27, 27, 27, 0.473);">Drag one or more files here...</p>
                             </div>
                         </div>
-                    </div>
-
+                    <button @click="OpenUpdate(index)" type="submit" class="submit-help-btn" id="UpdateBtn">
+                                        Update
+                                    </button></div>
                 </form>
                 <p class="help-prompt">Thank you for your feedback !</p>
 
