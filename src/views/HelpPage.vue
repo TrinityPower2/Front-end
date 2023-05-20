@@ -51,18 +51,30 @@
                             <input type="text" id="fname" name="fname" class="help-input"
                                 placeholder="Paste the link to where the issue is happening." v-model="link"><br>
                         </div>
+                        <!--
                         <div class="help-question">
                             <label for="fname" class="help-label">Upload Screenshots</label>
                             <div id="drop_zone" ondrop="()=>dropHandler(event)" ondragover="()=>dragOverHandler(event)"
                                 class="help-input">
                                 <p style="color: rgba(27, 27, 27, 0.473);">Drag one or more files here...</p>
                             </div>
+                        </div>-->
+                        <div class="help-question">
+                            <label for="file-upload" class="help-label">Upload Screenshot</label>
+                            <div class="help-input">
+                                <button class="to-page-nav" style="width:auto" @click="$refs.fileupload.click()">Click here</button>
+                                <input type="file" id="file-upload" ref="fileupload" name="file-upload" class="help-input" placeholder="Upload a screenshot of the issue." @change="handleFileChange" style="display:none">
+                                {{ labelText }}
+                            </div>
+                                
+                            <br>
                         </div>
                         <button @click="()=>handleSend()" type="submit" class="submit-help-btn" id="UpdateBtn">
                             Send
                         </button>
                         <div class="help-question" style="height: 40px;">
                             <p class="help-prompt" v-if="sent" style="color: green" > Help Request sent !</p>
+                            <p class="help-prompt" v-if="error" style="color: red" > Please fill every field with a * !</p>
                         </div>
                     </div>
                 </form>
@@ -108,7 +120,10 @@ export default {
             summary: "",
             details: "",
             link: "",
-            sent: false
+            sent: false,
+            error: false,
+            selectedFile: null,
+            labelText: "No file selected"
         };
     },
     mounted(){
@@ -127,11 +142,26 @@ export default {
         handleSend(){
             console.log(this.name, this.email, this.summary, this.details, this.link);
             const fdata = new FormData();
+
+            if(this.name == "" || this.email == "" || this.summary == "" || this.details == "")
+            {
+                this.sent = false;
+                this.error = true;
+                return "Fill every field with a * !";
+            }
+
+            this.error = false;
+
             fdata.append("name", this.name);
             fdata.append("email", this.email);
             fdata.append("summary", this.summary);
             fdata.append("details", this.details);
-            fdata.append("link", this.link);
+
+            if(this.link != "")
+                fdata.append("link", this.link);
+
+            if(this.selectedFile)
+                fdata.append("report_photo", this.selectedFile);
 
             const request = new XMLHttpRequest();
             request.open("POST", "http://127.0.0.1:8000/help_request");
@@ -139,32 +169,14 @@ export default {
 
             this.sent = true;
         },
-        dragOverHandler(ev) {
-            console.log("File(s) in drop zone");
-
-            // Prevent default behavior (Prevent file from being opened)
-            ev.preventDefault();
-        },
-        dropHandler(ev) {
-            console.log("File(s) dropped");
-
-            // Prevent default behavior (Prevent file from being opened)
-            ev.preventDefault();
-
-            if (ev.dataTransfer.items) {
-                // Use DataTransferItemList interface to access the file(s)
-                [...ev.dataTransfer.items].forEach((item, i) => {
-                    // If dropped items aren't files, reject them
-                    if (item.kind === "file") {
-                        const file = item.getAsFile();
-                        console.log(`… file[${i}].name = ${file.name}`);
-                    }
-                });
+        handleFileChange(event) {
+            const file = event.target.files[0];
+            if(file){
+                this.selectedFile = file;
+                this.labelText = file.name;
             } else {
-                // Use DataTransfer interface to access the file(s)
-                [...ev.dataTransfer.files].forEach((file, i) => {
-                    console.log(`… file[${i}].name = ${file.name}`);
-                });
+                this.selectedFile = null;
+                this.labelText = "No file selected";
             }
         }
     }
