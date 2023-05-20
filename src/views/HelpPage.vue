@@ -62,7 +62,7 @@
                         <div class="help-question">
                             <label for="file-upload" class="help-label">Upload Screenshot</label>
                             <div class="help-input">
-                                <button class="Create-planning-Btn" style="margin-right: 15px;;" @click="$refs.fileupload.click()">Click here</button>
+                                <button class="Create-planning-Btn" style="margin-right: 15px;" @click="$refs.fileupload.click()">Click here</button>
                                 <input type="file" id="file-upload" ref="fileupload" name="file-upload" class="help-input" placeholder="Upload a screenshot of the issue." @change="handleFileChange" style="display:none">
                                 {{ labelText }}
                             </div>
