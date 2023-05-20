@@ -1629,10 +1629,9 @@ export default {
     }
 };
 
+
 /*
 window.onload = function () {
-
-
 
      Get the modal2
     var modal2 = document.getElementById("NewCalendarModal");
