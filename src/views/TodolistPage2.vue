@@ -124,10 +124,9 @@
                                         <input type="text" v-model='task.name_task' class="new-task-input" /><br>
                                         <div class="CloseTask-container">
                                             <button :id="'CloseTask-' + index" class="CloseTask"
-                                            @click="DeleteTdTask(index)"><font-awesome-icon icon="fa-solid fa-plus" size="sm" style="transform:rotate(45deg); margin-left: 15px;"/></button>
+                                            @click="OpenDeleteTask(task.id_task)"><font-awesome-icon icon="fa-solid fa-plus" size="sm" style="transform:rotate(45deg); margin-left: 15px;"/></button>
                                             <div class="custom-select">
-                                                <select :id="'ImportanceTask-' + index" class="select-items"
-                                                    v-model="task.priority_level">
+                                                <select :id="'ImportanceTask-' + index" class="select-items" v-model="task.priority_level">
                                                     <option value="0">Choose Importance :</option>
                                                     <option value="1">Urgent</option>
                                                     <option value="2">Important</option>
@@ -188,6 +187,7 @@
                                 </div>
                             </div>
                             <div class="message"> {{ message }}</div>
+                            <div v-if='selectedDate && Calendar == " "' class="message">Please Create A Calendar</div>
                             <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
                                 <div class="AddTaskInputBox">
                                     <input @click="() => Update()" type="submit" value="Update" name="submit" />
@@ -245,6 +245,8 @@
                         <div class="AddTaskInputBox1">
                         <input type="text" class="new-task-input" v-model="ToDo" placeholder="Name your TodoList"
                             style="margin-bottom : 40px; width:50%" /></div>
+                        <div v-if="selectedDate && !ToDo" class="message">Name Your ToDoList</div>
+                        <div v-if='selectedDate && !hasCalendar' class="message">Please Create A Calendar</div>
                         <div class="message"> {{ message }}</div>
                         <div class="modal-center1">
                             <div class="New-list-element2">
@@ -274,10 +276,9 @@
 
                                     <div class="new-task-appear">
 
-                                    <div v-for="(new_task, index) in AddTasks" :key="index" :id="'CloseTdTask-' + index"
-                                        class="CloseTask-container">
+                                    <div v-for="(new_task, index) in AddTasks" :key="index"  :id="'CloseTdTaskC-' + index" class="CloseTask-container">
                                         
-                                        <div class="new-task-create2">
+                                        <div class="new-task-create2" :id="'CloseTdTask-' + index">
                                             <label class="task-container" style="margin-left: 0%;">
                                                 <input type="checkbox" :id="'taskChecked_' + index"
                                                     v-model="taskCheckedArray[index]" />
@@ -300,8 +301,8 @@
                                             @click="DeleteTdTask(index)"><font-awesome-icon icon="fa-solid fa-plus" size="sm" style="transform:rotate(45deg); margin-left: 15px;"/></button>
                                         </div>
                                     </div></div>
-                                    <div class="new-task-create" style="margin-top: 8px;">
-                                        <font-awesome-icon icon="fa-solid fa-plus" size="sm" @click="addTask()" />
+                                    <div class="new-task-create" style="margin-top: 8px;" @click="addTask()" >
+                                        <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
                                         <p>New Task</p>
                                     </div>
                                 </div>
@@ -314,15 +315,15 @@
                                     v-model="selectedDate" min="2023-04-01" max="2028-12-31" @click="resetCalendar()">
                             </div>
                             <div class="select-center">
-                            <div class="custom-select" v-show="selectedDate !== ''">
+                            <div class="custom-select" v-show="selectedDate !== '' && ToDo !== ''">
                                 <select class="select-items" v-model="selectedCalendar" id="Selected_Calendar"
-                                    @click='GetEventByDateCalendar(selectedDate, selectedCalendar)'>
+                                    @click='GetEventByDateCalendar(selectedDate, selectedCalendar)' >
                                     <option value="0">Choose Calendar :</option>
                                     <option v-for="option in Calendar" :value="option.id_calendar"
                                         :key="option.id_calendar">{{ option.name_calendar }}</option>
                                 </select>
                             </div></div>
-                            <div class="New-list-element" v-show="selectedCalendar !== '0'">
+                            <div class="New-list-element" v-show="selectedCalendar !== '0' && ToDo !== ''">
                                 <div class="new-list-desc">
                                     Duration
                                 </div>
@@ -338,7 +339,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="New-list-element" v-show="selectedCalendar !== '0'">
+                            <div class="New-list-element" v-show="selectedCalendar !== '0' && ToDo !== ''">
                                 <div class="new-list-desc">
                                     Importance
                                 </div>
@@ -420,7 +421,6 @@ export default {
             message: '',
             Duration: '0',
             DeleteName: '',
-            DeleteTaskName: '',
             DeleteTaskIndex: '',
             OldTodo: '',
             createdEventId: '',
@@ -431,12 +431,13 @@ export default {
     methods: {
         /* This function is used for the + button in the NewListModal to add each time a new empty task*/
         addTask() {
+            
             const newTask = {
                 checked: false,
                 inputText: "",
-                importance: "0"
+                priority_level : "0"
             };
-
+            this.selectedImportanceArray.push("0")
             this.AddTasks.push(newTask);
 
         },
@@ -594,7 +595,6 @@ export default {
                     id_calendar: calendar.id_calendar,
                 };
             })
-
             this.ToDoList = this.todos.map(todo => {
                 return {
                     name_todo: todo.name_todo,
@@ -659,12 +659,15 @@ export default {
             this.Reload();
         },
         DeleteTdTask(index) {
-            const closeTaskContainer = document.getElementById(`CloseTdTask-${index}`);
-            closeTaskContainer.parentNode.removeChild(closeTaskContainer);
+            this.taskInputArray.splice(index  , 1);
+            this.selectedImportanceArray.splice(index , 1)
+            this.taskCheckedArray.splice(index , 1)
+            this.AddTasks.splice(index,1)
+             
         },
-        OpenDeleteTask(name) {
+        OpenDeleteTask(id) {
 
-            this.DeleteTaskName = name;
+            this.DeleteTaskIndex = id;
             document.getElementById("myModalDeleteTask").style.display = "block";
         },
         CloseDeleteTask() {
@@ -674,7 +677,7 @@ export default {
 
             const token = localStorage.getItem('token');
 
-            fetch("api/api/tasks/fromname/" + this.DeleteTaskName + "/" + this.UpdateToDo.name_todo,
+            fetch("api/api/tasks/" + this.DeleteTaskIndex,
                 {
                     method: 'DELETE',
                     headers: {
@@ -937,8 +940,14 @@ export default {
         CloseList() {
             this.selectedDate = '';
             this.selectedCalendar = '0';
+            this.InputText = "";
+            this.ToDo = "";
+            this.selectedImportance = "0";
+            this.taskChecked = 0;
+            this.taskInput = "";
             this.Duration = '';
             this.message = '';
+            this.AddTasks = [];
             document.getElementById("NewListModal").style.display = "none";
         },
         SubmitList() {
@@ -948,12 +957,11 @@ export default {
                 this.message = "You must enter a name for your to do list"
 
             } else if (
-                (this.taskInputArray.some((task) => task === '') && !this.selectedImportanceArray.some((priority) => priority === '0')) ||
-                (!this.taskInputArray.some((task) => task === '') && this.selectedImportanceArray.some((priority) => priority === '0'))
+                (this.taskInputArray.some((task) => task === '') && !this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0')) ||
+                (!this.taskInputArray.some((task) => task === '') && this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0'))
                 || (!this.taskInput == '' && this.selectedImportance == '0')) {
 
-
-                this.message = "You must fill all fields for the task";
+                    this.message = "You must fill all the fields"
             }
             else {
 
@@ -973,6 +981,7 @@ export default {
                         });
 
                     }
+                    console.log(this.AddTasks)
                     this.AddTasks.forEach((new_task, index) => {
                         const checkboxElement = document.getElementById('taskChecked_' + index);
                         const inputElement = this.taskInputArray[index];
@@ -1075,7 +1084,15 @@ export default {
                             this.selectedCalendar = "0";
                             this.selectedImportanceArray = ["0"];
                             this.taskInputArray = [];
+                            this.selectedDate = '';
+                            this.InputText = "";
+                            this.ToDo = "";
+                            this.selectedImportance = "0";
+                            this.taskChecked = 0;
+                            this.taskInput = "";
                             this.Reload();
+                            
+            
                         })
                         .catch(error => {
 
