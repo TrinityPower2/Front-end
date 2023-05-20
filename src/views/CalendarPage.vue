@@ -264,24 +264,67 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="New-list-element" style="margin-left: 14%">
+                        <br>
+                        <div class="New-list-element2" style="margin-left: 14%">
                             <font-awesome-icon icon="fa-solid fa-list-check" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986)" />
-                        </div>
-                        <div class="Add-another-container">
-                            <div class="Add-another-task">
-                                <div class="new-task-create">
-                                    <label class="task-container" style="margin-left: 0%">
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <input type="text" id="fname" name="fname" class="new-task-input" placeholder="My Task"
-                                        style="margin-right: 3%; width:80%;" /><br />
-                                    <font-awesome-icon icon="fa-solid fa-plus" size="s" style="transform:rotate(45deg)" />
-                                </div>
-                                <div class="new-task-create">
-                                    <font-awesome-icon icon="fa-solid fa-plus" size="s" @click="addTask" />
-                                    <p>Add Task</p>
+                            <div class="Add-another-container">
+                                <div class="Add-another-task">
+                                    <div class="new-task-create">
+                                        <label class="task-container" style="margin-left: 0%;">
+                                            <input type="checkbox" v-model="taskChecked" />
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <input type="text" v-model="taskInput" class="new-task-input"
+                                            placeholder="..." /><br>
+                                        <div class="custom-select">
+                                            <select id="ImportanceTask" class="select-items"
+                                                v-model="SelectedTaskImportance">
+                                                <option value="0">Choose Importance :</option>
+                                                <option value="1">Urgent</option>
+                                                <option value="2">Important</option>
+                                                <option value="3">Medium</option>
+                                                <option value="4">Minor</option>
+                                                <option value="5">Do Later</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="new-task-appear">
+                                        <div v-for="(new_task, index) in AddTasks" :key="index"
+                                            :id="'CloseTdTaskC-' + index" class="CloseTask-container">
+
+                                            <div class="new-task-create2" :id="'CloseTdTask-' + index">
+                                                <label class="task-container" style="margin-left: 0%;">
+                                                    <input type="checkbox" :id="'taskChecked_' + index"
+                                                        v-model="taskCheckedArray[index]" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <input type="text" :id="'taskInput_' + index"
+                                                    v-model="taskInputArray[index]" class="new-task-input"
+                                                    placeholder="..." /><br>
+                                                <div class="custom-select">
+                                                    <select :id="'ImportanceTask-' + index" class="select-items"
+                                                        v-model="selectedImportanceArray[index]">
+                                                        <option value="0">Choose Importance :</option>
+                                                        <option value="1">Urgent</option>
+                                                        <option value="2">Important</option>
+                                                        <option value="3">Medium</option>
+                                                        <option value="4">Minor</option>
+                                                        <option value="5">Do Later</option>
+                                                    </select>
+                                                </div>
+                                                <button :id="'CloseTask-' + index" class="CloseTask"
+                                                    @click="DeleteTdTask(index)"><font-awesome-icon icon="fa-solid fa-plus"
+                                                        size="sm"
+                                                        style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="new-task-create" style="margin-top: 8px;" @click="addTask()">
+                                        <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
+                                        <p>New Task</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -758,6 +801,7 @@ export default {
         return {
             SelectedCalendar: "0",
             SelectedImportance: "0",
+            SelectedTaskImportance: "0",
             Calendar: [],
             selectedWeek: "",
             EventByWeek: [],
@@ -780,6 +824,11 @@ export default {
             AddTasks: [],
             visibleCalendars: [],
             message: "",
+            selectedImportanceArray: ["0"],
+            taskInputArray: [''],
+            taskInput: '',
+            taskCheckedArray: [],
+            taskChecked: '',
             notificationEnabled: false
 
         }
@@ -792,8 +841,15 @@ export default {
                 inputText: "",
 
             };
-
+            this.selectedImportanceArray.push("0")
             this.AddTasks.push(newTask);
+
+        },
+        DeleteTdTask(index) {
+            this.taskInputArray.splice(index, 1);
+            this.selectedImportanceArray.splice(index, 1)
+            this.taskCheckedArray.splice(index, 1)
+            this.AddTasks.splice(index, 1)
 
         },
         OpenUpdateCalendar() {
@@ -1083,7 +1139,6 @@ export default {
         },
         CloseDeleteCalendar() {
             document.getElementById("myCalendarDelete").style.display = "none";
-            console.log("BAH ALORS ?")
         },
         DeleteCalendar() {
             const token = localStorage.getItem('token');
@@ -1322,45 +1377,101 @@ export default {
             return durationInMinutes;
         },
         AddEvent() {
-
-
-            if (this.SelectedCalendar == '0' || this.SelectedDate == "" || this.SelectedType == "0" || this.SelectedFrequence == "first"
-                || this.StartTime == "0" || this.EndTime == "0" || this.SelectedEventName == "") {
-                this.message = 'You must fill all the required fields'
-                console.log(this.SelectedCalendar, this.SelectedDate, this.SelectedType, this.SelectedFrequence, this.StartTime, this.EndTime, this.SelectedEventName)
+            if (this.SelectedCalendar === '0' || this.SelectedDate === '' || this.SelectedType === '0' || this.SelectedFrequence === 'first'
+                || this.StartTime === '0' || this.EndTime === '0' || this.SelectedEventName === '') {
+                this.message = 'You must fill all the required fields';
+                console.log(this.SelectedCalendar, this.SelectedDate, this.SelectedType, this.SelectedFrequence, this.StartTime, this.EndTime, this.SelectedEventName);
             } else if (this.StartTime > this.EndTime) {
-                this.message = 'Dates are not valid'
+                this.message = 'Dates are not valid';
             } else {
-
                 const token = localStorage.getItem('token');
-                const date = new Date(this.SelectedDate + " " + this.StartTime)
+                const date = new Date(this.SelectedDate + ' ' + this.StartTime);
                 const start_date = `${date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')} ${date.toLocaleTimeString('fr-FR', { hour12: false })}`;
-                fetch("api/api/events",
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        body: JSON.stringify({
-                            name_event: this.SelectedEventName, description: "Description", start_date: start_date,
-                            length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar
-                        })
-                    })
+                fetch('api/api/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ name_event: this.SelectedEventName, description: 'Description', start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar })
+                })
                     .then((response) => {
-                        console.log(response.json())
+                        console.log(response.json());
                         if (response.ok) {
                             this.message = '';
-                            this.Reload();
+                            // this.Reload();
                             return response.json();
-
-                        }
-                        else {
-
+                        } else {
                             return response.json().then(error => {
                                 throw new Error(JSON.stringify(error));
                             });
                         }
+                    })
+                    .then((eventData) => {
+                        // Event created successfully, now create the tasks
+                        const List = [];
+                        if (this.taskInput !== '') {
+                            if (this.taskChecked !== true) {
+                                this.taskChecked = false;
+                            }
+                            List.push({
+                                name_task: this.taskInput,
+                                description: 'description',
+                                priority_level: this.selectedImportance,
+                                is_done: this.taskChecked,
+                            });
+                        }
+
+                        this.AddTasks.forEach((new_task, index) => {
+                            const checkboxElement = document.getElementById('taskChecked_' + index);
+                            const inputElement = this.taskInputArray[index];
+                            const importanceElement = this.selectedImportanceArray[index];
+                            const checkedState = checkboxElement.checked;
+                            if (inputElement !== '') {
+                                List.push({
+                                    name_task: inputElement,
+                                    description: 'description',
+                                    priority_level: importanceElement,
+                                    is_done: checkedState,
+                                });
+                            }
+                        });
+
+                        const createTaskPromises = List.map((task) => {
+                            return fetch('api/api/atasks', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    Authorization: 'Bearer ' + token,
+                                },
+                                body: JSON.stringify({name_task: task.name_task, description: 'Description', priority_level: task.priority_level, is_done: task.is_done, id_event : eventData.id_event}),
+                            });
+                        });
+
+                        Promise.all(createTaskPromises)
+                            .then((taskResponses) => {
+                            
+                                console.log(taskResponses);
+                                this.message = '';
+                                this.SelectedType = '0';
+                                this.SelectedFrequence = 'first';
+                                this.SelectedEventName = ' ';
+                                this.SelectedDay = '0';
+                                this.StartTime = '0';
+                                this.SelectedDate = '0';
+                                this.EndTime = '0';
+                            })
+                            .catch((error) => {
+                                let errorMessage;
+                                try {
+                                    errorMessage = JSON.parse(error.message);
+                                } catch {
+                                    errorMessage = {
+                                        message: ' '
+                                    };
+                                }
+                                this.message = errorMessage.message;
+                            });
                     })
                     .catch((error) => {
                         let errorMessage;
@@ -1371,20 +1482,8 @@ export default {
                                 message: ' '
                             };
                         }
-
                         this.message = errorMessage.message;
-
-
                     });
-                this.message = '';
-                this.SelectedType = "0";
-                this.SelectedFrequence = "first";
-                this.SelectedEventName = " "
-                this.SelectedDay = "0";
-                this.StartTime = "0"
-                this.SelectedDate = "0"
-                this.EndTime = "0"
-
             }
         },
         UpdateEvent() {

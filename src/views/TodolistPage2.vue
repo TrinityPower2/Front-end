@@ -22,63 +22,169 @@
         <div class="TodoPage-container">
             <div class="TodoLists-container">
                 <div class="Todolists-disp">
-                <div class="high-part-todo">
-                    <div></div>
-                    <h1 class="Todo-title">My Todo Lists</h1>
-                    <font-awesome-icon @click="() => OpenList()" id="AddList" icon="fa-solid fa-plus" size="2xl"
-                        class="Plus-todo" />
-                </div>
-                <div class="Todolists-disp1">
-                <div v-for="(title, index) in ToDoList" :key="index" style="width:fit-content;margin-bottom: 1%;
+                    <div class="high-part-todo">
+                        <div></div>
+                        <h1 class="Todo-title">My Todo Lists</h1>
+                        <font-awesome-icon @click="() => OpenList()" id="AddList" icon="fa-solid fa-plus" size="2xl"
+                            class="Plus-todo" />
+                    </div>
+                    <div class="Todolists-disp1">
+                        <div v-for="(title, index) in ToDoList" :key="index" style="width:fit-content;margin-bottom: 1%;
   margin-top: 2%;
   margin-right: 3%;
   margin-left: 3%; ">
 
-                        <div class="Todolist-shape">
-                            <div class="TodoList">
-                                <div class="CloseTodoList-container">
-                                    <button :id="'CloseTodoList-' + index" class="CloseTodoList"
-                                        @click="OpenDelete(title.name_todo)">x</button>
+                            <div class="Todolist-shape">
+                                <div class="TodoList">
+                                    <div class="CloseTodoList-container">
+                                        <button :id="'CloseTodoList-' + index" class="CloseTodoList"
+                                            @click="OpenDelete(title.name_todo)">x</button>
+                                    </div>
+                                    <div class="List-Title">{{ title.name_todo }}</div>
+                                    <div class="Task-list-container">
+                                        <div class="Task" v-for="(task, taskIndex) in title.task" :key="taskIndex">
+                                            <label :for="'checkbox-' + index + '-' + taskIndex" class="task-container">{{
+                                                task.name_task }}
+                                                <input type="checkbox" :id="'checkbox-' + index + '-' + taskIndex"
+                                                    :checked="task.is_done == 1"
+                                                    v-on:change="onCheckboxChange($event, task.id_task, title.id_todo)" />
+                                                <span :class="'checkmark checkmark-' + index + '-' + taskIndex"></span>
+                                            </label>
+                                            <label>{{ priority[task.priority_level - 1] }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="button-container">
+                                        <button @click="OpenTask(index)" type="submit" class="Task-add-btn" id="addBtn">
+                                            Add Task
+                                        </button>
+                                        <button @click="OpenUpdate(index)" type="submit" class="Task-update-btn"
+                                            id="UpdateBtn">
+                                            Update
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="List-Title">{{ title.name_todo }}</div>
-                                <div class="Task-list-container">
-                                <div class="Task" v-for="(task, taskIndex) in title.task" :key="taskIndex">
-                                    <label :for="'checkbox-' + index + '-' + taskIndex"
-                                        class="task-container">{{ task.name_task }}
-                                        <input type="checkbox" :id="'checkbox-' + index + '-' + taskIndex"
-                                            :checked="task.is_done == 1"
-                                            v-on:change="onCheckboxChange($event, task.id_task, title.id_todo)" />
-                                        <span :class="'checkmark checkmark-' + index + '-' + taskIndex"></span>
-                                    </label>
-                                    <label>{{ priority[task.priority_level - 1] }}</label>
-                                </div></div>
-                                <div class="button-container">
-                                    <button @click="OpenTask(index)" type="submit" class="Task-add-btn" id="addBtn">
-                                        Add Task
-                                    </button>
-                                    <button @click="OpenUpdate(index)" type="submit" class="Task-update-btn" id="UpdateBtn">
-                                        Update
-                                    </button>
+                            </div>
+
+                            <!-- The Modal -->
+                            <div :id="'myModal' + index" class="modal1">
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <span @click="() => CloseTask(index)" class="close">&times;</span>
+                                    <h1 class="modal-Title">{{ title.name_todo }}</h1>
+                                    <div class="modal-center">
+                                        <div class="AddInputBox">
+                                            <input type="text" v-model="NewTask" placeholder="Name Task" name="email" />
+                                        </div>
+                                        <div class="New-list-element">
+                                            <div class="new-list-desc">
+                                                Importance
+                                            </div>
+                                            <div class="custom-select">
+                                                <select class="select-items" v-model="selectedImportance">
+                                                    <option value="0">Choose Importance :</option>
+                                                    <option value="1">Urgent</option>
+                                                    <option value="2">Important</option>
+                                                    <option value="3">Medium</option>
+                                                    <option value="4">Minor</option>
+                                                    <option value="5">Do Later</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="message"> {{ message }}</div>
+                                        <div class="AddInputBox">
+                                            <input @click="() => AddTask(title.name_todo)" type="submit" value="Add"
+                                                name="submit" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                    <!-- The Modal -->
-                    <div :id="'myModal' + index" class="modal1">
+                    </div>
+                    <div id="UpdateModal" class="modal1">
                         <!-- Modal content -->
-                        <div class="modal-content">
-                            <span @click="() => CloseTask(index)" class="close">&times;</span>
-                            <h1 class="modal-Title">{{ title.name_todo }}</h1>
-                            <div class="modal-center">
-                                <div class="AddInputBox">
-                                    <input type="text" v-model="NewTask" placeholder="Name Task" name="email" />
+                        <div class="modal-content1">
+                            <span @click="() => CloseUpdate()" class="close">&times;</span>
+                            <div class="AddTaskInputBox1">
+                                <input class="modal-Title-input" v-model='UpdateToDo.name_todo'
+                                    style="margin-bottom : 40px;" />
+                            </div>
+                            <div class="modal-center1">
+
+                                <div class="New-list-element2">
+
+                                    <div class="new-list-desc">
+                                        Tasks
+                                    </div>
+                                    <div class="Add-another-task">
+                                        <div v-for="(task, taskIndex) in UpdateToDo.task" :key="taskIndex"
+                                            class="new-task-create">
+
+                                            <label class="task-container" style="margin-left: 0%;">
+                                                <input type="checkbox" :id="'checkbox-' + index + '-' + taskIndex"
+                                                    :checked="task.is_done == 1"
+                                                    v-on:change="onCheckboxChange($event, task.id_task, this.UpdateToDo.id_todo)" />
+                                                <span :class="'checkmark checkmark-' + index + '-' + taskIndex"></span>
+                                            </label>
+                                            <input type="text" v-model='task.name_task' class="new-task-input" /><br>
+                                            <div class="CloseTask-container">
+                                                <button :id="'CloseTask-' + index" class="CloseTask"
+                                                    @click="OpenDeleteTask(task.id_task)"><font-awesome-icon
+                                                        icon="fa-solid fa-plus" size="sm"
+                                                        style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                                <div class="custom-select">
+                                                    <select :id="'ImportanceTask-' + index" class="select-items"
+                                                        v-model="task.priority_level">
+                                                        <option value="0">Choose Importance :</option>
+                                                        <option value="1">Urgent</option>
+                                                        <option value="2">Important</option>
+                                                        <option value="3">Medium</option>
+                                                        <option value="4">Minor</option>
+                                                        <option value="5">Do Later</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div class="New-list-element">
+                                    <div class="new-list-desc">
+                                        Add To Planner
+                                    </div>
+                                    <input type="datetime-local" class="DescriptionInput" id="day" name="day-task"
+                                        v-model="selectedDate" min="2023-04-01" max="2028-12-31" @click="resetCalendar()">
+                                </div>
+                                <div class="select-center">
+                                    <div class="custom-select" v-show="selectedDate !== ''">
+                                        <select class="select-items" v-model="selectedCalendar" id="Selected_Calendar"
+                                            @click='GetEventByDateCalendar(selectedDate, selectedCalendar)'>
+                                            <option value="0">Choose Calendar :</option>
+                                            <option v-for="option in Calendar" :value="option.id_calendar"
+                                                :key="option.id_calendar">{{ option.name_calendar }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="New-list-element" v-show="selectedCalendar !== '0'">
+                                    <div class="new-list-desc">
+                                        Duration
+                                    </div>
+                                    <div class="custom-select" id="Time-Task">
+                                        <select v-model="Duration" class="select-items" id="Duration_Task">
+                                            <option value="0">Duration</option>
+                                            <option value="1">1H00</option>
+                                            <option value="2">2H00</option>
+                                            <option value="3">3H00</option>
+                                            <option value="4">4H00</option>
+                                            <option value="5">5H00</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="New-list-element" v-show="selectedCalendar !== '0'">
                                     <div class="new-list-desc">
                                         Importance
                                     </div>
                                     <div class="custom-select">
-                                        <select class="select-items" v-model="selectedImportance">
+                                        <select class="select-items" v-model="priorityEvent">
                                             <option value="0">Choose Importance :</option>
                                             <option value="1">Urgent</option>
                                             <option value="2">Important</option>
@@ -89,206 +195,86 @@
                                     </div>
                                 </div>
                                 <div class="message"> {{ message }}</div>
-                                <div class="AddInputBox">
-                                    <input @click="() => AddTask(title.name_todo)" type="submit" value="Add" name="submit" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div id="UpdateModal" class="modal1">
-                    <!-- Modal content -->
-                    <div class="modal-content1">
-                        <span @click="() => CloseUpdate()" class="close">&times;</span>
-                        <div class="AddTaskInputBox1">
-                            <input class="modal-Title-input" v-model='UpdateToDo.name_todo' style="margin-bottom : 40px;" />
-                            </div>
-                        <div class="modal-center1">
-                            
-                            <div class="New-list-element2">
-                                
-                                <div class="new-list-desc">
-                                    Tasks
-                                </div>
-                                <div class="Add-another-task">
-                                    <div v-for="(task, taskIndex) in UpdateToDo.task" :key="taskIndex"
-                                        class="new-task-create">
-
-                                        <label class="task-container" style="margin-left: 0%;">
-                                            <input type="checkbox" :id="'checkbox-' + index + '-' + taskIndex"
-                                                :checked="task.is_done == 1"
-                                                v-on:change="onCheckboxChange($event, task.id_task, this.UpdateToDo.id_todo)" />
-                                            <span :class="'checkmark checkmark-' + index + '-' + taskIndex"></span>
-                                        </label>
-                                        <input type="text" v-model='task.name_task' class="new-task-input" /><br>
-                                        <div class="CloseTask-container">
-                                            <button :id="'CloseTask-' + index" class="CloseTask"
-                                            @click="OpenDeleteTask(task.id_task)"><font-awesome-icon icon="fa-solid fa-plus" size="sm" style="transform:rotate(45deg); margin-left: 15px;"/></button>
-                                            <div class="custom-select">
-                                                <select :id="'ImportanceTask-' + index" class="select-items" v-model="task.priority_level">
-                                                    <option value="0">Choose Importance :</option>
-                                                    <option value="1">Urgent</option>
-                                                    <option value="2">Important</option>
-                                                    <option value="3">Medium</option>
-                                                    <option value="4">Minor</option>
-                                                    <option value="5">Do Later</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                <div v-if='selectedDate && Calendar == " "' class="message">Please Create A Calendar</div>
+                                <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
+                                    <div class="AddTaskInputBox">
+                                        <input @click="() => Update()" type="submit" value="Update" name="submit" />
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div id="myModalDelete" class="modal1">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close" @click='CloseDelete'>&times;</span>
+                            <h1 class="modal-Title">Delete Todo List</h1>
+                            <div class="modal-center">
+                                <p style="margin-top: 50px;">Are you sure you want to delete this List ?</p>
+                                <div class="message"> {{ message }}</div>
+                                <div class="delete-list-button">
+                                    <div class="AddTaskInputBox no">
+                                        <input class="close" type="submit" value="Cancel" name="submit"
+                                            @click='CloseDelete' />
+                                    </div>
+                                    <div class="AddTaskInputBox no">
+                                        <input style="margin-left: 0px;" type="submit" value="Delete" name="submit"
+                                            @click='DeleteToDo' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="myModalDeleteTask" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close" @click='CloseDeleteTask'>&times;</span>
+                            <h1 class="modal-Title">Delete Task</h1>
+                            <div class="modal-center">
+                                <p style="margin-top: 50px;">Are you sure you want to delete this Task ?</p>
+                                <div class="message"> {{ message }}</div>
+                                <div class="delete-list-button">
+                                    <div class="AddTaskInputBox no">
+                                        <input class="close" type="submit" value="Cancel" name="submit"
+                                            @click='CloseDeleteTask' />
+                                    </div>
+                                    <div class="AddTaskInputBox no">
+                                        <input style="margin-left: 0px;" type="submit" value="Delete" name="submit"
+                                            @click='DeleteTask' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                            <div class="New-list-element">
-                                <div class="new-list-desc">
-                                    Add To Planner
-                                </div>
-                                <input type="datetime-local" class="DescriptionInput" id="day" name="day-task"
-                                    v-model="selectedDate" min="2023-04-01" max="2028-12-31" @click="resetCalendar()">
+                    <div id="NewListModal" class="modal1">
+                        <!-- Modal content -->
+                        <div class="modal-content1">
+                            <span @click="() => CloseList()" class="close">&times;</span>
+                            <div class="AddTaskInputBox1">
+                                <input type="text" class="new-task-input" v-model="ToDo" placeholder="Name your TodoList"
+                                    style="margin-bottom : 40px; width:50%" />
                             </div>
-                            <div class="select-center">
-                            <div class="custom-select" v-show="selectedDate !== ''">
-                                <select class="select-items" v-model="selectedCalendar" id="Selected_Calendar"
-                                    @click='GetEventByDateCalendar(selectedDate, selectedCalendar)'>
-                                    <option value="0">Choose Calendar :</option>
-                                    <option v-for="option in Calendar" :value="option.id_calendar"
-                                        :key="option.id_calendar">{{ option.name_calendar }}</option>
-                                </select></div>
-                            </div>
-                            <div class="New-list-element" v-show="selectedCalendar !== '0'">
-                                <div class="new-list-desc">
-                                    Duration
-                                </div>
-                                <div class="custom-select" id="Time-Task">
-                                    <select v-model="Duration" class="select-items" id="Duration_Task">
-                                        <option value="0">Duration</option>
-                                        <option value="1">1H00</option>
-                                        <option value="2">2H00</option>
-                                        <option value="3">3H00</option>
-                                        <option value="4">4H00</option>
-                                        <option value="5">5H00</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="New-list-element" v-show="selectedCalendar !== '0'">
-                                <div class="new-list-desc">
-                                    Importance
-                                </div>
-                                <div class="custom-select">
-                                    <select class="select-items" v-model="priorityEvent">
-                                        <option value="0">Choose Importance :</option>
-                                        <option value="1">Urgent</option>
-                                        <option value="2">Important</option>
-                                        <option value="3">Medium</option>
-                                        <option value="4">Minor</option>
-                                        <option value="5">Do Later</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <div v-if="selectedDate && !ToDo" class="message">Name Your ToDoList</div>
+                            <div v-if='selectedDate && !hasCalendar' class="message">Please Create A Calendar</div>
                             <div class="message"> {{ message }}</div>
-                            <div v-if='selectedDate && Calendar == " "' class="message">Please Create A Calendar</div>
-                            <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
-                                <div class="AddTaskInputBox">
-                                    <input @click="() => Update()" type="submit" value="Update" name="submit" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="myModalDelete" class="modal1">
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <span class="close" @click='CloseDelete'>&times;</span>
-                        <h1 class="modal-Title">Delete Todo List</h1>
-                        <div class="modal-center">
-                            <p style="margin-top: 50px;">Are you sure you want to delete this List ?</p>
-                            <div class="message"> {{ message }}</div>
-                            <div class="delete-list-button">
-                                <div class="AddTaskInputBox no">
-                                    <input class="close" type="submit" value="Cancel" name="submit" @click='CloseDelete' />
-                                </div>
-                                <div class="AddTaskInputBox no">
-                                    <input style="margin-left: 0px;" type="submit" value="Delete" name="submit"
-                                        @click='DeleteToDo' />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="myModalDeleteTask" class="modal">
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <span class="close" @click='CloseDeleteTask'>&times;</span>
-                        <h1 class="modal-Title">Delete Task</h1>
-                        <div class="modal-center">
-                            <p style="margin-top: 50px;">Are you sure you want to delete this Task ?</p>
-                            <div class="message"> {{ message }}</div>
-                            <div class="delete-list-button">
-                                <div class="AddTaskInputBox no">
-                                    <input class="close" type="submit" value="Cancel" name="submit"
-                                        @click='CloseDeleteTask' />
-                                </div>
-                                <div class="AddTaskInputBox no">
-                                    <input style="margin-left: 0px;" type="submit" value="Delete" name="submit"
-                                        @click='DeleteTask' />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="NewListModal" class="modal1">
-                    <!-- Modal content -->
-                    <div class="modal-content1">
-                        <span @click="() => CloseList()" class="close">&times;</span>
-                        <div class="AddTaskInputBox1">
-                        <input type="text" class="new-task-input" v-model="ToDo" placeholder="Name your TodoList"
-                            style="margin-bottom : 40px; width:50%" /></div>
-                        <div v-if="selectedDate && !ToDo" class="message">Name Your ToDoList</div>
-                        <div v-if='selectedDate && !hasCalendar' class="message">Please Create A Calendar</div>
-                        <div class="message"> {{ message }}</div>
-                        <div class="modal-center1">
-                            <div class="New-list-element2">
-                                <div class="new-list-desc" style="margin-top: 0px;">
-                                    Tasks
-                                </div>
-                                
-                                <div class="Add-another-task">
-                                    <div class="new-task-create">
-                                        <label class="task-container" style="margin-left: 0%;">
-                                            <input type="checkbox" v-model="taskChecked" />
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <input type="text" v-model="taskInput" class="new-task-input"
-                                            placeholder="..." /><br>
-                                        <div class="custom-select">
-                                            <select id="ImportanceTask" class="select-items" v-model="selectedImportance">
-                                                <option value="0">Choose Importance :</option>
-                                                <option value="1">Urgent</option>
-                                                <option value="2">Important</option>
-                                                <option value="3">Medium</option>
-                                                <option value="4">Minor</option>
-                                                <option value="5">Do Later</option>
-                                            </select>
-                                        </div>
+                            <div class="modal-center1">
+                                <div class="New-list-element2">
+                                    <div class="new-list-desc" style="margin-top: 0px;">
+                                        Tasks
                                     </div>
 
-                                    <div class="new-task-appear">
-
-                                    <div v-for="(new_task, index) in AddTasks" :key="index"  :id="'CloseTdTaskC-' + index" class="CloseTask-container">
-                                        
-                                        <div class="new-task-create2" :id="'CloseTdTask-' + index">
+                                    <div class="Add-another-task">
+                                        <div class="new-task-create">
                                             <label class="task-container" style="margin-left: 0%;">
-                                                <input type="checkbox" :id="'taskChecked_' + index"
-                                                    v-model="taskCheckedArray[index]" />
+                                                <input type="checkbox" v-model="taskChecked" />
                                                 <span class="checkmark"></span>
                                             </label>
-                                            <input type="text" :id="'taskInput_' + index" v-model="taskInputArray[index]"
-                                                class="new-task-input" placeholder="..." /><br>
+                                            <input type="text" v-model="taskInput" class="new-task-input"
+                                                placeholder="..." /><br>
                                             <div class="custom-select">
-                                                <select :id="'ImportanceTask-' + index" class="select-items"
-                                                    v-model="selectedImportanceArray[index]">
+                                                <select id="ImportanceTask" class="select-items"
+                                                    v-model="selectedImportance">
                                                     <option value="0">Choose Importance :</option>
                                                     <option value="1">Urgent</option>
                                                     <option value="2">Important</option>
@@ -297,72 +283,103 @@
                                                     <option value="5">Do Later</option>
                                                 </select>
                                             </div>
-                                            <button :id="'CloseTask-' + index" class="CloseTask"
-                                            @click="DeleteTdTask(index)"><font-awesome-icon icon="fa-solid fa-plus" size="sm" style="transform:rotate(45deg); margin-left: 15px;"/></button>
                                         </div>
-                                    </div></div>
-                                    <div class="new-task-create" style="margin-top: 8px;" @click="addTask()" >
-                                        <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
-                                        <p>New Task</p>
+
+                                        <div class="new-task-appear">
+
+                                            <div v-for="(new_task, index) in AddTasks" :key="index"
+                                                :id="'CloseTdTaskC-' + index" class="CloseTask-container">
+
+                                                <div class="new-task-create2" :id="'CloseTdTask-' + index">
+                                                    <label class="task-container" style="margin-left: 0%;">
+                                                        <input type="checkbox" :id="'taskChecked_' + index"
+                                                            v-model="taskCheckedArray[index]" />
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                    <input type="text" :id="'taskInput_' + index"
+                                                        v-model="taskInputArray[index]" class="new-task-input"
+                                                        placeholder="..." /><br>
+                                                    <div class="custom-select">
+                                                        <select :id="'ImportanceTask-' + index" class="select-items"
+                                                            v-model="selectedImportanceArray[index]">
+                                                            <option value="0">Choose Importance :</option>
+                                                            <option value="1">Urgent</option>
+                                                            <option value="2">Important</option>
+                                                            <option value="3">Medium</option>
+                                                            <option value="4">Minor</option>
+                                                            <option value="5">Do Later</option>
+                                                        </select>
+                                                    </div>
+                                                    <button :id="'CloseTask-' + index" class="CloseTask"
+                                                        @click="DeleteTdTask(index)"><font-awesome-icon
+                                                            icon="fa-solid fa-plus" size="sm"
+                                                            style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="new-task-create" style="margin-top: 8px;" @click="addTask()">
+                                            <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
+                                            <p>New Task</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="New-list-element">
-                                <div class="new-list-desc">
-                                    Add To Planner
+                                <div class="New-list-element">
+                                    <div class="new-list-desc">
+                                        Add To Planner
+                                    </div>
+                                    <input type="datetime-local" class="DescriptionInput" id="day" name="day-task"
+                                        v-model="selectedDate" min="2023-04-01" max="2028-12-31" @click="resetCalendar()">
                                 </div>
-                                <input type="datetime-local" class="DescriptionInput" id="day" name="day-task"
-                                    v-model="selectedDate" min="2023-04-01" max="2028-12-31" @click="resetCalendar()">
-                            </div>
-                            <div class="select-center">
-                            <div class="custom-select" v-show="selectedDate !== '' && ToDo !== ''">
-                                <select class="select-items" v-model="selectedCalendar" id="Selected_Calendar"
-                                    @click='GetEventByDateCalendar(selectedDate, selectedCalendar)' >
-                                    <option value="0">Choose Calendar :</option>
-                                    <option v-for="option in Calendar" :value="option.id_calendar"
-                                        :key="option.id_calendar">{{ option.name_calendar }}</option>
-                                </select>
-                            </div></div>
-                            <div class="New-list-element" v-show="selectedCalendar !== '0' && ToDo !== ''">
-                                <div class="new-list-desc">
-                                    Duration
+                                <div class="select-center">
+                                    <div class="custom-select" v-show="selectedDate !== '' && ToDo !== ''">
+                                        <select class="select-items" v-model="selectedCalendar" id="Selected_Calendar"
+                                            @click='GetEventByDateCalendar(selectedDate, selectedCalendar)'>
+                                            <option value="0">Choose Calendar :</option>
+                                            <option v-for="option in Calendar" :value="option.id_calendar"
+                                                :key="option.id_calendar">{{ option.name_calendar }}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="custom-select" id="Time-Task">
-                                    <select v-model="Duration" class="select-items" id="Duration_Task">
-                                        <option value="0">Duration</option>
-                                        <option value="1">1H00</option>
-                                        <option value="2">2H00</option>
-                                        <option value="3">3H00</option>
-                                        <option value="4">4H00</option>
-                                        <option value="5">5H00</option>
+                                <div class="New-list-element" v-show="selectedCalendar !== '0' && ToDo !== ''">
+                                    <div class="new-list-desc">
+                                        Duration
+                                    </div>
+                                    <div class="custom-select" id="Time-Task">
+                                        <select v-model="Duration" class="select-items" id="Duration_Task">
+                                            <option value="0">Duration</option>
+                                            <option value="1">1H00</option>
+                                            <option value="2">2H00</option>
+                                            <option value="3">3H00</option>
+                                            <option value="4">4H00</option>
+                                            <option value="5">5H00</option>
 
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="New-list-element" v-show="selectedCalendar !== '0' && ToDo !== ''">
-                                <div class="new-list-desc">
-                                    Importance
+                                <div class="New-list-element" v-show="selectedCalendar !== '0' && ToDo !== ''">
+                                    <div class="new-list-desc">
+                                        Importance
+                                    </div>
+                                    <div class="custom-select">
+                                        <select class="select-items" v-model="priorityEvent">
+                                            <option value="0">Choose Importance :</option>
+                                            <option value="1">Urgent</option>
+                                            <option value="2">Important</option>
+                                            <option value="3">Medium</option>
+                                            <option value="4">Minor</option>
+                                            <option value="5">Do Later</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="custom-select">
-                                    <select class="select-items" v-model="priorityEvent">
-                                        <option value="0">Choose Importance :</option>
-                                        <option value="1">Urgent</option>
-                                        <option value="2">Important</option>
-                                        <option value="3">Medium</option>
-                                        <option value="4">Minor</option>
-                                        <option value="5">Do Later</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
-                                <div class="AddTaskInputBox">
-                                    <input @click="() => SubmitList()" type="submit" value="Add" name="submit" />
+                                <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
+                                    <div class="AddTaskInputBox">
+                                        <input @click="() => SubmitList()" type="submit" value="Add" name="submit" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-</div>
             </div>
         </div>
         <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
@@ -431,11 +448,11 @@ export default {
     methods: {
         /* This function is used for the + button in the NewListModal to add each time a new empty task*/
         addTask() {
-            
+
             const newTask = {
                 checked: false,
                 inputText: "",
-                priority_level : "0"
+                priority_level: "0"
             };
             this.selectedImportanceArray.push("0")
             this.AddTasks.push(newTask);
@@ -659,11 +676,11 @@ export default {
             this.Reload();
         },
         DeleteTdTask(index) {
-            this.taskInputArray.splice(index  , 1);
-            this.selectedImportanceArray.splice(index , 1)
-            this.taskCheckedArray.splice(index , 1)
-            this.AddTasks.splice(index,1)
-             
+            this.taskInputArray.splice(index, 1);
+            this.selectedImportanceArray.splice(index, 1)
+            this.taskCheckedArray.splice(index, 1)
+            this.AddTasks.splice(index, 1)
+
         },
         OpenDeleteTask(id) {
 
@@ -955,13 +972,12 @@ export default {
             const token = localStorage.getItem('token');
             if (this.ToDo == '') {
                 this.message = "You must enter a name for your to do list"
-
             } else if (
-                (this.taskInputArray.some((task) => task === '') && !this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0')) ||
-                (!this.taskInputArray.some((task) => task === '') && this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0'))
+                (this.taskInputArray.some((task) => task === '') && !this.selectedImportanceArray.slice(0,-1).some((priority) => priority === '0')) ||
+                (!this.taskInputArray.some((task) => task === '') && this.selectedImportanceArray.slice(0,-1).some((priority) => priority === '0'))
                 || (!this.taskInput == '' && this.selectedImportance == '0')) {
 
-                    this.message = "You must fill all the fields"
+                this.message = this.selectedImportanceArray
             }
             else {
 
@@ -1040,7 +1056,6 @@ export default {
 
                                 }
                             }
-
                             if (this.selectedDate !== '') {
                                 if (this.selectedCalendar == "0" || this.Duration == 0 || this.priotityEvent == "0") {
                                     this.message = "You must choose a calendar and a duration";
@@ -1082,7 +1097,7 @@ export default {
                             this.Duration = '0';
                             this.selectedDate = "";
                             this.selectedCalendar = "0";
-                            this.selectedImportanceArray = ["0"];
+                            this.selectedImportanceArray = [];
                             this.taskInputArray = [];
                             this.selectedDate = '';
                             this.InputText = "";
@@ -1091,8 +1106,6 @@ export default {
                             this.taskChecked = 0;
                             this.taskInput = "";
                             this.Reload();
-                            
-            
                         })
                         .catch(error => {
 
