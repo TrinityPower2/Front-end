@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <SiteHeader/>
   <calendar v-if="false"/>
   <todo-list/>
@@ -38,4 +38,4 @@ export default {
 
 <style>
 
-</style>
+</style> -->
