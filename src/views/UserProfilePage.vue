@@ -1,6 +1,6 @@
 <template>
     <body>
-        <header>
+      <header>
             <div class="headernav">
                 <div class="header-container">
                     <div class="header-image">
@@ -8,14 +8,13 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/todo-list2-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-lis2-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
-
-                <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large"
-                        style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link>
+                <UserMenu></UserMenu>
                 <div class="light">
+                    <DarkLightMode></DarkLightMode>
                 </div>
             </div>
         </header>
@@ -33,7 +32,7 @@
                                 <div class="loginInputBox">
                                 <input v-model="txtEmail" type="email" name="txtEmail" :placeholder="placeholderEmail"><br>
                                 </div>
-                                <div style="color: red;">{{ message }}</div>
+                                <div class="error-message-profile">{{ message }}</div>
                                 <div class="loginInputBox" style="margin-left: -60px;">
                                 <input @click="updateInformation" type="submit" value="Update Information" name="btnUpdate">
                                 </div>
@@ -69,6 +68,8 @@
 </template>
 
 <script>
+import UserMenu from "../components/UserMenu.vue";
+import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
   name: 'ProfilePage',
   data() {
@@ -80,6 +81,10 @@ export default {
       placeholderEmail: 'Email Address',
     };
   },
+  components: {
+        DarkLightMode,
+        UserMenu
+    },
   methods: {
   updateInformation() {
     const token = localStorage.getItem('token');

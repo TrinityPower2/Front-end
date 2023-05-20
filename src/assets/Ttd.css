@@ -292,6 +292,8 @@ header div {
   color : rgb(255, 0, 0);
   margin-top : 15px;
   text-align : center;
+  margin-bottom: 40px;
+  margin-top: -20px;
 }
 
 /*---------------------------Login and Register buttons-----------------------------*/
@@ -1103,6 +1105,23 @@ bold {
   background: inherit;
   border-radius: inherit;
 }
+
+
+/*--------------------------CHANGEMENT : LE YES-NO UPDATE------------------------*/
+
+.Form-banner-container-update {
+  width: 50%; 
+  height: auto; 
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: none; 
+  border-bottom: none; 
+  align-items: baseline;
+  position: relative;
+  box-shadow: 0px -20px 256px 28px rgba(255, 255, 255, 0.778) inset;
+}
+
+
 .FormContainer {
   width: 523px;
 }
@@ -1198,7 +1217,7 @@ bold {
   /* width: 400px;
   min-height: 400px; */
   width: 100%;
-  min-height: 600px;
+  min-height: 1000px;
   background-color: rgba(188, 10, 228, 0.1);
   border-radius: 10px;
   display: inline-block;
@@ -1220,7 +1239,7 @@ body.dark .TodoLists-container {
   /* width: 400px;
   min-height: 400px; */
   width: 100%;
-  min-height: 600px;
+  min-height: 1000px;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   display: inline-block;
@@ -1277,11 +1296,22 @@ body.dark .Todo-title {
   flex-direction: column;
 }
 
+.Todolists-disp1{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 150px;
+}
+
 .Todolist-shape {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 120px;
 }
 
 .TodoList {
@@ -1328,6 +1358,17 @@ body.dark .TodoList {
 
 .Task {
   display: flex;
+  width:100%;
+  flex-direction: row;
+  /* margin-left: 20px; */
+  justify-content: space-between;
+  flex-wrap: wrap;
+  color: rgb(255, 255, 255);
+  margin-right: 6%;
+}
+
+.Task1 {
+  display: flex;
   flex-direction: row;
   margin-left: 20px;
   justify-content: space-between;
@@ -1352,7 +1393,7 @@ body.dark .TodoList {
   padding-left: 35px;
   margin-bottom: 22px;
   margin-left: 8%;
-  max-width: 80%;
+  max-width: 60%;
   cursor: pointer;
   font-size: 18px;
   -webkit-user-select: none;
@@ -1492,9 +1533,27 @@ Body.dark .Task-update-btn {
 
 
 .button-container {
+  /* display: flex;
+  justify-content: space-between; */
+  position: fixed;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  bottom: 23px;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
 }
+
+.Task-list-container{
+  display: flex;
+    flex-direction: row;
+    max-height: 218px;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: stretch;
+}
+
 
 /* The Modal (background) */
 .modal {
@@ -1534,6 +1593,15 @@ body.dark .modal{
   padding: 20px;
   border: 1px solid #888;
   width: 50%;
+}
+
+.modal-content1 {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  min-width: 900px;
 }
 
 /* The Close Button */
@@ -1589,9 +1657,27 @@ body.dark .modal{
   /* borde: 1px solid rgba(48, 48, 48, 0.2); */
   letter-spacing: 1px;
   box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
-
 }
 
+.modal-Title-input1 {
+  color: rgba(85, 84, 85, 0.986);
+  text-align: center;
+  /* margin-top: 3.5%; */
+  text-shadow: 2px 2px rgba(211, 116, 240, 0.437);
+  font-size: 40px;
+  width: 100%;
+  float: center;
+  border: none;
+  outline: none;
+  padding: 5px 15px 45px;
+  border-radius: 10px;
+  /* border: 1px solid rgba(65, 64, 64, 0.5); */
+  /*border-bottom: 1px solid rgba(65, 64, 64, 0.5);
+  border-right: 1px solid rgba(19, 19, 19, 0.2);*/
+  /* borde: 1px solid rgba(48, 48, 48, 0.2); */
+  letter-spacing: 1px;
+  /* box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05); */
+}
 
 .AddInputBox {
   width: 50%;
@@ -1678,8 +1764,9 @@ body.dark .modal{
 
 .custom-select {
   position: relative;
-  margin-top: 40px;
+  /* margin-top: 40px; */
   margin-bottom: 20px;
+  margin-left: 40px;
   min-width: 180px;
   width: fit-content;
   color: #d6a5e9;
@@ -1715,11 +1802,12 @@ body.dark .modal{
 .select-items,.custom-select {
   color: #ffffff;
   padding: 8px 16px;
-  border: 1px solid transparent;
+  /* border: 1px solid transparent; */
   border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
   cursor: pointer;
   user-select: none;
   border-radius: 15px;
+  margin-top: -11px;
 }
 
 /*style items (options):*/
@@ -1866,6 +1954,15 @@ body.dark .modal1{
   flex-wrap: wrap;
 }
 
+.New-list-element2{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  float: left;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
 
 .new-list-desc{
   background-color: #1f022bcb;
@@ -1913,10 +2010,36 @@ body.dark .modal1{
   flex-direction: row;
   align-items:center;
 }
+
+.new-task-create1{
+  display: flex;
+  flex-direction: row;
+  align-items:baseline;
+  flex-wrap: no-wrap;
+}
+
+.new-task-create2{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.new-task-appear{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.select-center{
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 143px;
+  margin-top: 15px;
+}
+
 /** CHANGEMENNNNT : IL CAUSE PROBLEME **/
 
 .new-task-input{
-
   float: center;
   background-color: rgba(206, 204, 204, 0.2);
   border: none;
@@ -1926,7 +2049,6 @@ body.dark .modal1{
   border-bottom: 1px solid rgba(65, 64, 64, 0.5);
   border-right: 1px solid rgba(19, 19, 19, 0.2);
   /* borde: 1px solid rgba(48, 48, 48, 0.2); */
-
   font-size: 16px;
   letter-spacing: 1px;
   color: rgba(27, 27, 27, 0.858);
@@ -1945,6 +2067,32 @@ body.dark .modal1{
 .new-task-input:-webkit-autofill:focus,
 .new-task-input:-webkit-autofill:active {
   background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+
+.AddTaskInputBox1 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+.AddTaskInputBox1 input {
+  width: 70%;
+  float: center;
+  background-color: rgba(190, 188, 188, 0.2);
+  border: none;
+  outline: none;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 35px;
+  border-bottom: 1px solid rgba(65, 64, 64, 0.5);
+  border-right: 1px solid rgba(19, 19, 19, 0.2);
+  /* borde: 1px solid rgba(48, 48, 48, 0.2); */
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgba(27, 27, 27, 0.858);
+  box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
 }
 
 
@@ -2042,7 +2190,7 @@ body.dark .modal1{
 
 /*--------------------------------------------------------------------------------------------------*/
 
-/*------------------------------------------------CREATE CONTAINER PAGE----------------------------------------------------*/
+/*------------------------------------------------CREATE CALENDAR PAGE----------------------------------------------------*/
 
 /*--------------------------------------------------------------------------------------------------*/
 
@@ -2124,6 +2272,10 @@ body.dark .modal1{
   color: aliceblue;
 }
 
+/* body .dark .calendar-dark-btn{
+  background-color: #c18cd6;
+} */
+
 .created-tasks-new{
   display: flex;
   justify-content: space-between;
@@ -2167,9 +2319,7 @@ body.dark .modal1{
   width:85%;
 }
 
-.Timeslots-choice{
-  display:flex;
-}
+
 
 .import-button-container{
   display: flex;
@@ -2181,6 +2331,30 @@ body.dark .modal1{
   margin : 0px;
 }
 
+
+/*--------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------CHANGEMENT : TIMESLOT J'Y ARRIVE PAS----------------------------------------------------*/
+
+
+.Timeslots-choice {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.Timeslots-choice .custom-select:not(:first-child) {
+  margin-left: 5px;
+}
+
+.custom-select input.select-items[type="date"] {
+  width: 100%;
+}
+
+.custom-select input.select-items[type="time"] {
+  width: 80px;
+  padding: 5px;
+}
 
 /*--------------------------------------------------------------------------------------------------*/
 
@@ -2285,6 +2459,52 @@ body.dark .help-page-container{
   height: 300px;
 }
 
+
+
+
+.submit-help-btn {
+  margin: 10px;
+  margin-top: 110px;
+  margin-bottom: 50px;
+  border: 0.4px solid #c9bccd;
+  font-size: 1em;
+  width: 230px;
+  height: 60px;
+  border-radius: 15px;
+  padding: 17px 25px;
+  font-weight: 200;
+  background: #c18cd6d0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: 0px 0px 25px rgba(124, 9, 147, 0.562);
+  transition: all 0.4s ease-in-out;
+  z-index: 1;
+  color: rgb(255, 255, 255);
+  text-shadow: 1px 1px rgb(196, 205, 255);
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  align-self: center;
+}
+
+.submit-help-btn:active {
+  background: #d341ccbb;
+  box-shadow: 0px 0px 25px rgba(236, 140, 216, 0.562);
+}
+
+.submit-help-btn:hover {
+  background: #ff9ca3;
+  box-shadow: 0px 0px 25px rgba(236, 140, 216, 0.562);
+  border-bottom: 0.4px solid #c711ac;
+  border-right: 0.4px solid #ee79de;
+}
+/* .submit-help-btn{
+  background-color: #c18cd6;
+  border-radius: 15px;
+
+} */
 
 /*--------------------------------------------------------------------------------------------------*/
 
@@ -2592,6 +2812,14 @@ input:checked + .slider:before {
 }
 
 
+
+.error-message-profile{
+  color:rgb(255, 71, 71);
+  text-align: center;
+  margin-top:20px;
+}
+
+
 /*--------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------------CALENDAR PAGE----------------------------------------------------*/
@@ -2606,6 +2834,12 @@ input:checked + .slider:before {
   width: 100%;
   border-top: 0.2px solid rgba(0, 0, 0, 0.178);
   border-bottom: 0.2px solid rgba(0, 0, 0, 0.178);
+}
+
+
+body.dark .Calendar-page-container{
+  border-top: 0.2px solid rgba(255, 255, 255, 0.178);
+  border-bottom: 0.2px solid rgba(255, 255, 255, 0.178);
 }
 
 .calendar-sidebar-container{
@@ -2637,6 +2871,15 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: space-around;
   margin-top:30px;
+}
+
+@media (max-width: 1100px) {
+  .buttons-calendar-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .arrow-left-calendar{
@@ -2684,7 +2927,7 @@ input:checked + .slider:before {
   margin-bottom: 15px;
 }
 
-.Your-calendar-button-magenta{
+.Your-calendar-button-orange{
   border: 3px solid var(--CalendarColor5) ;
   width: 50px;
   height: 50px;
@@ -2702,7 +2945,7 @@ input:checked + .slider:before {
   margin-bottom: 15px;
 }
 
-.Your-calendar-button-grey{
+.Your-calendar-button-red{
   border: 3px solid var(--CalendarColor7) ;
   width: 50px;
   height: 50px;
@@ -2713,6 +2956,15 @@ input:checked + .slider:before {
 
 .Your-calendar-button-yellow{
   border: 3px solid var(--CalendarColor8) ;
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.Your-calendar-button-white{
+  border: 3px solid var(--CalendarColor9) ;
   width: 50px;
   height: 50px;
   background: white;
@@ -2762,14 +3014,16 @@ input:checked + .slider:before {
   --eventColor5: #f3baff;
   --eventColor6: #f1a1d7;
   --eventColor7: #f7bb77;
+  --eventColor8: #fffffe;
   --CalendarColor1: pink;
   --CalendarColor2: #8ecdaf;
   --CalendarColor3: #0084ff;
   --CalendarColor4: #d400ff;
-  --CalendarColor5: #ff00ae;
+  --CalendarColor5: #ff8400;
   --CalendarColor6: #020000;
-  --CalendarColor7: #9e9595;
+  --CalendarColor7: #fa0808;
   --CalendarColor8: #ffdd00;
+  --CalendarColor9: #fffffd;
 
 }
 
@@ -2787,6 +3041,10 @@ input:checked + .slider:before {
   grid-template-rows: repeat(var(--numHours), var(--timeHeight));
 }
 
+body.dark .timeline{
+  color:aliceblue;
+}
+
 .mid{
   font-size: x-small;
 }
@@ -2798,6 +3056,10 @@ input:checked + .slider:before {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
+body.dark .days {
+  color:aliceblue;
+}
+
 .events {
   display: grid;
   grid-template-rows: repeat(var(--numHours), var(--timeHeight));
@@ -2805,7 +3067,13 @@ input:checked + .slider:before {
   background: var(--calBgColor);
 }
 
+.calendar-title{
+  color:#000;
+}
 
+.calendar-time{
+  color:#000;
+}
 
 /* Place on Timeline*/
 
@@ -3436,6 +3704,10 @@ input:checked + .slider:before {
   border: 2px solid var(--CalendarColor8) ;
 }
 
+.calendar-white{
+  border: 2px solid var(--CalendarColor9) ;
+} 
+
 .red {
   background: var(--eventColor1);
 }
@@ -3464,6 +3736,9 @@ input:checked + .slider:before {
   background: var(--eventColor7);
 }
 
+.white {
+  background: var(--eventColor8);
+}
 
 .date {
   display: flex;

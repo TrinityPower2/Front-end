@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/todo-list2-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
                     <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
@@ -26,40 +26,45 @@
                 <h1 class="modal-Title">Contact Support</h1>
                 <p class="help-prompt">For any problem with your account, security concerns, or questions about our policy,
                     we're happy to help !</p>
-                <form action="post" class="help-form">
+                <form action="" class="help-form" @submit.prevent="formSubmit">
                     <div class="all-questions">
                         <div class="help-question">
                             <label for="fname" class="help-label">Your Name * </label>
-                            <input type="text" id="fname" name="fname" class="help-input" placeholder="..."><br>
+                            <input type="text" id="fname" name="fname" class="help-input" placeholder="..." v-model="name"><br>
                         </div>
                         <div class="help-question">
                             <label for="fname" class="help-label">Your Email * </label>
-                            <input type="text" id="fname" name="fname" class="help-input" placeholder="..."><br>
+                            <input type="text" id="fname" name="fname" class="help-input" placeholder="..." v-model="email"><br>
                         </div>
                         <div class="help-question">
                             <label for="fname" class="help-label">Summary * </label>
                             <input type="text" id="fname" name="fname" class="help-input"
-                                placeholder="Give us a brief description of what's happening."><br>
+                                placeholder="Give us a brief description of what's happening." v-model="summary"><br>
                         </div>
                         <div class="help-question">
                             <label for="fname" class="help-label">Add more details * </label>
                             <textarea name="" id="" cols="30" rows="10" class="help-input"
-                                placeholder="If you have more specific info, add it here."></textarea><br>
+                                placeholder="If you have more specific info, add it here." v-model="details"></textarea><br>
                         </div>
                         <div class="help-question">
                             <label for="fname" class="help-label">Page Link </label>
                             <input type="text" id="fname" name="fname" class="help-input"
-                                placeholder="Paste the link to where the issue is happening."><br>
+                                placeholder="Paste the link to where the issue is happening." v-model="link"><br>
                         </div>
                         <div class="help-question">
                             <label for="fname" class="help-label">Upload Screenshots</label>
-                            <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);"
+                            <div id="drop_zone" ondrop="()=>dropHandler(event)" ondragover="()=>dragOverHandler(event)"
                                 class="help-input">
                                 <p style="color: rgba(27, 27, 27, 0.473);">Drag one or more files here...</p>
                             </div>
                         </div>
+                        <button @click="()=>handleSend()" type="submit" class="submit-help-btn" id="UpdateBtn">
+                            Send
+                        </button>
+                        <div class="help-question" style="height: 40px;">
+                            <p class="help-prompt" v-if="sent" style="color: green" > Help Request sent !</p>
+                        </div>
                     </div>
-
                 </form>
                 <p class="help-prompt">Thank you for your feedback !</p>
 
@@ -96,6 +101,16 @@ export default {
         DarkLightMode,
         UserMenu
     },
+    data() {
+        return {
+            name: "",
+            email: "",
+            summary: "",
+            details: "",
+            link: "",
+            sent: false
+        };
+    },
     mounted(){
         var thisID = document.getElementById("TopBtn");
         var myScrollFunc = function () {
@@ -107,6 +122,51 @@ export default {
         }
     };
         window.addEventListener("scroll", myScrollFunc);
+    },
+    methods: {
+        handleSend(){
+            console.log(this.name, this.email, this.summary, this.details, this.link);
+            const fdata = new FormData();
+            fdata.append("name", this.name);
+            fdata.append("email", this.email);
+            fdata.append("summary", this.summary);
+            fdata.append("details", this.details);
+            fdata.append("link", this.link);
+
+            const request = new XMLHttpRequest();
+            request.open("POST", "http://127.0.0.1:8000/help_request");
+            request.send(fdata);
+
+            this.sent = true;
+        },
+        dragOverHandler(ev) {
+            console.log("File(s) in drop zone");
+
+            // Prevent default behavior (Prevent file from being opened)
+            ev.preventDefault();
+        },
+        dropHandler(ev) {
+            console.log("File(s) dropped");
+
+            // Prevent default behavior (Prevent file from being opened)
+            ev.preventDefault();
+
+            if (ev.dataTransfer.items) {
+                // Use DataTransferItemList interface to access the file(s)
+                [...ev.dataTransfer.items].forEach((item, i) => {
+                    // If dropped items aren't files, reject them
+                    if (item.kind === "file") {
+                        const file = item.getAsFile();
+                        console.log(`… file[${i}].name = ${file.name}`);
+                    }
+                });
+            } else {
+                // Use DataTransfer interface to access the file(s)
+                [...ev.dataTransfer.files].forEach((file, i) => {
+                    console.log(`… file[${i}].name = ${file.name}`);
+                });
+            }
+        }
     }
 };
 // window.onload = function () {

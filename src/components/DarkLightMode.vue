@@ -31,18 +31,28 @@
   
 </template>
 
-<script>
-	export default {
-		component: 'DarkLightMode',
-		mounted() { 
-			const bod = document.querySelector('body');
-			const toggle = document.querySelector('.toggle');
-			toggle.onclick = function(){
-				bod.classList.toggle('dark')
-			}
-		}
-	}
 
+<script>
+  export default {
+    component: 'DarkLightMode',
+    mounted() {
+      const bod = document.querySelector('body');
+      const toggle = document.querySelector('.toggle');
+      const isDarkMode = localStorage.getItem('darkMode');
+
+      if (isDarkMode === 'true') {
+        bod.classList.add('dark');
+      }
+
+      toggle.onclick = function () {
+        
+        bod.classList.toggle('dark');
+        const toggled = bod.classList.contains('dark');
+        localStorage.setItem('darkMode', toggled);
+
+      };
+    },
+  };
 </script>
 
 <style>
