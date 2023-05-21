@@ -243,12 +243,13 @@
                             <font-awesome-icon icon="fa-solid fa-repeat" size="xl" style="color: rgba(85, 84, 85, 0.986)" />
                             <div class="custom-select">
                                 <select class="select-items" v-model="SelectedFrequence">
-                                    <option value="first">Frequence :</option>
+                                    <option value="first">Choose Frequence : </option>
                                     <option value="6">Every day</option>
                                     <option value="5">Every 2 days</option>
                                     <option value="4">Every 3 days</option>
                                     <option value="3">Weekly</option>
-                                    <option value="2">Twice a day</option>
+                                    <option value="2">Monthly</option>
+                                    <option value="1">Yearly</option>
                                     <option value="0">None</option>
                                 </select>
                             </div>
@@ -422,11 +423,13 @@
                         <font-awesome-icon icon="fa-solid fa-repeat" size="xl" style="color: rgba(85, 84, 85, 0.986)" />
                         <div class="custom-select">
                             <select class="select-items" v-model="SelectedFrequence">
+                                <option value="first">Choose Frequence : </option>
                                 <option value="6">Every day</option>
                                 <option value="5">Every 2 days</option>
                                 <option value="4">Every 3 days</option>
                                 <option value="3">Weekly</option>
-                                <option value="2">Twice a day</option>
+                                <option value="2">Monthly</option>
+                                <option value="1">Yearly</option>
                                 <option value="0">None</option>
                             </select>
                         </div>
@@ -479,8 +482,8 @@
                                 <input type="text" v-model='task.name_task' class="new-task-input" /><br>
                                 <div class="CloseTask-container">
                                     <button :id="'CloseTask-' + index" class="CloseTask"
-                                        @click="OpenDeleteTask(task.id_task)"><font-awesome-icon icon="fa-solid fa-plus" size="sm"
-                                            style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                        @click="OpenDeleteTask(task.id_task)"><font-awesome-icon icon="fa-solid fa-plus"
+                                            size="sm" style="transform:rotate(45deg); margin-left: 15px;" /></button>
                                     <div class="custom-select">
                                         <select :id="'ImportanceTask-' + index" class="select-items"
                                             v-model="task.priority_level">
@@ -779,12 +782,12 @@
                     <div class="Form-banner-container-update" v-show="SelectedCalendar !== '0'">
                         <p class="Form-question">Do you want notification ?</p>
                         <div class="Switch-container">
-                            <p class="Switch-label">YES</p>
+                            <p class="Switch-label">{{ SwitchLabel(0) }}</p>
                             <label class="switch">
-                                <input type="checkbox" v-model="notificationEnabled" :value="true">
+                                <input type="checkbox" v-model="notificationEnabled">
                                 <span class="slider"></span>
                             </label>
-                            <p class="Switch-label">NO</p>
+                            <p class="Switch-label">{{ SwitchLabel(1) }}</p>
                         </div>
                     </div>
                     <br><br>
@@ -798,9 +801,9 @@
             </div>
         </div>
 
-
+<!--
         <div id="UpdateCalendarModal" class="modal1">
-            <!-- Modal content -->
+           
             <div class="modal-content">
                 <span class="close" @click="CloseDeleteEvent">&times;</span>
                 <h1 class="modal-Title">Delete Event</h1>
@@ -874,7 +877,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div id="myModalDeleteTask" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
@@ -1013,7 +1016,7 @@ export default {
             taskChecked: '',
             Tasks: [],
             UpdateTasks: [],
-            notificationEnabled: false
+            notificationEnabled: 0
 
         }
     },
@@ -1028,6 +1031,9 @@ export default {
             this.selectedImportanceArray.push("0")
             this.AddTasks.push(newTask);
 
+        },
+        SwitchLabel(value) {
+            return value === 1 ? 'YES' : 'NO';
         },
         onCheckboxChange(event, taskIndex) {
 
@@ -1086,13 +1092,18 @@ export default {
         CloseUpdateCalendar() {
             document.getElementById("UpdateCalendarModal").style.display = "none";
             this.message = "";
+            this.SelectedCalendar = "0"
         },
         async Fill() {
 
             const cal = await this.Calendar.find(calendar => calendar.id_calendar === this.SelectedCalendar);
+            console.log(cal)
             this.CalendarName = cal.name_calendar;
             this.CalColor = cal.calendar_color;
+
+            console.log(this.notificationEnabled)
             this.notificationEnabled = cal.to_notify;
+
 
         },
         UpdateCalendar() {
@@ -1139,7 +1150,7 @@ export default {
 
                     });
                 this.message = '';
-
+                this.SelectedCalendar = "0"
             }
         },
         OpenCreateCalendarModal() {
@@ -1338,11 +1349,9 @@ export default {
             document.getElementById("LoadCalendarModal").style.display = "block";
             this.SelectedIndex = event
             this.CalendarIndex = cal
-            console.log(this.Tasks)
             this.GetEventByID()
             var UpdateTaskCopy = this.Tasks.filter(task => task.id_event === event)
             this.UpdateTasks = JSON.parse(JSON.stringify(UpdateTaskCopy));
-            console.log(this.UpdateTasks)
 
         },
         CloseLoadCalendarModal() {
@@ -1556,11 +1565,16 @@ export default {
                 }
             });
             this.Calendar = this.calendar.map((calendar) => {
+
                 return {
                     name_calendar: calendar.name_calendar,
                     id_calendar: calendar.id_calendar,
                     calendar_color: calendar.color,
+                    to_notify: calendar.to_notify,
                     event: this.event.filter(event => event.id_calendar === calendar.id_calendar).map(ev => {
+                        if (ev.start_date.includes('Z')) {
+                            ev.start_date = this.format_sd(ev.start_date)
+                        }
                         return {
                             id_event: ev.id_event,
                             name_event: ev.name_event,
@@ -1633,6 +1647,25 @@ export default {
 
             return durationInMinutes;
         },
+        format_sd(date) {
+            const Start_Date = new Date(date);
+
+
+            const year = Start_Date.getFullYear();
+            const month = Start_Date.getMonth() + 1;
+            const day = Start_Date.getDate();
+            const adjustedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+
+            const hours = Start_Date.getUTCHours();
+            const minutes = Start_Date.getUTCMinutes();
+            const seconds = Start_Date.getUTCSeconds();
+            const adjustedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+
+
+            const converted_date = `${adjustedDate} ${adjustedTime}`;
+
+            return converted_date;
+        },
         AddEvent() {
             if (this.SelectedCalendar === '0' || this.SelectedDate === '' || this.SelectedType === '0' || this.SelectedFrequence === 'first'
                 || this.StartTime === '0' || this.EndTime === '0' || this.SelectedEventName === '') {
@@ -1657,7 +1690,7 @@ export default {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token
                     },
-                    body: JSON.stringify({ name_event: this.SelectedEventName, description: 'Description', start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar })
+                    body: JSON.stringify({ name_event: this.SelectedEventName, description: 'Description', start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: false, color: this.SelectedType, id_calendar: this.SelectedCalendar })
                 })
                     .then((response) => {
                         if (response.ok) {
@@ -1858,7 +1891,7 @@ export default {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token
                     },
-                    body: JSON.stringify({ name_event: this.SelectedEventName, description: "Description", start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar })
+                    body: JSON.stringify({ name_event: this.SelectedEventName, description: "Description", start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: false, color: this.SelectedType, id_calendar: this.SelectedCalendar })
                 });
 
                 const updateTasksPromises = this.UpdateTasks.map((task) => {
