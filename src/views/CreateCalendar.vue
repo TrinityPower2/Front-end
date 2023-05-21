@@ -8,8 +8,8 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
                 <UserMenu></UserMenu>
@@ -30,12 +30,12 @@
                                         aria-hidden="true">algorithm</i> to optimize your plannings. <br><br> Please enter
                                     the tasks you need to complete this week ! <br><br></p>
                                 <div class="created-tasks-container">
-                                    <div class="created-tasks-new" style="--color:#F291BB;">
+                                    <div class="created-tasks-new" style="--color:{{ SelectedType }};">
                                         <p class="created-tasks-title">
-                                            Soirée d'anniv hihi
+                                            {{ SelectedEventName }}
                                         </p>
                                         <p class="created-tasks-title">
-                                            5H
+                                            {{ SelectedDuration }}H
                                         </p>
                                         <span class="close" @click="OpenmyModalEventDelete">&times;</span>
                                     </div>
@@ -52,12 +52,6 @@
                                 <button class="Create-planning-Btn" id="addCalendar" @click="OpenmyModaladdNewCalendar">
                                     Generate Planning
                                 </button>
-                                <!-- <div >
-                                    <input type="submit" value="" name="btnUpdate" />
-                                </div> -->
-                                <p class="forgotPswd MoveOn">
-                                    Not done yet ?<btn id="AddNewTask">Add Task</btn>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -69,15 +63,13 @@
                     <h1 class="modal-Title" style="margin-bottom : 40px;">New Event</h1>
                     <div class="modal-center1">
 
-                        <input type="text" id="fname" name="fname" class="new-task-input" placeholder="Event Name"><br>
+                        <input v-model="SelectedEventName" type="text" id="fname" name="fname" class="new-task-input" placeholder="Event Name"><br>
                         <div class="New-list-element1" style="margin-top : 40px;">
-                            <!-- <div class="new-list-desc">
-                                    Day
-                                </div> -->
                             <font-awesome-icon icon="fa-regular fa-clock" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
+
                             <div class="custom-select create-select">
-                                <select>
+                                <select class="select-items-create" v-model="SelectedDuration">
                                     <option value="0">Length of event :</option>
                                     <option value="1">1H</option>
                                     <option value="2">2H</option>
@@ -86,52 +78,22 @@
                                     <option value="5">5H</option>
                                     <option value="6">6H</option>
                                     <option value="7">7H</option>
+                                    <option value="8">8H</option>
+                                    <option value="9">9H</option>
+                                    <option value="10">10H</option>
+                                    <option value="11">11H</option>
+                                    <option value="12">12H</option>
                                 </select>
                             </div>
                         </div>
                         <div class="New-list-element1">
                             <font-awesome-icon icon="fa-regular fa-calendar-days" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
+
                             <div class="custom-select create-select">
-                                <select>
-                                    <option value="0">Choose day :</option>
-                                    <option value="1">Monday</option>
-                                    <option value="2">Tuesday</option>
-                                    <option value="3">Wednesday</option>
-                                    <option value="4">Thursday</option>
-                                    <option value="5">Friday</option>
-                                    <option value="6">Saturday</option>
-                                    <option value="7">Sunday</option>
-                                    <option value="8">No Preference</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="New-list-element1">
-                            <!-- <div class="new-list-desc">
-                                    Add
-                                </div> -->
-                            <font-awesome-icon icon="fa-regular fa-hourglass-half" size="xl"
-                                style="color: rgba(85, 84, 85, 0.986);" />
-                            <div class="Timeslots-choice">
-                                <div class="custom-select create-select" id="Time-Task">
-                                    <select>
-                                        <option value="0">Start</option>
-                                        <option value="1">1H00</option>
-                                        <option value="2">2H00</option>
-                                        <option value="3">3H00</option>
-                                        <option value="4">4H00</option>
-                                        <option value="5">5H00</option>
-                                    </select>
-                                </div>
-                                <div class="custom-select create-select" id="Time-Task">
-                                    <select>
-                                        <option value="0">End</option>
-                                        <option value="1">1H00</option>
-                                        <option value="2">2H00</option>
-                                        <option value="3">3H00</option>
-                                        <option value="4">4H00</option>
-                                        <option value="5">5H00</option>
-                                    </select>
+                                <div class="custom-select" id="Time-Task">
+                                    <input v-model="SelectedDate" class="select-items-create" type="datetime-local" id="day" name="day-task"
+                                        min="2023-04-01" max="2028-12-31">
                                 </div>
                             </div>
                         </div>
@@ -140,24 +102,16 @@
                             <font-awesome-icon icon="fa-solid fa-palette" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
                             <div class="custom-select create-select">
-                                <select>
+                                <select class="select-items-create" v-model="SelectedType">
                                     <option value="0">Type of event :</option>
-                                    <option value="1"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #00ff88;" /> Party</option>
-                                    <option value="2"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #0084ff;" /> Project</option>
-                                    <option value="3"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #d400ff;" /> Work</option>
-                                    <option value="4"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ff00ae;" /> Health</option>
-                                    <option value="5"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ff0033;" /> Holiday</option>
-                                    <option value="6"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ff8800;" /> Family</option>
-                                    <option value="7"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ffdd00;" /> Class</option>
-                                    <option value="8"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ffffff;" /> Custom</option>
+                                    <option value="red"><font-awesome-icon icon="fa-solid fa-circle" style="color: #00ff88" />Party</option>
+                                    <option value="yellow"><font-awesome-icon icon="fa-solid fa-circle" style="color: #0084ff" />Project</option>
+                                    <option value="blue"><font-awesome-icon icon="fa-solid fa-circle" style="color: #d400ff" />Work</option>
+                                    <option value="green"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ff00ae" />Health</option>
+                                    <option value="purple"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ff0033" />Holiday</option>
+                                    <option value="pink"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ff8800" />Family</option>
+                                    <option value="orange"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ffdd00" />Class</option>
+                                    <option value="white"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ffffff" />Friends</option>
                                 </select>
                             </div>
                         </div>
@@ -165,28 +119,14 @@
                             <font-awesome-icon icon="fa-solid fa-repeat" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
                             <div class="custom-select create-select">
-                                <select>
-                                    <option value="0">Frequence :</option>
-                                    <option value="1">Every day</option>
-                                    <option value="2">Every 2 days</option>
-                                    <option value="3">Every 3 days</option>
-                                    <option value="4">Weekly</option>
-                                    <option value="5">Twice a day</option>
-                                    <option value="6">None</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="New-list-element1">
-                            <font-awesome-icon icon="fa-regular fa-bell" size="xl"
-                                style="color: rgba(85, 84, 85, 0.986);" />
-                            <div class="custom-select create-select">
-                                <select>
-                                    <option value="0">Notifications :</option>
-                                    <option value="1">At event time</option>
-                                    <option value="2">1H before</option>
-                                    <option value="3">1 day before</option>
-                                    <option value="4">2 days before</option>
-                                    <option value="5">Never</option>
+                                <select class="select-items-create" v-model="SelectedFrequence">
+                                    <option value="first">Frequence :</option>
+                                    <option value="6">Every day</option>
+                                    <option value="5">Every 2 days</option>
+                                    <option value="4">Every 3 days</option>
+                                    <option value="3">Weekly</option>
+                                    <option value="2">Twice a day</option>
+                                    <option value="0">None</option>
                                 </select>
                             </div>
                         </div>
@@ -194,7 +134,7 @@
                             <font-awesome-icon icon="fa-solid fa-circle-exclamation" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
                             <div class="custom-select create-select">
-                                <select>
+                                <select class="select-items-create" v-model="SelectedImportance">
                                     <option value="0">Importance :</option>
                                     <option value="1">Urgent</option>
                                     <option value="2">Important</option>
@@ -204,125 +144,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="New-list-element" style="margin-left:14%">
-                            <font-awesome-icon icon="fa-solid fa-list-check" size="xl"
-                                style="color: rgba(85, 84, 85, 0.986);" />
-                            <!-- <div class="custom-select create-select">
-                                <select>
-                                    <option value="0">ToDo List :</option>
-                                </select>
-                            </div> -->
-
-                        </div>
-                        <div class="Add-another-container">
-                            <div class="Add-another-task">
-                                <div class="new-task-create">
-                                    <label class="task-container" style="margin-left: 0%;">
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <input type="text" id="fname" name="fname" class="new-task-input" placeholder="My Task">
-                                    <font-awesome-icon icon="fa-solid fa-plus" size="sm"
-                                        style="transform:rotate(45deg); margin-left: 13px;" /><br>
-                                </div>
-                                <div class="new-task-create">
-                                    <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
-                                    <p>Add Task</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="width:90%; display:flex; justify-content:center; margin-top: 50px;">
+                        <div class="message"> {{ message }}</div><br>
+                        <div style="width: 90%; display: flex; justify-content: center; margin-top: 50px;">
                             <div class="AddTaskInputBox">
-                                <input type="submit" value="Add" name="submit" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            
-
-
-
-            <div id="NewCalendarModal" class="modal1">
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h1 class="modal-Title" style="margin-bottom : 40px;">Generate Planning</h1>
-                    <div class="modal-center2">
-                        <div class="New-list-element">
-                            <div class="new-list-desc">
-                                Lunch Duration
-                            </div>
-                            <div class="custom-select" id="Time-Task">
-                                <select>
-                                    <option value="0">Start</option>
-                                    <option value="1">1H00</option>
-                                    <option value="2">2H00</option>
-                                    <option value="3">3H00</option>
-                                    <option value="4">4H00</option>
-                                    <option value="5">5H00</option>
-                                </select>
-                            </div>
-                            <p class="hyphen">-</p>
-                            <div class="custom-select" id="Time-Task">
-                                <select>
-                                    <option value="0">End</option>
-                                    <option value="1">1H00</option>
-                                    <option value="2">2H00</option>
-                                    <option value="3">3H00</option>
-                                    <option value="4">4H00</option>
-                                    <option value="5">5H00</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="New-list-element">
-                            <div class="new-list-desc">
-                                Superpose
-                            </div>
-                            <div class="custom-select">
-                                <select>
-                                    <option value="0">Select planning :</option>
-                                    <option value="1">Monday</option>
-                                    <option value="2">Tuesday</option>
-                                    <option value="3">Wednesday</option>
-                                    <option value="4">Thursday</option>
-                                    <option value="5">Friday</option>
-                                    <option value="6">Saturday</option>
-                                    <option value="7">Sunday</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="New-list-element">
-                            <div class="new-list-desc">
-                                Colors
-                            </div>
-                            <div class="custom-select">
-                                <select>
-                                    <option value="0">Choose a Color :</option>
-                                    <option value="1"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #00ff88;" /> Green</option>
-                                    <option value="2"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #0084ff;" /> Blue</option>
-                                    <option value="3"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #d400ff;" /> Purple</option>
-                                    <option value="4"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ff00ae;" /> Pink</option>
-                                    <option value="5"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ff0033;" /> Red</option>
-                                    <option value="6"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ff8800;" /> Orange</option>
-                                    <option value="7"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ffdd00;" /> Yellow</option>
-                                    <option value="8"><font-awesome-icon icon="fa-solid fa-circle"
-                                            style="color: #ffffff;" /> Custom</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div style="width:65%; display:flex; justify-content:center; margin-top: 50px;">
-                            <div class="AddTaskInputBox">
-                                <input type="submit" value="Add" name="submit" />
+                                <input @click="AddEvent" type="submit" value="Add" name="submit"/>
                             </div>
                         </div>
                     </div>
@@ -339,11 +164,11 @@
                         </p>
                         <div class="delete-list-button">
                             <div class="AddTaskInputBox no">
-                                <input class="close" type="submit" @click="OpenmyModalPlus" value="Add to Calendar" name="submit"
+                                <input class="close" type="submit" @click="AddToCalendarFromAddANewCalendar" value="Add to Calendar" name="submit"
                                     id="add-to-pop-up" />
                             </div>
                             <div class="AddTaskInputBox no">
-                                <input @click="OpenCreateCalendarModal" style="margin-left: 0px;" type="submit" value="New Blank Calendar" name="submit"
+                                <input @click="NewBlankCalendarFromAddANewCalendar" style="margin-left: 0px;" type="submit" value="New Blank Calendar" name="submit"
                                     id="blankCalendar" />
                             </div>
                         </div>
@@ -358,18 +183,14 @@
                     <h1 class="modal-Title">Add to Calendar</h1>
                     <div class="modal-center">
                         <div class="custom-select">
-                            <select>
-                                <option value="0">Choose Calendar
-                                </option>
-                                <option value="1">Calendar1</option>
-                                <option value="2">Calendar2</option>
-                                <option value="3">Calendar3</option>
-                                <option value="4">Calendar4</option>
-                                <option value="5">Calendar5</option>
+                            <select class="select-items" v-model="SelectedCalendar" id="Selected_Calendar" @click="Fill()">
+                                <option value="0">Choose Calendar :</option>
+                                <option v-for="option in Calendar" :value="option.id_calendar" :key="option.id_calendar">{{
+                                    option.name_calendar }}</option>
                             </select>
                         </div>
                         <div class="AddInputBox">
-                            <input type="submit" value="Add" name="submit" />
+                            <input @click="addAddToCalendar" type="submit" value="Add" name="submit" />
                         </div>
                     </div>
                 </div>
@@ -484,7 +305,7 @@
                     <div class="message"> {{ message }}</div><br>
                     <div style="width:50%; display:flex; justify-content:center; margin-top: 50px;">
                         <div class="AddTaskInputBox">
-                            <input @click="CreateCalendar" type="submit" value="Add" name="submit" />
+                            <input @click="addCreatePlanning" type="submit" value="Add" name="submit" />
                         </div>
                     </div>
                 </div>
@@ -511,9 +332,9 @@
         </div>
 
 
-        <div class="create-calendar-event" id="create-calendar-event" style="display:block">
+        <div id="CreateCalendarEvent" class="modal1">
             <div class="modal-content-create">
-                <span class="close">&times;</span>
+                <span class="close" @click="CloseCreateCalendarEvent">&times;</span>
                 <h1 class="modal-Title" style="margin-bottom : 40px;">Your new Calendar</h1>
                 <div class="modal-center3">
 
@@ -756,7 +577,7 @@
                             <input class="close" type="submit" value="Generate Planning !" name="submit" />
                         </div>
                         <div class="AddTaskInputBox no">
-                            <input style="margin-left: 0px;" type="submit" value="Go Back To Review ->" name="submit" />
+                            <input @click="CloseCreateCalendarEvent" style="margin-left: 0px;" type="submit" value="Go Back To Review ->" name="submit" />
                         </div>
                     </div>
             </div>
@@ -804,43 +625,79 @@ export default {
     data() {
         return {
             SelectedCalendar: "0",
-            SelectedImportance: "0",
-            Calendar: [],
-            selectedWeek: "",
-            EventByWeek: [],
-            days: ['mon', 'tues', 'wed', 'thurs', 'fri', 'sat', 'sun'],
-            daysOfWeek: [],
-            SelectedFrequence: "first",
-            SelectedIndex: "",
-            SelectedType: "0",
-            SelectedDay: "0",
-            SelectedEventName: "",
-            SelectedLength: "0",
-            StartTime: "0",
-            EndTime: "0",
-            SelectedEvent: "",
-            labelText: 'No file selected',
-            selectedFile: null,
+            SelectedEventName: '',
+            SelectedDuration: '0',
+            SelectedDate: '',
+            SelectedType: '0',
+            SelectedFrequence: 'first',
+            SelectedImportance: '0',
             CalColor: "0",
-            SelectedDate: "",
             CalendarName: "",
-            AddTasks: [],
-            visibleCalendars: [],
-            message: "",
-            notificationEnabled: false
+            message: '',
         }
     },
     methods: {
-        async Fill() {
+        AddEvent() {
+            if (
+                this.SelectedEventName == '' ||
+                this.SelectedDuration == '0' ||
+                this.SelectedType == '0' ||
+                this.SelectedFrequence == 'first' ||
+                this.SelectedImportance == '0'
+            ) {
+                this.message = 'You must fill all the required fields';
+                console.log(this.message);
+                console.log(
+                    this.SelectedEventName,
+                    this.SelectedDuration,
+                    this.SelectedDate,
+                    this.SelectedType,
+                    this.SelectedFrequence,
+                    this.SelectedImportance
+                );
+            } else {
+                // Access the v-model variables and perform necessary transformations/actions
+                const eventName = this.SelectedEventName;
+                const durationHours = parseInt(this.SelectedDuration);
+                const durationMinutes = durationHours * 60; // Convert hours to minutes
 
-            const cal = await this.Calendar.find(calendar => calendar.id_calendar === this.SelectedCalendar);
-            this.CalendarName = cal.name_calendar;
-            this.CalColor = cal.calendar_color;
-            this.notificationEnabled = cal.to_notify;
-            console.log(cal.name_calendar);
-            console.log(cal.calendar_color);
+                // Transform the SelectedDate value to the desired format (yyyy-mm-dd hh:mm:ss)
+                const selectedDateTime = new Date(this.SelectedDate);
+                const year = selectedDateTime.getFullYear();
+                const month = ('0' + (selectedDateTime.getMonth() + 1)).slice(-2);
+                const day = ('0' + selectedDateTime.getDate()).slice(-2);
+                const hours = ('0' + selectedDateTime.getHours()).slice(-2);
+                const minutes = ('0' + selectedDateTime.getMinutes()).slice(-2);
+                const seconds = ('0' + selectedDateTime.getSeconds()).slice(-2);
+                const transformedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+                const type = this.SelectedType;
+                const frequence = this.SelectedFrequence;
+                const importance = this.SelectedImportance;
+
+                // Display a message when it is successfully added
+                this.message = 'Information successfully added !';
+                console.log(this.message);
+
+                // Display the unused variables in the console
+                console.log(
+                    eventName,
+                    durationMinutes,
+                    transformedDate,
+                    type,
+                    frequence,
+                    importance
+                );
+
+                // Clear the input fields after processing
+                this.SelectedEventName = '';
+                this.SelectedDuration = '';
+                this.SelectedDate = '';
+                this.SelectedType = '';
+                this.SelectedFrequence = '';
+                this.SelectedImportance = '';
+            }
         },
-
         OpenCreateCalendarModal() {
             document.getElementById("CreateCalendarModal").style.display = "block";
         },
@@ -848,70 +705,12 @@ export default {
             document.getElementById("CreateCalendarModal").style.display = "none";
             this.message = "";
         },
-        CreateCalendar() {
-            if (this.CalendarName == '' || this.CalColor == "0") {
-                this.message = 'You must fill all the required fields'
-            } else {
-
-                const token = localStorage.getItem('token');
-                fetch("api/api/calendar",
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        body: JSON.stringify({ name_calendar: this.CalendarName, color: this.CalColor })
-                    })
-                    .then((response) => {
-                        console.log(response.json())
-                        if (response.ok) {
-                            this.message = '';
-                            this.Reload();
-                            return response.json();
-
-                        }
-                        else {
-
-                            return response.json().then(error => {
-                                throw new Error(JSON.stringify(error));
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        let errorMessage;
-                        try {
-                            errorMessage = JSON.parse(error.message);
-                        } catch {
-                            errorMessage = {
-                                message: ' '
-                            };
-                        }
-
-                        this.message = errorMessage.message;
-
-
-                    });
-                this.message = '';
-                this.CalColor = "0";
-                this.CalendarName = "";
-
-            }
-        },
         OpenmyModaladdNewCalendar() {
             document.getElementById("myModaladdNewCalendar").style.display = "block";
         },
         ClosemyModaladdNewCalendar() {
             document.getElementById("myModaladdNewCalendar").style.display = "none";
             this.message = "";
-            this.SelectedType = "0";
-            this.SelectedFrequence = "first";
-            this.SelectedEventName = " "
-            this.SelectedDay = "0";
-            this.StartTime = "0"
-            this.SelectedDate = "0"
-            this.EndTime = "0"
-            this.message = ""
         },
         OpenmyModalPlus() {
             document.getElementById("myModalPlus").style.display = "block";
@@ -919,14 +718,6 @@ export default {
         ClosemyModalPlus() {
             document.getElementById("myModalPlus").style.display = "none";
             this.message = "";
-            this.SelectedType = "0";
-            this.SelectedFrequence = "first";
-            this.SelectedEventName = " "
-            this.SelectedDay = "0";
-            this.StartTime = "0"
-            this.SelectedDate = "0"
-            this.EndTime = "0"
-            this.message = ""
         },
         OpenImportCalendarModal() {
             document.getElementById("ImportCalendarModal").style.display = "block";
@@ -950,6 +741,69 @@ export default {
         cancelDeleteTask() {
             document.getElementById("myModalEventDelete").style.display = "none";
         },
+        OpenCreateCalendarEvent() {
+            document.getElementById("CreateCalendarEvent").style.display = "block";
+        },
+        CloseCreateCalendarEvent() {
+            document.getElementById("CreateCalendarEvent").style.display = "none";
+            this.message = "";
+        },
+        AddToCalendarFromAddANewCalendar() {
+            this.OpenmyModalPlus();
+            this.ClosemyModaladdNewCalendar();
+        },
+        NewBlankCalendarFromAddANewCalendar() {
+            this.OpenCreateCalendarModal();
+            this.ClosemyModaladdNewCalendar();
+        },
+        addAddToCalendar() {
+            this.OpenCreateCalendarEvent();
+            this.ClosemyModalPlus();
+        },
+        addCreatePlanning() {
+            this.CreateCalendar();
+            this.OpenCreateCalendarEvent();
+            this.CloseCreateCalendarModal();
+        },
+        /*
+        handleFileChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.labelText = file.name;
+                this.selectedFile = file;
+            } else {
+                this.labelText = 'No file selected';
+                this.selectedFile = null;
+            }
+        },
+        UploadFile() {
+            console.log(this.selectedFile, this.CalendarName, this.CalColor)
+            if (this.selectedFile == null || this.CalendarName == "" || this.CalColor == "0") {
+                this.message = "Please fill all the fields";
+            } else {
+                const token = localStorage.getItem('token');
+                const formData = new FormData();
+                formData.append('icsFile', this.selectedFile);
+                formData.append('name_calendar', this.CalendarName);
+                formData.append('color_calendar', this.CalColor);
+                var request = new XMLHttpRequest();
+                request.open('POST', '/api/api/icsimport');
+                request.setRequestHeader('Authorization', 'Bearer ' + token);
+                request.onload = function () {
+                    if (request.status >= 200 && request.status < 400) {
+                        this.message = request.responseText;
+                    } else {
+                        this.message = 'Request failed with status', request.status;
+                    }
+                    request.onerror = function () {
+                        this.message = 'Request failed';
+                    }
+                }
+                request.send(formData);
+                this.Reload();
+            }
+        },
+        */
     },
     mounted() {
         var thisID = document.getElementById("TopBtn");
@@ -965,7 +819,6 @@ export default {
         window.addEventListener("beforeunload", this.handleBeforeUnload);
         const week = localStorage.getItem("selectedWeek");
         this.selectedWeek = week;
-        this.getDaysOfWeek();
     },
 };
 /*
