@@ -33,20 +33,19 @@
             </div>
             <p>
                 Always wanted to organize yourself, but never found the right tool to do
-                so ?<br /><br />This is the place for you
+                so?<br /><br />This is the place for you
             </p>
 
-            <a href="./Register.html" class="TryOutBtnLink">Try it out !</a>
+            <a href="./Register.html" class="TryOutBtnLink">Try it out!</a>
         </div>
         <div class="SiteContent-container">
             <div class="VocabPrez">
                 <div class="VocabDescription">
-                    <h1 class="VocabH1">Learn 350+ new words</h1>
+                    <h1 class="VocabH1">Create colorful calendars</h1>
                     <p>
-                        Enrich your vocabulary with our 12, level-based, word categories.
+                        Never lose track of your events!
                         <br /><br />
-                        Learn how to address people, differenciate colors and discuss the
-                        weather !
+                        With Time To Do, you can easily create and update dynamically your calendars.
                     </p>
                 </div>
                 <img src="../assets/PlannerLanding.jpg" alt="Planner demo" class="Vocabdemo">
@@ -54,29 +53,29 @@
             <div class="ExoPrez">
                 <img src="../assets/AddTaskLanding.jpg" alt="Add Task demo" class="Vocabdemo">
                 <div class="ExoDescription">
-                    <h1>Practise your proficiency</h1>
+                    <h1>Personalize your events</h1>
                     <p>
-                        Each category provides you with Exercises to test how well you've
-                        integrated the new vocabulary. <br /><br />
-                        These exercises are dependant on your level (Beginner,Intermediate
-                        or Expert) and adaptable to your personnal profile.
+                        Each event can be customized, by setting the importance, if it needs to be
+                        repeated, ...  <br /><br />
+                        You can even include sub-tasks in your event for a more detailed approach of 
+                        your organization.
                     </p>
                 </div>
             </div>
             <div class="VocabPrez">
                 <div class="VocabDescription">
-                    <h1 class="TestH1">Evaluate your progress</h1>
+                    <h1 class="TestH1">Try out our Time To Do lists</h1>
                     <p>
-                        Tests, for each level of each category, are put at your disposal to
-                        evaluate your mastery of the topics. <br /><br />
-                        Fluency is only a couple of tests away!
+                        Not a fan of calendars? Don't worry, you can also create and personalize 
+                        your own to-do lists.<br /><br />
+                        You won't ever forget to call your mom!
                     </p>
                 </div>
                 <img src="../assets/ToDoLanding.jpg" alt="ToDo demo" class="Vocabdemo">
             </div>
             <div class="WelcomePrompt WelcomeEnd">
                 <h1> </h1>
-                <a href="./Register.html" class="TryOutBtnLink">Get started !</a>
+                <a href="./Register.html" class="TryOutBtnLink">Get started!</a>
             </div>
         </div>
         <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
