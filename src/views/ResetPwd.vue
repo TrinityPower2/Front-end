@@ -34,6 +34,7 @@
                               <input @click ="()=>reset()"  id="NewPwdbtn" type="submit" value="Edit" name="btnChange">
                           </div>
                       </form>
+                      <p class="forgotPswd">Need Help ?<router-link to="/help-page">Contact us</router-link></p>
                   </div>
               </div>
           </div>

@@ -127,22 +127,25 @@
                             <div class="time-marker">23 H</div>
                         </div>
                         <div class="days">
-                            <div v-for="(cal, index) in EventByWeek" :key="index">
-                                <div :class='"day " + cal.day'>
+                            <div v-for="(week, index) in EventByWeek" :key="index">
+                                <div :class='"day " + week.day'>
                                     <div class="date">
-                                        <p class="date-num">{{ cal.day_nb }}</p>
-                                        <p class="date-day">{{ cal.day }}</p>
+                                        <p class="date-num">{{ week.day_nb }}</p>
+                                        <p class="date-day">{{ week.day }}</p>
                                     </div>
                                     <div class="events">
-                                        <div class="events" v-for="(event, Evindex) in cal.events" :key="Evindex"
-                                            :id="`calendar-${index}`" v-show="shouldDisplayCalendar(cal.id_cal)">
-                                            <div :id='cal.id_cal + "-" + event.event.id_event'
-                                                :class='"event start-" + event.event.f_start_date + " end-" + event.event.f_end_date + " " + event.event.color + " calendar-" + cal.calendar_color'
-                                                @click="OpenLoadCalendarModal(event.event.id_event, cal.id_cal)">
-                                                <p class="calendar-title">{{ event.event.name_event }}</p>
-                                                <p class="calendar-time">
-                                                    {{ event.event.start_date.slice(-8).replace(/(\d+)-(\d+)/, "$1H$2") }} -
-                                                    {{ event.event.end_date.slice(-8).replace(/(\d+)-(\d+)/, "$1H$2") }}</p>
+
+                                        <div class="events" v-for="(cal, Calindex) in week.events" :key="Calindex">
+                                            <div class="events" v-for="(ev, Evindex) in cal.event" :key="Evindex"
+                                                :id="`calendar-${Calindex}`"
+                                                v-show="shouldDisplayCalendar(cal.calendar.id_calendar)">
+                                                <div :id='cal.calendar.id_calendar + "-" + ev.id_event'
+                                                    :class='"event start-" + ev.f_start_date + " end-" + ev.f_end_date + " " + ev.color + " calendar-" + cal.calendar.calendar_color'
+                                                    @click="OpenLoadCalendarModal(ev.id_event, cal.calendar.id_calendar)">
+                                                    <p class="calendar-title">{{ ev.name_event }}</p>
+                                                    <p class="calendar-time">
+                                                        {{ ev.start_time }} - {{ ev.end_time }}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -339,6 +342,7 @@
             </div>
         </div>
 
+
         <div id="LoadCalendarModal" class="modal1">
             <div class="modal-content-create" style="max-width:800px;">
                 <span class="close" @click="CloseLoadCalendarModal">&times;</span>
@@ -346,6 +350,7 @@
                 <div class="modal-center1">
                     <input v-model="SelectedEventName" type="text" id="fname" name="fname" class="new-task-input"
                         placeholder="Event Name" /><br />
+                    <div class="message"> {{ message }}</div><br>
                     <div class="New-list-element1">
                         <font-awesome-icon icon="fa-regular fa-calendar-days" size="xl"
                             style="color: rgba(85, 84, 85, 0.986)" />
@@ -463,7 +468,33 @@
                     </div>
                     <div class="Add-another-container">
                         <div class="Add-another-task">
-                            <div class="new-task-create">
+                            <div v-for="(task, taskIndex) in UpdateTasks" :key="taskIndex" class="new-task-create">
+
+                                <label class="task-container" style="margin-left: 0%;">
+                                    <input type="checkbox" :id="'checkbox-' + index + '-' + taskIndex"
+                                        :checked="task.is_done == 1"
+                                        v-on:change="onCheckboxChange($event, task.id_task, this.UpdateTasks.id_todo)" />
+                                    <span :class="'checkmark checkmark-' + index + '-' + taskIndex"></span>
+                                </label>
+                                <input type="text" v-model='task.name_task' class="new-task-input" /><br>
+                                <div class="CloseTask-container">
+                                    <button :id="'CloseTask-' + index" class="CloseTask"
+                                        @click="OpenDeleteTask(task.id_task)"><font-awesome-icon icon="fa-solid fa-plus" size="sm"
+                                            style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                    <div class="custom-select">
+                                        <select :id="'ImportanceTask-' + index" class="select-items"
+                                            v-model="task.priority_level">
+                                            <option value="0">Choose Importance :</option>
+                                            <option value="1">Urgent</option>
+                                            <option value="2">Important</option>
+                                            <option value="3">Medium</option>
+                                            <option value="4">Minor</option>
+                                            <option value="5">Do Later</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!--<div class="new-task-create">
                                 <label class="task-container" style="margin-left: 0%">
                                     <input type="checkbox" />
                                     <span class="checkmark"></span>
@@ -471,10 +502,62 @@
                                 <input type="text" id="fname" name="fname" class="new-task-input" placeholder="My Task"
                                     style="margin-right: 3%; width:80%;" /><br />
                                 <font-awesome-icon icon="fa-solid fa-plus" size="s" style="transform:rotate(45deg)" />
+                            </div>-->
+
                             </div>
-                            <div class="new-task-create">
-                                <font-awesome-icon icon="fa-solid fa-plus" size="s" @click="addTask" />
-                                <p>Add Task</p>
+                            <div class="Add-another-task">
+                                <div class="new-task-create">
+                                    <label class="task-container" style="margin-left: 0%;">
+                                        <input type="checkbox" v-model="taskChecked" />
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <input type="text" v-model="taskInput" class="new-task-input" placeholder="..." /><br>
+                                    <div class="custom-select">
+                                        <select id="ImportanceTask" class="select-items" v-model="SelectedTaskImportance">
+                                            <option value="0">Choose Importance :</option>
+                                            <option value="1">Urgent</option>
+                                            <option value="2">Important</option>
+                                            <option value="3">Medium</option>
+                                            <option value="4">Minor</option>
+                                            <option value="5">Do Later</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="new-task-appear">
+                                    <div v-for="(new_task, index) in AddTasks" :key="index" :id="'CloseTdTaskC-' + index"
+                                        class="CloseTask-container">
+
+                                        <div class="new-task-create2" :id="'CloseTdTask-' + index">
+                                            <label class="task-container" style="margin-left: 0%;">
+                                                <input type="checkbox" :id="'taskChecked_' + index"
+                                                    v-model="taskCheckedArray[index]" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <input type="text" :id="'taskInput_' + index" v-model="taskInputArray[index]"
+                                                class="new-task-input" placeholder="New Task" /><br>
+                                            <div class="custom-select">
+                                                <select :id="'ImportanceTask-' + index" class="select-items"
+                                                    v-model="selectedImportanceArray[index]">
+                                                    <option value="0">Choose Importance :</option>
+                                                    <option value="1">Urgent</option>
+                                                    <option value="2">Important</option>
+                                                    <option value="3">Medium</option>
+                                                    <option value="4">Minor</option>
+                                                    <option value="5">Do Later</option>
+                                                </select>
+                                            </div>
+                                            <button :id="'CloseTask-' + index" class="CloseTask"
+                                                @click="DeleteTdTask(index)"><font-awesome-icon icon="fa-solid fa-plus"
+                                                    size="sm"
+                                                    style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="new-task-create" style="margin-top: 8px;" @click="addTask()">
+                                    <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
+                                    <p>New Task</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -533,7 +616,8 @@
                     <div class="New-list-element">
                         <label class="new-list-desc" for="fileInput">Select File</label>
                         <input type="file" id="fileInput" accept=".ics" @change="handleFileChange" style="display: none;">
-                        <div class="import-file" @click="openFileInput">{{ labelText }}</div>
+                        <div class="Create-planning-Btn" @click="openFileInput" style="margin-left: 33px;">{{ labelText }}
+                        </div>
                     </div>
                     <div class="New-list-element">
                         <div class="new-list-desc">
@@ -642,11 +726,89 @@
 
         <div id="UpdateCalendarModal" class="modal1">
             <!-- Modal content -->
-            <div class="modal-content">
+            <div class="modal-content1">
                 <span class="close" @click="CloseUpdateCalendar">&times;</span>
                 <h1 class="modal-Title" style="margin-bottom : 40px;">Update Planning</h1>
 
                 <div class="modal-center">
+                    <div class="custom-select1">
+                        <select class="select-items" v-model="SelectedCalendar" id="Selected_Calendar" @click="Fill()">
+                            <option value="0">Choose Calendar :</option>
+                            <option v-for="option in Calendar" :value="option.id_calendar" :key="option.id_calendar">{{
+                                option.name_calendar }}</option>
+                        </select>
+                    </div>
+                    <div class="New-list-element" v-show="SelectedCalendar !== '0'">
+                        <div class="new-list-desc">
+                            Name of Calendar
+                        </div>
+                        <input v-model="CalendarName" type="text" id="fname" name="fname" class="new-task-input"
+                            placeholder="Calendar Name" /><br />
+                    </div>
+                    <div class="New-list-element" v-show="SelectedCalendar !== '0'">
+                        <div class="new-list-desc">
+                            Colors
+                        </div>
+                        <div class="custom-select">
+                            <select class="select-items" v-model="CalColor">
+                                <option value="0">Choose a Color :</option>
+                                <option value="green"><font-awesome-icon icon="fa-solid fa-circle"
+                                        style="color: #00ff88;" />
+                                    Green</option>
+                                <option value="blue"><font-awesome-icon icon="fa-solid fa-circle" style="color: #0084ff;" />
+                                    Blue</option>
+                                <option value="purple"><font-awesome-icon icon="fa-solid fa-circle"
+                                        style="color: #d400ff;" />
+                                    Purple</option>
+                                <option value="pink"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ff00ae;" />
+                                    Pink</option>
+                                <option value="red"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ff0033;" />
+                                    Red</option>
+                                <option value="orange"><font-awesome-icon icon="fa-solid fa-circle"
+                                        style="color: #ff8800;" />
+                                    Orange</option>
+                                <option value="yellow"><font-awesome-icon icon="fa-solid fa-circle"
+                                        style="color: #ffdd00;" />
+                                    Yellow</option>
+                                <option value="white"><font-awesome-icon icon="fa-solid fa-circle"
+                                        style="color: #ffffff;" />
+                                    White</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="Form-banner-container-update" v-show="SelectedCalendar !== '0'">
+                        <p class="Form-question">Do you want notification ?</p>
+                        <div class="Switch-container">
+                            <p class="Switch-label">YES</p>
+                            <label class="switch">
+                                <input type="checkbox" v-model="notificationEnabled" :value="true">
+                                <span class="slider"></span>
+                            </label>
+                            <p class="Switch-label">NO</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="message"> {{ message }}</div><br>
+                    <div style="width:50%; display:flex; justify-content:center; margin-top: 50px;">
+                        <div class="AddTaskInputBox" style="margin-right:180px">
+                            <input @click="UpdateCalendar" type="submit" value="Update Calendar" name="submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="UpdateCalendarModal" class="modal1">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" @click="CloseDeleteEvent">&times;</span>
+                <h1 class="modal-Title">Delete Event</h1>
+                <span class="close" @click="CloseUpdateCalendar">&times;</span>
+                <h1 class="modal-Title" style="margin-bottom : 40px;">Update Planning</h1>
+
+                <div class="modal-center">
+                    <p style="margin-top: 50px;">Are you sure you want to delete this Event ?</p>
                     <div class="custom-select">
                         <select class="select-items" v-model="SelectedCalendar" id="Selected_Calendar" @click="Fill()">
                             <option value="0">Choose Calendar :</option>
@@ -713,7 +875,26 @@
                 </div>
             </div>
         </div>
-
+        <div id="myModalDeleteTask" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" @click='CloseDeleteTask'>&times;</span>
+                <h1 class="modal-Title">Delete Task</h1>
+                <div class="modal-center">
+                    <p style="margin-top: 50px;">Are you sure you want to delete this Task ?</p>
+                    <div class="message"> {{ message }}</div>
+                    <div class="delete-list-button">
+                        <div class="AddTaskInputBox no">
+                            <input class="close" type="submit" value="Cancel" name="submit" @click='CloseDeleteTask' />
+                        </div>
+                        <div class="AddTaskInputBox no">
+                            <input style="margin-left: 0px;" type="submit" value="Delete" name="submit"
+                                @click='DeleteTask' />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="myEventDelete" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
@@ -741,7 +922,7 @@
                 <h1 class="modal-Title">Delete Calendar</h1>
                 <br><br>
                 <div class="modal-center">
-                    <div class="custom-select">
+                    <div class="custom-select1">
                         <select class="select-items" v-model="SelectedCalendar" id="Selected_Calendar">
                             <option value="0">Choose Calendar :</option>
                             <option v-for="option in Calendar" :value="option.id_calendar" :key="option.id_calendar">{{
@@ -822,13 +1003,16 @@ export default {
             SelectedDate: "",
             CalendarName: "",
             AddTasks: [],
+            DeleteTaskIndex: "",
             visibleCalendars: [],
             message: "",
-            selectedImportanceArray: ["0"],
+            selectedImportanceArray: [],
             taskInputArray: [''],
             taskInput: '',
             taskCheckedArray: [],
             taskChecked: '',
+            Tasks: [],
+            UpdateTasks: [],
             notificationEnabled: false
 
         }
@@ -843,6 +1027,50 @@ export default {
             };
             this.selectedImportanceArray.push("0")
             this.AddTasks.push(newTask);
+
+        },
+        onCheckboxChange(event, taskIndex) {
+
+            const token = localStorage.getItem('token');
+
+            const checkbox = event.target;
+            const checked = (checkbox.checked ? 1 : 0)
+
+            /*Finding the corresponding task that was checked/unchecked*/
+
+            fetch("api/api/atasks/" + taskIndex,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ is_done: checked })
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    else {
+
+                        return response.json().then(error => {
+                            throw new Error(JSON.stringify(error));
+                        });
+                    }
+                })
+                .catch((error) => {
+                    let errorMessage;
+                    try {
+                        errorMessage = JSON.parse(error.message);
+                    } catch {
+                        errorMessage = {
+                            message: 'An error occurred while processing your request.\n\n'
+                        };
+
+                    }
+                    console.log(errorMessage.message);
+
+                });
 
         },
         DeleteTdTask(index) {
@@ -865,8 +1093,7 @@ export default {
             this.CalendarName = cal.name_calendar;
             this.CalColor = cal.calendar_color;
             this.notificationEnabled = cal.to_notify;
-            console.log(cal.name_calendar);
-            console.log(cal.calendar_color);
+
         },
         UpdateCalendar() {
             if (this.CalendarName == "" || this.CalColor == "0") {
@@ -883,7 +1110,7 @@ export default {
                         body: JSON.stringify({ name_calendar: this.CalendarName, color: this.CalColor, to_notify: this.notificationEnabled })
                     })
                     .then((response) => {
-                        console.log(response.json())
+
                         if (response.ok) {
                             this.message = '';
                             this.Reload();
@@ -938,7 +1165,7 @@ export default {
                         body: JSON.stringify({ name_calendar: this.CalendarName, color: this.CalColor })
                     })
                     .then((response) => {
-                        console.log(response.json())
+
                         if (response.ok) {
                             this.message = '';
                             this.Reload();
@@ -996,7 +1223,7 @@ export default {
             }
         },
         UploadFile() {
-            console.log(this.selectedFile, this.CalendarName, this.CalColor)
+
 
             if (this.selectedFile == null || this.CalendarName == "" || this.CalColor == "0") {
                 this.message = "Please fill all the fields";
@@ -1035,7 +1262,8 @@ export default {
             localStorage.setItem("selectedWeek", this.selectedWeek);
             this.getEventByWeek(this.selectedWeek);
             this.getDaysOfWeek();
-            console.log("SUIS JE TRIGGER ?")
+
+
 
         },
 
@@ -1073,7 +1301,19 @@ export default {
         },
         CloseNewCalendar() {
             document.getElementById("NewCalendarModal").style.display = "none";
-            this.message = "";
+            this.SelectedType = "0";
+            this.SelectedFrequence = "first";
+            this.SelectedEventName = " "
+            this.SelectedDay = "0";
+            this.taskInput = "";
+            this.taskInputArray = [];
+            this.selectedImportanceArray = [];
+            this.AddTasks = [];
+            this.SelectedTaskImportance = "0";
+            this.StartTime = "0"
+            this.SelectedDate = "0"
+            this.EndTime = "0"
+            this.message = ""
         },
         GetEventByID() {
             const selectedCalendar = this.Calendar.find(calendar => calendar.id_calendar === this.CalendarIndex);
@@ -1098,7 +1338,12 @@ export default {
             document.getElementById("LoadCalendarModal").style.display = "block";
             this.SelectedIndex = event
             this.CalendarIndex = cal
+            console.log(this.Tasks)
             this.GetEventByID()
+            var UpdateTaskCopy = this.Tasks.filter(task => task.id_event === event)
+            this.UpdateTasks = JSON.parse(JSON.stringify(UpdateTaskCopy));
+            console.log(this.UpdateTasks)
+
         },
         CloseLoadCalendarModal() {
             document.getElementById("LoadCalendarModal").style.display = "none";
@@ -1106,6 +1351,11 @@ export default {
             this.SelectedFrequence = "first";
             this.SelectedEventName = " "
             this.SelectedDay = "0";
+            this.taskInput = "";
+            this.taskInputArray = [];
+            this.selectedImportanceArray = [];
+            this.AddTasks = [];
+            this.SelectedTaskImportance = "0";
             this.StartTime = "0"
             this.SelectedDate = "0"
             this.EndTime = "0"
@@ -1295,7 +1545,16 @@ export default {
 
             await this.GetEvent();
             await this.GetCalendar();
-
+            await this.GetTask();
+            this.Tasks = this.tasks.map((Task) => {
+                return {
+                    id_task: Task.id_att_task,
+                    name_task: Task.name_task,
+                    id_event: Task.id_todo,
+                    priority_level: Task.priority_level,
+                    is_done: Task.is_done,
+                }
+            });
             this.Calendar = this.calendar.map((calendar) => {
                 return {
                     name_calendar: calendar.name_calendar,
@@ -1331,38 +1590,36 @@ export default {
 
             const eventsForWeek = {};
             await this.daysOfWeek
+
+
             for (const [index, day] of this.days.entries()) {
                 const day_nb = this.daysOfWeek[index];
                 eventsForWeek[day] = {
                     day: day,
-                    calendar: "0",
-                    calendar_color: " ",
                     day_nb: day_nb,
-                    frequence: " ",
-                    color: " ",
-                    events: []
+                    events: {},
                 };
             }
 
             this.Calendar.forEach((calendar) => {
                 calendar.event.forEach((event) => {
                     if (event.week == this.selectedWeek) {
-                        console.log(calendar.calendar_color)
                         const day = event.day;
-                        const id_cal = calendar.id_calendar
-                        const day_nb = event.day_nb;
-                        const color = event.color;
-                        eventsForWeek[day].calendar_color = calendar.calendar_color;
-                        eventsForWeek[day].frequence = event.to_repeat,
-                            eventsForWeek[day].color = color;
-                        eventsForWeek[day].id_cal = id_cal;
-                        eventsForWeek[day].day_nb = day_nb;
-                        eventsForWeek[day].events.push({ event: event });
+                        const id_cal = calendar.id_calendar;
+
+                        if (!eventsForWeek[day].events[id_cal]) {
+                            eventsForWeek[day].events[id_cal] = {
+                                calendar: calendar,
+                                event: [],
+                            };
+                        }
+                        eventsForWeek[day].events[id_cal].event.push(event);
                     }
                 });
-            });
+            })
 
             this.EventByWeek = eventsForWeek;
+            console.log(this.EventByWeek)
             return eventsForWeek;
         },
         calculateDuration(startTime, endTime) {
@@ -1380,10 +1637,17 @@ export default {
             if (this.SelectedCalendar === '0' || this.SelectedDate === '' || this.SelectedType === '0' || this.SelectedFrequence === 'first'
                 || this.StartTime === '0' || this.EndTime === '0' || this.SelectedEventName === '') {
                 this.message = 'You must fill all the required fields';
+                console.log("HELLO")
                 console.log(this.SelectedCalendar, this.SelectedDate, this.SelectedType, this.SelectedFrequence, this.StartTime, this.EndTime, this.SelectedEventName);
             } else if (this.StartTime > this.EndTime) {
                 this.message = 'Dates are not valid';
-            } else {
+                console.log("Test")
+            } else if ((this.taskInputArray.some((task) => task === '') && (this.selectedImportanceArray.slice(0, -1).length > 0 && !this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0'))) ||
+                (!this.taskInputArray.some((task) => task === '') && (this.selectedImportanceArray.slice(0, -1).length > 0 && this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0')))
+                || (!this.taskInput == '' && this.SelectedTaskImportance == '0')) {
+                this.message = "You must fill all fields for the task";
+            }
+            else {
                 const token = localStorage.getItem('token');
                 const date = new Date(this.SelectedDate + ' ' + this.StartTime);
                 const start_date = `${date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')} ${date.toLocaleTimeString('fr-FR', { hour12: false })}`;
@@ -1396,10 +1660,8 @@ export default {
                     body: JSON.stringify({ name_event: this.SelectedEventName, description: 'Description', start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar })
                 })
                     .then((response) => {
-                        console.log(response.json());
                         if (response.ok) {
                             this.message = '';
-                            // this.Reload();
                             return response.json();
                         } else {
                             return response.json().then(error => {
@@ -1408,7 +1670,7 @@ export default {
                         }
                     })
                     .then((eventData) => {
-                        // Event created successfully, now create the tasks
+
                         const List = [];
                         if (this.taskInput !== '') {
                             if (this.taskChecked !== true) {
@@ -1417,7 +1679,7 @@ export default {
                             List.push({
                                 name_task: this.taskInput,
                                 description: 'description',
-                                priority_level: this.selectedImportance,
+                                priority_level: this.SelectedTaskImportance,
                                 is_done: this.taskChecked,
                             });
                         }
@@ -1444,34 +1706,54 @@ export default {
                                     'Content-Type': 'application/json',
                                     Authorization: 'Bearer ' + token,
                                 },
-                                body: JSON.stringify({name_task: task.name_task, description: 'Description', priority_level: task.priority_level, is_done: task.is_done, id_event : eventData.id_event}),
+                                body: JSON.stringify({ name_task: task.name_task, description: 'Description', priority_level: task.priority_level, is_done: task.is_done, id_event: eventData.list.id_event }),
                             });
                         });
+                        if (createTaskPromises.length === 0) {
 
-                        Promise.all(createTaskPromises)
-                            .then((taskResponses) => {
-                            
-                                console.log(taskResponses);
-                                this.message = '';
-                                this.SelectedType = '0';
-                                this.SelectedFrequence = 'first';
-                                this.SelectedEventName = ' ';
-                                this.SelectedDay = '0';
-                                this.StartTime = '0';
-                                this.SelectedDate = '0';
-                                this.EndTime = '0';
-                            })
-                            .catch((error) => {
-                                let errorMessage;
-                                try {
-                                    errorMessage = JSON.parse(error.message);
-                                } catch {
-                                    errorMessage = {
-                                        message: ' '
-                                    };
-                                }
-                                this.message = errorMessage.message;
-                            });
+                            this.Reload();
+                            this.message = '';
+                            this.SelectedType = '0';
+                            this.SelectedFrequence = 'first';
+                            this.SelectedEventName = ' ';
+                            this.selectedImportance = "0";
+                            this.SelectedDay = '0';
+                            this.StartTime = '0';
+                            this.SelectedDate = '0';
+                            this.EndTime = '0';
+                        } else {
+                            console.log(this.taskCheckedArray)
+                            console.log(List)
+                            Promise.all(createTaskPromises)
+                                .then(() => {
+
+                                    this.Reload();
+                                    this.message = '';
+                                    this.SelectedType = '0';
+                                    this.SelectedFrequence = 'first';
+                                    this.SelectedEventName = ' ';
+                                    this.SelectedTaskImportance = "0";
+                                    this.selectedImportance = "0";
+                                    this.selectedImportanceArray = [];
+                                    this.taskInput = "";
+                                    this.taskInputArray = [];
+                                    this.SelectedDay = '0';
+                                    this.StartTime = '0';
+                                    this.SelectedDate = '0';
+                                    this.EndTime = '0';
+                                })
+                                .catch((error) => {
+                                    let errorMessage;
+                                    try {
+                                        errorMessage = JSON.parse(error.message);
+                                    } catch {
+                                        errorMessage = {
+                                            message: ' '
+                                        };
+                                    }
+                                    this.message = errorMessage.message;
+                                });
+                        }
                     })
                     .catch((error) => {
                         let errorMessage;
@@ -1486,39 +1768,181 @@ export default {
                     });
             }
         },
+        async GetTask() {
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch("api/api/atasks", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+                const data = await response.json();
+                this.tasks = JSON.parse(JSON.stringify(data.tasks));
+                console.log(this.tasks)
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        OpenDeleteTask(id) {
+
+            this.DeleteTaskIndex = id;
+            document.getElementById("myModalDeleteTask").style.display = "block";
+        },
+        CloseDeleteTask() {
+            document.getElementById("myModalDeleteTask").style.display = "none";
+        },
+        DeleteTask() {
+            const token = localStorage.getItem('token');
+
+            fetch("api/api/atasks/" + this.DeleteTaskIndex,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    else {
+
+                        return response.json().then(error => {
+                            throw new Error(JSON.stringify(error));
+                        });
+                    }
+                })
+                .catch((error) => {
+                    let errorMessage;
+                    try {
+                        errorMessage = JSON.parse(error.message);
+                    } catch {
+                        errorMessage = {
+                            message: 'An error occurred while processing your request.\n\n'
+                        };
+                    }
+
+                    this.message = errorMessage.message;
+
+
+                });
+            this.message = '';
+            this.Reload();
+
+        },
         UpdateEvent() {
 
-            if (this.SelectedDate == "" || this.SelectedType == "0" || this.SelectedFrequence == "first" || this.StartTime == "0" || this.EndTime == "0" || this.SelectedEventName == "") {
-                this.message = 'You must fill all the required fields'
-
+            if (this.SelectedDate === "" || this.SelectedType === "0" || this.SelectedFrequence === "first" || this.StartTime === "0" || this.EndTime === "0" || this.SelectedEventName === "") {
+                this.message = 'You must fill all the required fields';
             } else if (this.StartTime > this.EndTime) {
-                this.message = 'Dates are not valid'
+                this.message = 'Dates are not valid';
+            } else if ((this.taskInputArray.some((task) => task === '') && (this.selectedImportanceArray.slice(0, -1).length > 0 && !this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0'))) ||
+                (!this.taskInputArray.some((task) => task === '') && (this.selectedImportanceArray.slice(0, -1).length > 0 && this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0')))
+                || (this.taskInput !== '' && this.SelectedTaskImportance == '0')) {
+                this.message = "You must fill all fields for the task";
+            } else if (this.UpdateTasks.some((task) => task.name_task === '' || task.priority_level === '0')) {
+                this.message = 'You must fill all fields for the task';
             } else {
+
                 const token = localStorage.getItem('token');
-                const date = new Date(this.SelectedDate + " " + this.StartTime)
+                const date = new Date(this.SelectedDate + " " + this.StartTime);
                 const start_date = `${date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')} ${date.toLocaleTimeString('fr-FR', { hour12: false })}`;
-                fetch("api/api/events/" + this.SelectedEvent,
-                    {
+
+                const eventPromise = fetch("api/api/events/" + this.SelectedEvent, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ name_event: this.SelectedEventName, description: "Description", start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar })
+                });
+
+                const updateTasksPromises = this.UpdateTasks.map((task) => {
+                    return fetch('api/api/atasks/' + task.id_task, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' + token
                         },
-                        body: JSON.stringify({ name_event: this.SelectedEventName, description: "Description", start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar })
-                    })
-                    .then((response) => {
-                        console.log(response.json())
-                        if (response.ok) {
-                            this.message = '';
-                            this.Reload();
-                            return response.json();
+                        body: JSON.stringify({ name_task: task.name_task, description: 'Description', priority_level: task.priority_level })
+                    });
+                });
 
+                let createTaskPromises = [];
+                if (this.taskInput !== '') {
+                    if (this.taskChecked !== true) {
+                        this.taskChecked = false;
+                    }
+                    createTaskPromises = [fetch('api/api/atasks', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: 'Bearer ' + token,
+                        },
+                        body: JSON.stringify({ name_task: this.taskInput, description: 'Description', priority_level: this.SelectedTaskImportance, is_done: this.taskChecked, id_event: this.SelectedIndex }),
+                    })];
+                }
+
+                Promise.all([eventPromise, ...updateTasksPromises])
+                    .then(responses => {
+                        console.log(responses)
+                        for (let response of responses) {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+
+                            }
                         }
-                        else {
-
-                            return response.json().then(error => {
-                                throw new Error(JSON.stringify(error));
-                            });
+                        if (createTaskPromises.length === 0) {
+                            this.Reload();
+                            this.message = '';
+                            this.SelectedType = '0';
+                            this.SelectedFrequence = 'first';
+                            this.SelectedEventName = ' ';
+                            this.SelectedTaskImportance = "0";
+                            this.selectedImportance = "0";
+                            this.selectedImportanceArray = [];
+                            this.AddTasks = [];
+                            this.taskInput = "";
+                            this.taskInputArray = [];
+                            this.SelectedDay = '0';
+                            this.StartTime = '0';
+                            this.SelectedDate = '0';
+                            this.EndTime = '0';
+                        } else {
+                            Promise.all(createTaskPromises)
+                                .then(() => {
+                                    this.Reload();
+                                    this.message = '';
+                                    this.SelectedType = '0';
+                                    this.SelectedFrequence = 'first';
+                                    this.SelectedEventName = ' ';
+                                    this.SelectedTaskImportance = "0";
+                                    this.selectedImportance = "0";
+                                    this.selectedImportanceArray = [];
+                                    this.AddTasks = [];
+                                    this.taskInput = "";
+                                    this.taskInputArray = [];
+                                    this.SelectedDay = '0';
+                                    this.StartTime = '0';
+                                    this.SelectedDate = '0';
+                                    this.EndTime = '0';
+                                })
+                                .catch((error) => {
+                                    let errorMessage;
+                                    try {
+                                        errorMessage = JSON.parse(error.message);
+                                    } catch {
+                                        errorMessage = {
+                                            message: ' '
+                                        };
+                                    }
+                                    this.message = errorMessage.message;
+                                });
+                            return Promise.resolve();
                         }
                     })
                     .catch((error) => {
@@ -1530,13 +1954,10 @@ export default {
                                 message: ' '
                             };
                         }
-
                         this.message = errorMessage.message;
-
-
                     });
-                this.message = '';
 
+                this.message = '';
             }
         },
         OpenDeleteEvent() {
@@ -1615,6 +2036,7 @@ export default {
         this.getDaysOfWeek();
 
 
+
     },
     beforeMount() {
         this.initializePage().then(() => {
@@ -1629,20 +2051,21 @@ export default {
     }
 };
 
-
 /*
 window.onload = function () {
 
-     Get the modal2
+
+
+    // Get the modal2
     var modal2 = document.getElementById("NewCalendarModal");
 
-     Get the button that opens the modal
+    // Get the button that opens the modal
     var btn2 = document.getElementById("addCalendar");
 
-     Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var span2 = document.getElementsByClassName("close")[0];
 
-     When the user clicks the button, open the modal
+    // When the user clicks the button, open the modal
     if (btn2) {
         btn2.onclick = function () {
             modal2.style.display = "block";
@@ -1665,16 +2088,16 @@ window.onload = function () {
         }
     };
 
-     Get the modal3
+    // Get the modal3
     var modal3 = document.getElementById("LoadCalendarModal");
 
-     Get the button that opens the modal
+    // Get the button that opens the modal
     var btn3 = document.getElementById("event");
 
-     Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var span3 = document.getElementsByClassName("close")[1];
 
-     When the user clicks the button, open the modal
+    // When the user clicks the button, open the modal
     if (btn3) {
         btn3.onclick = function () {
             modal2.style.display = "block";
@@ -1699,16 +2122,16 @@ window.onload = function () {
 
 
 
-     Get the modal2
+    // Get the modal2
     var modal4 = document.getElementById("myModalNewCalendar");
 
-     Get the button that opens the modal
+    // Get the button that opens the modal
     var btn4 = document.getElementById("AddCalendar");
 
-     Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var span4 = document.getElementsByClassName("close")[3];
 
-     When the user clicks the button, open the modal
+    // When the user clicks the button, open the modal
     if (btn4) {
         btn4.onclick = function () {
             modal4.style.display = "block";
@@ -1732,16 +2155,16 @@ window.onload = function () {
     };
 
 
-     Get the modal3
+    // Get the modal3
     var modal5 = document.getElementById("ImportCalendarModal");
 
-     Get the button that opens the modal
+    // Get the button that opens the modal
     var btn5 = document.getElementById("import-pop-up");
 
-     Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var span5 = document.getElementsByClassName("close")[2];
 
-     When the user clicks the button, open the modal
+    // When the user clicks the button, open the modal
     if (btn5) {
         btn5.onclick = function () {
             modal5.style.display = "block";
@@ -1764,13 +2187,12 @@ window.onload = function () {
         }
     };
 
-    modal 6
+    //modal 6
 
     var modal6 = document.getElementsByClassName("event");
 
-     Get the button that opens the modal
+    // Get the button that opens the modal
     var btn6 = document.getElementById("blankCalendar");
-
     if (btn6) {
         btn6.onclick = function () {
             modal6.style.display = "none";
@@ -1781,7 +2203,7 @@ window.onload = function () {
 */
     //dropdown list
 
-    //var x, i, j, l, ll, selElmnt, a, b, c;
+//    var x, i, j, l, ll, selElmnt, a, b, c;
 /*look for any elements with the class "custom-select":*/
 /*  x = document.getElementsByClassName("custom-select");
   l = x.length;

@@ -77,6 +77,7 @@
                           </div>           
                       </form>
                       <p class="forgotPswd">Already have an account ? <router-link to="/login-page">Login</router-link></p>
+                      <p class="forgotPswd" style="margin-top:-2%;">Need Help ?<router-link to="/help-page">Contact us</router-link></p>
                   </div>
               </div>
               <img src="../assets/Register.webp" alt="Calendar people" class="login-img">

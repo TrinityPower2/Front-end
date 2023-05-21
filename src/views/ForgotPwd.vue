@@ -104,6 +104,8 @@
                             </p>
                             <p class="forgotPswd" style="margin-top:-2%;">Don't have an account ?<router-link
                                     to="/register-page">Register</router-link></p>
+                            <p class="forgotPswd" style="margin-top:-2%;">Need Help ?<router-link to="/help-page">Contact us</router-link>
+                            </p>
                         </div>
                     </div>
                 </div>
