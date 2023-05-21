@@ -1821,7 +1821,7 @@ body.dark .modal{
 /*style the items (options), including the selected item:*/
 
 
-.select-items,.custom-select {
+.select-items,.custom-select,.select-items-create {
   color: #ffffff;
   padding: 8px 16px;
   /* border: 1px solid transparent; */
@@ -1837,6 +1837,16 @@ body.dark .modal{
 
 .select-items {
   position: absolute;
+  background-color: #d6a5e9;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border-radius: 15px;
+}
+
+.select-items-create {
+  position: static;
   background-color: #d6a5e9;
   top: 100%;
   left: 0;
