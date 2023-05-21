@@ -169,7 +169,7 @@
                             </select>
                         </div>
                         <input v-model="SelectedEventName" type="text" id="fname" name="fname" class="new-task-input"
-                            placeholder="Event Name" style="margin-top:50px;"/><br />
+                            placeholder="Event Name" style="margin-top:50px;" /><br />
                     </div>
                     <br>
                     <div class="modal-center2">
@@ -272,21 +272,63 @@
                         <div class="New-list-element2" style="margin-left: 14%">
                             <font-awesome-icon icon="fa-solid fa-list-check" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986)" />
-                        </div>
-                        <div class="Add-another-container">
-                            <div class="Add-another-task">
-                                <div class="new-task-create">
-                                    <label class="task-container" style="margin-left: 0%">
-                                        <input type="checkbox" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <input type="text" id="fname" name="fname" class="new-task-input" placeholder="My Task"
-                                        style="margin-right: 3%; width:80%;" /><br />
-                                    <font-awesome-icon icon="fa-solid fa-plus" size="s" style="transform:rotate(45deg)" />
-                                </div>
-                                <div class="new-task-create">
-                                    <font-awesome-icon icon="fa-solid fa-plus" size="s" @click="addTask" />
-                                    <p>Add Task</p>
+                            <div class="Add-another-container1">
+                                <div class="Add-another-task">
+                                    <div class="new-task-create">
+                                        <label class="task-container" style="margin-left: 0%;">
+                                            <input type="checkbox" v-model="taskChecked" />
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <input type="text" v-model="taskInput" class="new-task-input"
+                                            placeholder="..." /><br>
+                                        <div class="custom-select">
+                                            <select id="ImportanceTask" class="select-items"
+                                                v-model="SelectedTaskImportance">
+                                                <option value="0">Choose Importance :</option>
+                                                <option value="1">Urgent</option>
+                                                <option value="2">Important</option>
+                                                <option value="3">Medium</option>
+                                                <option value="4">Minor</option>
+                                                <option value="5">Do Later</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="new-task-appear">
+                                        <div v-for="(new_task, index) in AddTasks" :key="index"
+                                            :id="'CloseTdTaskC-' + index" class="CloseTask-container">
+
+                                            <div class="new-task-create2" :id="'CloseTdTask-' + index">
+                                                <label class="task-container" style="margin-left: 0%;">
+                                                    <input type="checkbox" :id="'taskChecked_' + index"
+                                                        v-model="taskCheckedArray[index]" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <input type="text" :id="'taskInput_' + index"
+                                                    v-model="taskInputArray[index]" class="new-task-input"
+                                                    placeholder="..." /><br>
+                                                <div class="custom-select">
+                                                    <select :id="'ImportanceTask-' + index" class="select-items"
+                                                        v-model="selectedImportanceArray[index]">
+                                                        <option value="0">Choose Importance :</option>
+                                                        <option value="1">Urgent</option>
+                                                        <option value="2">Important</option>
+                                                        <option value="3">Medium</option>
+                                                        <option value="4">Minor</option>
+                                                        <option value="5">Do Later</option>
+                                                    </select>
+                                                </div>
+                                                <button :id="'CloseTask-' + index" class="CloseTask"
+                                                    @click="DeleteTdTask(index)"><font-awesome-icon icon="fa-solid fa-plus"
+                                                        size="sm"
+                                                        style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="new-task-create" style="margin-top: 8px;" @click="addTask()">
+                                        <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
+                                        <p>Add Task</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -309,21 +351,21 @@
                 <br>
                 <div class="modal-center">
                     <input v-model="SelectedEventName" type="text" id="fname" name="fname" class="new-task-input"
-                        placeholder="Event Name" style="margin-top:25px;"/><br />
+                        placeholder="Event Name" style="margin-top:25px;" /><br />
                     <div class="message"> {{ message }}</div><br>
-                    </div>
+                </div>
                 <div class="modal-center2">
-            
+
                     <div class="New-list-element1">
                         <font-awesome-icon icon="fa-regular fa-calendar-days" size="xl"
                             style="color: rgba(85, 84, 85, 0.986)" />
 
-                        
-                            <div class="custom-select2" id="Time-Task">
-                                <input class="DescriptionInput1" type="date" id="day" name="day-task" v-model="SelectedDate"
-                                    min="2023-04-01" max="2028-12-31">
-                            </div>
-                        
+
+                        <div class="custom-select2" id="Time-Task">
+                            <input class="DescriptionInput1" type="date" id="day" name="day-task" v-model="SelectedDate"
+                                min="2023-04-01" max="2028-12-31">
+                        </div>
+
                     </div>
                     <div class="New-list-element1" style="padding: 12px;">
 
@@ -396,19 +438,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- <div class="New-list-element1">
-                            <font-awesome-icon icon="fa-regular fa-bell" size="xl" style="color: rgba(85, 84, 85, 0.986)" />
-                            <div class="custom-select create-select">
-                                <select>
-                                    <option value="0">Notifications :</option>
-                                    <option value="1">At event time</option>
-                                    <option value="2">1H before</option>
-                                    <option value="3">1 day before</option>
-                                    <option value="4">2 days before</option>
-                                    <option value="5">Never</option>
-                                </select>
-                            </div>
-                        </div> -->
                     <div class="New-list-element1" style="padding: 12px;">
                         <font-awesome-icon icon="fa-solid fa-circle-exclamation" size="xl"
                             style="color: rgba(85, 84, 85, 0.986)" />
@@ -425,107 +454,96 @@
                     </div>
                     <div class="New-list-element2" style="margin-left: 130px; margin-top:12px;">
                         <font-awesome-icon icon="fa-solid fa-list-check" size="xl" style="color: rgba(85, 84, 85, 0.986)" />
-                        <!-- <div class="custom-select create-select">
-                                <select>
-                                    <option value="0">ToDo List :</option>
-                                </select>
-                            </div> -->
-                    
-                    <div class="Add-another-container1">
-                        <div class="Add-another-task">
-                            <div v-for="(task, taskIndex) in UpdateTasks" :key="taskIndex" class="new-task-create">
 
-                                <label class="task-container" style="margin-left: 0%;">
-                                    <input type="checkbox" :id="'checkbox-' + index + '-' + taskIndex"
-                                        :checked="task.is_done == 1"
-                                        v-on:change="onCheckboxChange($event, task.id_task, this.UpdateTasks.id_todo)" />
-                                    <span :class="'checkmark checkmark-' + index + '-' + taskIndex"></span>
-                                </label>
-                                <input type="text" v-model='task.name_task' class="new-task-input" /><br>
-                                <div class="CloseTask-container">
-                                    <button :id="'CloseTask-' + index" class="CloseTask"
-                                        @click="OpenDeleteTask(task.id_task)"><font-awesome-icon icon="fa-solid fa-plus" size="sm"
-                                            style="transform:rotate(45deg); margin-left: 15px;" /></button>
-                                    <div class="custom-select">
-                                        <select :id="'ImportanceTask-' + index" class="select-items"
-                                            v-model="task.priority_level">
-                                            <option value="0">Choose Importance :</option>
-                                            <option value="1">Urgent</option>
-                                            <option value="2">Important</option>
-                                            <option value="3">Medium</option>
-                                            <option value="4">Minor</option>
-                                            <option value="5">Do Later</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!--<div class="new-task-create">
-                                <label class="task-container" style="margin-left: 0%">
-                                    <input type="checkbox" />
-                                    <span class="checkmark"></span>
-                                </label>
-                                <input type="text" id="fname" name="fname" class="new-task-input" placeholder="My Task"
-                                    style="margin-right: 3%; width:80%;" /><br />
-                                <font-awesome-icon icon="fa-solid fa-plus" size="s" style="transform:rotate(45deg)" />
-                            </div>-->
-
-                            </div>
+                        <div class="Add-another-container1">
                             <div class="Add-another-task">
-                                <div class="new-task-create">
+                                <div v-for="(task, taskIndex) in UpdateTasks" :key="taskIndex" class="new-task-create">
+
                                     <label class="task-container" style="margin-left: 0%;">
-                                        <input type="checkbox" v-model="taskChecked" />
-                                        <span class="checkmark"></span>
+                                        <input type="checkbox" :id="'checkbox-' + index + '-' + taskIndex"
+                                            :checked="task.is_done == 1"
+                                            v-on:change="onCheckboxChange($event, task.id_task, this.UpdateTasks.id_todo)" />
+                                        <span :class="'checkmark checkmark-' + index + '-' + taskIndex"></span>
                                     </label>
-                                    <input type="text" v-model="taskInput" class="new-task-input" placeholder="..." /><br>
-                                    <div class="custom-select">
-                                        <select id="ImportanceTask" class="select-items" v-model="SelectedTaskImportance">
-                                            <option value="0">Choose Importance :</option>
-                                            <option value="1">Urgent</option>
-                                            <option value="2">Important</option>
-                                            <option value="3">Medium</option>
-                                            <option value="4">Minor</option>
-                                            <option value="5">Do Later</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="new-task-appear">
-                                    <div v-for="(new_task, index) in AddTasks" :key="index" :id="'CloseTdTaskC-' + index"
-                                        class="CloseTask-container">
-
-                                        <div class="new-task-create2" :id="'CloseTdTask-' + index">
-                                            <label class="task-container" style="margin-left: 0%;">
-                                                <input type="checkbox" :id="'taskChecked_' + index"
-                                                    v-model="taskCheckedArray[index]" />
-                                                <span class="checkmark"></span>
-                                            </label>
-                                            <input type="text" :id="'taskInput_' + index" v-model="taskInputArray[index]"
-                                                class="new-task-input" placeholder="New Task" /><br>
-                                            <div class="custom-select">
-                                                <select :id="'ImportanceTask-' + index" class="select-items"
-                                                    v-model="selectedImportanceArray[index]">
-                                                    <option value="0">Choose Importance :</option>
-                                                    <option value="1">Urgent</option>
-                                                    <option value="2">Important</option>
-                                                    <option value="3">Medium</option>
-                                                    <option value="4">Minor</option>
-                                                    <option value="5">Do Later</option>
-                                                </select>
-                                            </div>
-                                            <button :id="'CloseTask-' + index" class="CloseTask"
-                                                @click="DeleteTdTask(index)"><font-awesome-icon icon="fa-solid fa-plus"
-                                                    size="sm"
-                                                    style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                    <input type="text" v-model='task.name_task' class="new-task-input" /><br>
+                                    <div class="CloseTask-container">
+                                        <button :id="'CloseTask-' + index" class="CloseTask"
+                                            @click="OpenDeleteTask(task.id_task)"><font-awesome-icon icon="fa-solid fa-plus"
+                                                size="sm" style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                        <div class="custom-select">
+                                            <select :id="'ImportanceTask-' + index" class="select-items"
+                                                v-model="task.priority_level">
+                                                <option value="0">Choose Importance :</option>
+                                                <option value="1">Urgent</option>
+                                                <option value="2">Important</option>
+                                                <option value="3">Medium</option>
+                                                <option value="4">Minor</option>
+                                                <option value="5">Do Later</option>
+                                            </select>
                                         </div>
                                     </div>
+
                                 </div>
-                                <div class="new-task-create" style="margin-top: 8px;" @click="addTask()">
-                                    <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
-                                    <p>New Task</p>
+                                <div class="Add-another-task">
+                                    <div class="new-task-create">
+                                        <label class="task-container" style="margin-left: 0%;">
+                                            <input type="checkbox" v-model="taskChecked" />
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <input type="text" v-model="taskInput" class="new-task-input"
+                                            placeholder="..." /><br>
+                                        <div class="custom-select">
+                                            <select id="ImportanceTask" class="select-items"
+                                                v-model="SelectedTaskImportance">
+                                                <option value="0">Choose Importance :</option>
+                                                <option value="1">Urgent</option>
+                                                <option value="2">Important</option>
+                                                <option value="3">Medium</option>
+                                                <option value="4">Minor</option>
+                                                <option value="5">Do Later</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="new-task-appear">
+                                        <div v-for="(new_task, index) in AddTasks" :key="index"
+                                            :id="'CloseTdTaskC-' + index" class="CloseTask-container">
+
+                                            <div class="new-task-create2" :id="'CloseTdTask-' + index">
+                                                <label class="task-container" style="margin-left: 0%;">
+                                                    <input type="checkbox" :id="'taskChecked_' + index"
+                                                        v-model="taskCheckedArray[index]" />
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <input type="text" :id="'taskInput_' + index"
+                                                    v-model="taskInputArray[index]" class="new-task-input"
+                                                    placeholder="New Task" /><br>
+                                                <div class="custom-select">
+                                                    <select :id="'ImportanceTask-' + index" class="select-items"
+                                                        v-model="selectedImportanceArray[index]">
+                                                        <option value="0">Choose Importance :</option>
+                                                        <option value="1">Urgent</option>
+                                                        <option value="2">Important</option>
+                                                        <option value="3">Medium</option>
+                                                        <option value="4">Minor</option>
+                                                        <option value="5">Do Later</option>
+                                                    </select>
+                                                </div>
+                                                <button :id="'CloseTask-' + index" class="CloseTask"
+                                                    @click="DeleteTdTask(index)"><font-awesome-icon icon="fa-solid fa-plus"
+                                                        size="sm"
+                                                        style="transform:rotate(45deg); margin-left: 15px;" /></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="new-task-create" style="margin-top: 8px;" @click="addTask()">
+                                        <font-awesome-icon icon="fa-solid fa-plus" size="sm" />
+                                        <p>New Task</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div></div>
+                    </div>
                     <div style="
               width: 90%;
               display: flex;
@@ -704,57 +722,62 @@
                         </select>
                     </div>
                     <div class="update-popup-cont">
-                    <div class="New-list-element" v-show="SelectedCalendar !== '0'">
-                        <div class="new-list-desc">
-                            Name of Calendar
+                        <div class="New-list-element" v-show="SelectedCalendar !== '0'">
+                            <div class="new-list-desc">
+                                Name of Calendar
+                            </div>
+                            <input v-model="CalendarName" type="text" id="fname" name="fname" class="new-task-input"
+                                placeholder="Calendar Name" /><br />
                         </div>
-                        <input v-model="CalendarName" type="text" id="fname" name="fname" class="new-task-input"
-                            placeholder="Calendar Name" /><br />
+                        <div class="New-list-element" v-show="SelectedCalendar !== '0'">
+                            <div class="new-list-desc">
+                                Colors
+                            </div>
+                            <div class="custom-select">
+                                <select class="select-items" v-model="CalColor">
+                                    <option value="0">Choose a Color :</option>
+                                    <option value="green"><font-awesome-icon icon="fa-solid fa-circle"
+                                            style="color: #00ff88;" />
+                                        Green</option>
+                                    <option value="blue"><font-awesome-icon icon="fa-solid fa-circle"
+                                            style="color: #0084ff;" />
+                                        Blue</option>
+                                    <option value="purple"><font-awesome-icon icon="fa-solid fa-circle"
+                                            style="color: #d400ff;" />
+                                        Purple</option>
+                                    <option value="pink"><font-awesome-icon icon="fa-solid fa-circle"
+                                            style="color: #ff00ae;" />
+                                        Pink</option>
+                                    <option value="red"><font-awesome-icon icon="fa-solid fa-circle"
+                                            style="color: #ff0033;" />
+                                        Red</option>
+                                    <option value="orange"><font-awesome-icon icon="fa-solid fa-circle"
+                                            style="color: #ff8800;" />
+                                        Orange</option>
+                                    <option value="yellow"><font-awesome-icon icon="fa-solid fa-circle"
+                                            style="color: #ffdd00;" />
+                                        Yellow</option>
+                                    <option value="white"><font-awesome-icon icon="fa-solid fa-circle"
+                                            style="color: #ffffff;" />
+                                        White</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="New-list-element" v-show="SelectedCalendar !== '0'">
+                            <div class="new-list-desc">
+                                Notifications
+                            </div>
+                            <div class="Switch-container">
+                                <p class="Switch-label">YES</p>
+                                <label class="switch" >
+                                    <input type="checkbox" v-model="notificationEnabled" :value="true" @change="handleSliderChange">
+                                    <span class="slider"
+                                        :class="{ 'slider-right': notificationEnabled, 'slider-left': !notificationEnabled }"></span>
+                                </label>
+                                <p class="Switch-label">NO</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="New-list-element" v-show="SelectedCalendar !== '0'">
-                        <div class="new-list-desc">
-                            Colors
-                        </div>
-                        <div class="custom-select">
-                            <select class="select-items" v-model="CalColor">
-                                <option value="0">Choose a Color :</option>
-                                <option value="green"><font-awesome-icon icon="fa-solid fa-circle"
-                                        style="color: #00ff88;" />
-                                    Green</option>
-                                <option value="blue"><font-awesome-icon icon="fa-solid fa-circle" style="color: #0084ff;" />
-                                    Blue</option>
-                                <option value="purple"><font-awesome-icon icon="fa-solid fa-circle"
-                                        style="color: #d400ff;" />
-                                    Purple</option>
-                                <option value="pink"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ff00ae;" />
-                                    Pink</option>
-                                <option value="red"><font-awesome-icon icon="fa-solid fa-circle" style="color: #ff0033;" />
-                                    Red</option>
-                                <option value="orange"><font-awesome-icon icon="fa-solid fa-circle"
-                                        style="color: #ff8800;" />
-                                    Orange</option>
-                                <option value="yellow"><font-awesome-icon icon="fa-solid fa-circle"
-                                        style="color: #ffdd00;" />
-                                    Yellow</option>
-                                <option value="white"><font-awesome-icon icon="fa-solid fa-circle"
-                                        style="color: #ffffff;" />
-                                    White</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="New-list-element" v-show="SelectedCalendar !== '0'">
-                        <div class="new-list-desc">
-                            Notifications
-                        </div>
-                        <div class="Switch-container1">
-                            <p class="Switch-label1">ON</p>
-                            <label class="switch">
-                                <input type="checkbox" v-model="notificationEnabled" :value="true">
-                                <span class="slider"></span>
-                            </label>
-                            <p class="Switch-label1">OFF</p>
-                        </div>
-                    </div></div>
                     <br><br>
                     <div class="message"> {{ message }}</div><br>
                     <div style="width:50%; display:flex; justify-content:center; margin-top: 50px;">
@@ -765,10 +788,10 @@
                 </div>
             </div>
         </div>
-
+        <!--
 
         <div id="UpdateCalendarModal" class="modal1">
-            <!-- Modal content -->
+            Modal content
             <div class="modal-content">
                 <span class="close" @click="CloseDeleteEvent">&times;</span>
                 <h1 class="modal-Title">Delete Event</h1>
@@ -842,11 +865,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
-        
+        <!--
         <div id="UpdateCalendarModal" class="modal1">
-           
+
             <div class="modal-content">
                 <span class="close" @click="CloseDeleteEvent">&times;</span>
                 <h1 class="modal-Title">Delete Event</h1>
@@ -920,7 +943,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div id="myModalDeleteTask" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
@@ -1015,7 +1038,6 @@
 </template>
 
 <script>
-
 import UserMenu from "../components/UserMenu.vue";
 import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
@@ -1052,7 +1074,16 @@ export default {
             DeleteTaskIndex: "",
             visibleCalendars: [],
             message: "",
-            notificationEnabled: false
+            selectedImportanceArray: [],
+            taskInputArray: [''],
+            taskInput: '',
+            taskCheckedArray: [],
+            taskChecked: '',
+            Tasks: [],
+            UpdateTasks: [],
+            notificationEnabled: false,
+            to_notify : 0
+
         }
     },
 
@@ -1067,8 +1098,12 @@ export default {
             this.AddTasks.push(newTask);
 
         },
-        SwitchLabel(value) {
-            return value === 1 ? 'YES' : 'NO';
+        handleSliderChange() {
+            if (this.notificationEnabled) {
+                this.to_notify = 1;
+            } else {
+                this.to_notify = 0 
+            }
         },
         onCheckboxChange(event, taskIndex) {
 
@@ -1135,11 +1170,11 @@ export default {
             console.log(cal)
             this.CalendarName = cal.name_calendar;
             this.CalColor = cal.calendar_color;
-
-            console.log(this.notificationEnabled)
-            this.notificationEnabled = cal.to_notify;
-
-
+            if(cal.to_notify == 0){
+                this.notificationEnabled = false;
+            }else{
+                this.notificationEnabled = true;
+            }
         },
         UpdateCalendar() {
             if (this.CalendarName == "" || this.CalColor == "0") {
@@ -1153,7 +1188,7 @@ export default {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' + token
                         },
-                        body: JSON.stringify({ name_calendar: this.CalendarName, color: this.CalColor, to_notify: this.notificationEnabled })
+                        body: JSON.stringify({ name_calendar: this.CalendarName, color: this.CalColor, to_notify: this.to_notify})
                     })
                     .then((response) => {
 
@@ -1384,8 +1419,10 @@ export default {
             document.getElementById("LoadCalendarModal").style.display = "block";
             this.SelectedIndex = event
             this.CalendarIndex = cal
-            console.log(this.Tasks)
             this.GetEventByID()
+            var UpdateTaskCopy = this.Tasks.filter(task => task.id_event === event)
+            this.UpdateTasks = JSON.parse(JSON.stringify(UpdateTaskCopy));
+
         },
         CloseLoadCalendarModal() {
             document.getElementById("LoadCalendarModal").style.display = "none";
@@ -1637,6 +1674,8 @@ export default {
 
             const eventsForWeek = {};
             await this.daysOfWeek
+
+
             for (const [index, day] of this.days.entries()) {
                 const day_nb = this.daysOfWeek[index];
                 eventsForWeek[day] = {
@@ -1670,6 +1709,7 @@ export default {
         calculateDuration(startTime, endTime) {
             const [startHours, startMinutes] = startTime.split(':').map(Number);
             const [endHours, endMinutes] = endTime.split(':').map(Number);
+
             const startInMinutes = startHours * 60 + startMinutes;
             const endInMinutes = endHours * 60 + endMinutes;
 
@@ -1700,7 +1740,6 @@ export default {
             if (this.SelectedCalendar === '0' || this.SelectedDate === '' || this.SelectedType === '0' || this.SelectedFrequence === 'first'
                 || this.StartTime === '0' || this.EndTime === '0' || this.SelectedEventName === '') {
                 this.message = 'You must fill all the required fields';
-                console.log("HELLO")
                 console.log(this.SelectedCalendar, this.SelectedDate, this.SelectedType, this.SelectedFrequence, this.StartTime, this.EndTime, this.SelectedEventName);
             } else if (this.StartTime > this.EndTime) {
                 this.message = 'Dates are not valid';
@@ -1709,23 +1748,21 @@ export default {
                 (!this.taskInputArray.some((task) => task === '') && (this.selectedImportanceArray.slice(0, -1).length > 0 && this.selectedImportanceArray.slice(0, -1).some((priority) => priority === '0')))
                 || (!this.taskInput == '' && this.SelectedTaskImportance == '0')) {
                 this.message = "You must fill all fields for the task";
+                console.log(this.selectedImportanceArray)
+                console.log(this.taskInputArray)
             }
             else {
                 const token = localStorage.getItem('token');
                 const date = new Date(this.SelectedDate + ' ' + this.StartTime);
                 const start_date = `${date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')} ${date.toLocaleTimeString('fr-FR', { hour12: false })}`;
-                fetch("api/api/events",
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        body: JSON.stringify({
-                            name_event: this.SelectedEventName, description: "Description", start_date: start_date,
-                            length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar
-                        })
-                    })
+                fetch('api/api/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ name_event: this.SelectedEventName, description: 'Description', start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: false, color: this.SelectedType, id_calendar: this.SelectedCalendar })
+                })
                     .then((response) => {
                         if (response.ok) {
                             this.message = '';
@@ -1918,18 +1955,54 @@ export default {
                 const token = localStorage.getItem('token');
                 const date = new Date(this.SelectedDate + " " + this.StartTime);
                 const start_date = `${date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')} ${date.toLocaleTimeString('fr-FR', { hour12: false })}`;
-                fetch("api/api/events/" + this.SelectedEvent,
-                    {
+
+                const eventPromise = fetch("api/api/events/" + this.SelectedEvent, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ name_event: this.SelectedEventName, description: "Description", start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: false, color: this.SelectedType, id_calendar: this.SelectedCalendar })
+                });
+
+                const updateTasksPromises = this.UpdateTasks.map((task) => {
+                    return fetch('api/api/atasks/' + task.id_task, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' + token
                         },
-                        body: JSON.stringify({ name_event: this.SelectedEventName, description: "Description", start_date: start_date, length: this.calculateDuration(this.StartTime, this.EndTime), priority_level: this.SelectedImportance, to_repeat: this.SelectedFrequence, movable: true, color: this.SelectedType, id_calendar: this.SelectedCalendar })
-                    })
-                    .then((response) => {
-                        console.log(response.json())
-                        if (response.ok) {
+                        body: JSON.stringify({ name_task: task.name_task, description: 'Description', priority_level: task.priority_level })
+                    });
+                });
+
+                let createTaskPromises = [];
+                if (this.taskInput !== '') {
+                    console.log(this.taskInput)
+                    if (this.taskChecked !== true) {
+                        this.taskChecked = false;
+                    }
+                    createTaskPromises = [fetch('api/api/atasks', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: 'Bearer ' + token,
+                        },
+                        body: JSON.stringify({ name_task: this.taskInput, description: 'Description', priority_level: this.SelectedTaskImportance, is_done: this.taskChecked, id_event: this.SelectedIndex }),
+                    })];
+                }
+
+                Promise.all([eventPromise, ...updateTasksPromises])
+                    .then(responses => {
+                        console.log(responses)
+                        for (let response of responses) {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+
+                            }
+                        }
+                        if (createTaskPromises.length === 0) {
+                            this.Reload();
                             this.message = '';
                             this.SelectedType = '0';
                             this.SelectedFrequence = 'first';
@@ -2050,7 +2123,6 @@ export default {
             localStorage.setItem("selectedWeek", this.selectedWeek);
         }
 
-
     },
     mounted() {
         var thisID = document.getElementById("TopBtn");
@@ -2076,7 +2148,6 @@ export default {
             this.getEventByWeek(this.selectedWeek);
             this.visibleCalendars = this.Calendar.map((calendar) => calendar.id_calendar);
             console.log(this.Calendar)
-
 
         });
     },

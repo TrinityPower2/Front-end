@@ -76,7 +76,7 @@ export default {
     name: "EntryFormPage1",
     data(){
           return{
-            Questions: ["lunchtime", "dinnertime","sleeptime"],
+            Questions: ["lunchtime", "dinnertime","sleeptime", "prefered_period"],
             Lunch1 : "",
             Lunch2 : "",
             Dinner1 : "",
@@ -88,10 +88,22 @@ export default {
             name_timepref: "",
             start_time: "",
             length : "",
+            to_notify : "morning"
           }
         },
 
     methods:{
+        handleSliderChange() {
+            if (this.notificationEnabled) {
+                
+                this.to_notify = "afternoon";
+                console.log(this.to_notify)
+            } else {
+                this.to_notify = "morning" 
+                console.log(this.to_notify)
+                
+            }
+        },
         convertToISO(event, field) {
             const time = event.target.value;
             const [hours, minutes] = time.split(':');
@@ -106,9 +118,10 @@ export default {
             const lunchDuration = this.calculateDuration(this.Lunch1, this.Lunch2);
             const dinnerDuration = this.calculateDuration(this.Dinner1, this.Dinner2);
             const sleepingDuration = this.calculateDuration(this.Sleeping1, this.Sleeping2);
-            const StartTime = [this.Lunch1, this.Dinner1, this.Sleeping1]
-            const Duration = [lunchDuration, dinnerDuration, sleepingDuration]
-            for (let i = 0; i < 3; i++) {
+            const StartTime = [this.Lunch1, this.Dinner1, this.Sleeping1, ""]
+            const Duration = [lunchDuration, dinnerDuration, sleepingDuration, 10]
+            const miscellaneous = ["", "", "", this.to_notify]
+            for (let i = 0; i < 4; i++) {
                 const token = localStorage.getItem('token');
                 console.log(token)
                 fetch("http://127.0.0.1:8000/api/timepref", {
@@ -120,7 +133,8 @@ export default {
                     body: JSON.stringify({
                     name_timepref: this.Questions[i],
                     start_time: StartTime[i],
-                    length: Duration[i]
+                    length: Duration[i],
+                    miscellaneous : miscellaneous[i]
                     })
                 }).then((response)=>{
         

@@ -40,8 +40,8 @@
                                 <div class="Switch-container">
                                     <p class="Switch-label">Morning</p>
                                     <label class="switch">
-                                        <input type="checkbox">
-                                        <span class="slider"></span>
+                                        <input type="checkbox"  v-model="notificationEnabled" :value="true" @change="handleSliderChange">
+                                        <span class="slider" :class="{ 'slider-right': notificationEnabled, 'slider-left': !notificationEnabled }"></span>
                                     </label>
                                     <p class="Switch-label">Afternoon</p>
                                 </div>
@@ -93,7 +93,7 @@ export default {
     },
     data(){
           return{
-            Questions: ["lunchtime", "dinnertime","sleeptime"],
+            Questions: ["lunchtime", "dinnertime","sleeptime", "prefered_period"],
             Pref : [],
             Lunch1 : "",
             Lunch2 : "",
@@ -106,6 +106,8 @@ export default {
             name_timepref: "",
             start_time: "",
             length : "",
+            notificationEnabled : false,
+            to_notify : "morning"
           }
         },
 
@@ -128,7 +130,17 @@ export default {
         console.error(error);
         }
         },
-
+        handleSliderChange() {
+            if (this.notificationEnabled) {
+                
+                this.to_notify = "afternoon";
+                console.log(this.to_notify)
+            } else {
+                this.to_notify = "morning" 
+                console.log(this.to_notify)
+                
+            }
+        },
         async initializePage() {
         /*Initilialized the page by getting all the current to do list and tasks of the user*/
         await this.GetPref();
@@ -157,6 +169,11 @@ export default {
             this.Sleeping1 = this.Pref[2].start_time;
             this.Sleeping2 = this.addDurationToTime(this.Pref[2].start_time, this.Pref[2].length)
         }
+        if(this.Pref[3].miscellaneous == "afternoon"){
+            this.notificationEnabled = true;
+        }else{
+            this.notificationEnabled = false;
+        }
     },
         convertToISO(event, field) {
             const time = event.target.value;
@@ -165,6 +182,7 @@ export default {
             this[field] = isoTime;
         },
         send(){
+            
             if(this.Lunch1 == "" || this.Lunch2 == "" || this.Dinner1 == "" || this.Dinner2 == "" || this.Sleeping1 == "" || this.Sleeping2 == "" ){
                 this.message = "Please fill all the fields"
             }
@@ -172,12 +190,13 @@ export default {
             const lunchDuration = this.calculateDuration(this.Lunch1, this.Lunch2);
             const dinnerDuration = this.calculateDuration(this.Dinner1, this.Dinner2);
             const sleepingDuration = this.calculateDuration(this.Sleeping1, this.Sleeping2);
-            const StartTime = [this.Lunch1, this.Dinner1, this.Sleeping1]
-            const Duration = [lunchDuration, dinnerDuration, sleepingDuration]
-            for (let i = 0; i < 3; i++) {
+            const StartTime = [this.Lunch1, this.Dinner1, this.Sleeping1, ""]
+            const Duration = [lunchDuration, dinnerDuration, sleepingDuration, 10]
+            const miscellaneous = ["", "", "", this.to_notify]
+            
+            for (let i = 0; i < 4; i++) {
                 const token = localStorage.getItem('token');
-                console.log(StartTime[i])
-                console.log(this.Questions[i])
+                
                 fetch("http://127.0.0.1:8000/api/timepref/" + this.Questions[i] , {
                    
                     method: 'PATCH',
@@ -187,12 +206,14 @@ export default {
                     },
                     body: JSON.stringify({
                     start_time: StartTime[i],
-                    length: Duration[i]
+                    length: Duration[i],
+                    miscellaneous: miscellaneous[i]
                     })
                 }).then((response)=>{
 
                 if (response.ok) {
                     this.message = "Update Successfully"
+                    window.location.reload();
                     return response.json();
                 }
                 else {   
