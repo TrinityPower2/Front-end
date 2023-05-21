@@ -1818,12 +1818,57 @@ body.dark .modal{
 }
 
 
+.custom-select2 {
+  position: relative;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  min-width: 180px;
+  width: fit-content;
+  color: #d6a5e9;
+  border-radius: 15px;
+  border-color: none;
+}
+
+/*style the arrow inside the select element:*/
+
+.custom-select2:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 6%;
+  width: 1;
+  height: 1;
+  border-radius: 15px;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+
+/*point the arrow upwards when the select box is open (active):*/
+.custom-select2.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+
 /*style the items (options), including the selected item:*/
 
 
 .select-items,.custom-select {
   color: #ffffff;
   padding: 8px 16px;
+  /* border: 1px solid transparent; */
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 15px;
+  margin-top: -11px;
+}
+
+
+.select-items,.custom-select2 {
+  color: #ffffff;
+  padding: 8px 8px;
   /* border: 1px solid transparent; */
   border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
   cursor: pointer;
@@ -2008,6 +2053,15 @@ body.dark .modal1{
   flex-wrap: wrap;
   align-content: center;
   align-items: flex-start;
+}
+
+.modal-center2{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  align-items: center;
 }
 
 .new-task-create{
@@ -2324,6 +2378,13 @@ body.dark .modal1{
   width:85%;
 }
 
+.Add-another-container1 {
+  display: flex;
+  justify-content: flex-start;
+  width: 85%;
+  margin-left: 135px;
+}
+
 .Timeslots-choice{
   display:flex;
 }
@@ -2617,6 +2678,15 @@ input:checked + .slider:before {
   text-align: center;
   text-shadow: 2px 2px rgba(211, 116, 240, 0.437);
   font-size: larger;
+
+}
+
+.Switch-label1{
+  color: rgba(89, 72, 91, 0.696);
+  text-align: center;
+  text-shadow: 2px 1px rgba(211, 116, 240, 0.437);
+  font-size: larger;  
+  font-weight: 500;
 }
 
 .Switch-container{
@@ -2625,6 +2695,15 @@ input:checked + .slider:before {
   justify-content: center;
   align-items: center;
 }
+
+.Switch-container1{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  width: 50%;
+}
+
 
 /* ------------- user drop down menu --------------- */
 
@@ -2904,6 +2983,28 @@ body.dark .Calendar-page-container{
   justify-content: center;
 }
 
+.DescriptionInput1{
+
+  position: relative;
+  margin-top: 40px;
+  /* margin-bottom: 20px; */
+  min-width: 180px;
+  width: fit-content;
+  float: center;
+  background-color: #d6a5e9;
+  border: none;
+  outline: none;
+  padding: 5px 16px;
+  height: 40px;
+  border-radius: 15px;
+  border-bottom: 1px solid rgba(65, 64, 64, 0.5);
+  border-right: 1px solid rgba(19, 19, 19, 0.2);
+  /* borde: 1px solid rgba(48, 48, 48, 0.2); */
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: rgb(255, 255, 255);
+  box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
+}
 
 /* Sidebar Calendar Buttons*/
 
@@ -3063,6 +3164,14 @@ body.dark .days {
   grid-template-rows: repeat(var(--numHours), var(--timeHeight));
   border-radius: 5px;
   background: var(--calBgColor);
+}
+
+.update-popup-cont{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  align-items: center;
+  margin-top: 40px;
 }
 
 .calendar-title{
