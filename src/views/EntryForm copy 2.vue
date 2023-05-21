@@ -1,7 +1,6 @@
 <template>
     <body>
         <a id="top"></a>
-        <!-- <?php if($_SESSION['admin']==1){?> -->
         <div class="FormPage1">
             <div class="headernav" >
                 <div class="header-container1">
@@ -9,8 +8,8 @@
                 <img alt="Vue logo" style="opacity: 0.7;" src="../assets/TimeToDo1.png" class="VueLogo" />
             </div>
             <div class="Navbar">
-                    <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
                 <UserMenu></UserMenu>
@@ -22,32 +21,20 @@
                         <div class="loginForm">
                             <h2>Your Preferences</h2>
                             <p class="Form-presentation"> <br> TimeToDo depends on an <i class="fa fa-bold" aria-hidden="true">algorithm</i>  to optimize your plannings. <br><br> The following questions will help us <i class="fa fa-bold" aria-hidden="true">taylor your planning</i> , depending on your needs :<br><br></p>
-                            <form action="#" method="post">
                                 <p class="Form-question">On which timeslot is your lunch break ?</p>
-                                <input type="hidden" name="nbquestion" style="display: none"
-                                    value="<?php echo $row['nbquestion']; ?>" />
-                                
-                                    <input type="hidden" name="question" style="display: none"
-                                    value="<?php echo $row['question']; ?>" />
-                                <input type="hidden" name="answer" style="display: none"
-                                    value="<?php echo $row['answer']; ?>" />
-                                <input type="hidden" name="category" style="display: none"
-                                    value="<?php echo $row['category']?>" />
-                                <input type="hidden" name="level" style="display: none"
-                                    value="<?php echo $row['level']?>" />
                                 <div class="loginInputBox">
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%;"/>
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Lunch1" @input="convertToISO($event, 'Lunch1')" type="time" step="900" name="txtQuestion" style="width:50%;"/>
+                                    <input v-model = "Lunch2" @input="convertToISO($event, 'Lunch2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
                                 </div>
                                 <p class="Form-question">On which timeslot is your diner break ?</p>
                                 <div class="loginInputBox">
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Dinner1" @input="convertToISO($event, 'Dinner1')" type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Dinner2" @input="convertToISO($event, 'Dinner2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
                                 </div>
                                 <p class="Form-question">What is your sleeping schedule ?</p>
                                 <div class="loginInputBox">
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Sleeping1" @input="convertToISO($event, 'Sleeping1')" type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Sleeping2" @input="convertToISO($event, 'Sleeping2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
                                 </div>
                                 <p class="Form-question">Would you rather have schedules in the morning or the afternoon ?</p>
                                 <div class="Switch-container">
@@ -58,20 +45,15 @@
                                     </label>
                                     <p class="Switch-label">Afternoon</p>
                                 </div>
-                                <!-- <div class="loginInputBox">
-                                    <input type="text" name="txtCategory" value="<?php echo $row['category']?>" />
-                                </div>
-                                <div class="loginInputBox">
-                                    <input type="text" name="txtLevel" value="<?php echo $row['level']?>" />
-                                </div> -->
+                                
                                 <br><br>
+                                <p class = "message">{{ message }}</p>
                                 <div class="loginInputBox FormInputBox">
-                                    <input type="submit" value="Submit Information" name="btnUpdate" />
+                                    <input @click = "send" type="submit" value="Submit Information" name="btnUpdate" />
                                 </div>
                                 <p class="forgotPswd MoveOn">
                                     Skip for now ?<a href="./Register.html">Move on</a>
                                 </p>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -108,6 +90,169 @@ export default {
     components: {
     UserMenu,
     // DarkLightMode
+    },
+    data(){
+          return{
+            Questions: ["lunchtime", "dinnertime","sleeptime"],
+            Pref : [],
+            Lunch1 : "",
+            Lunch2 : "",
+            Dinner1 : "",
+            Dinner2 : "",
+            Sleeping1 : "",
+            Sleeping2 : "",
+            isMorningSelected : false,
+            message :  "",
+            name_timepref: "",
+            start_time: "",
+            length : "",
+          }
+        },
+
+    methods:{
+        async GetPref() {
+        const token = localStorage.getItem('token');
+
+        try {
+        const response = await fetch("http://127.0.0.1:8000/api/timepref/", {
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+            }
+        });
+
+        const data = await response.json();
+        this.prefs = JSON.parse(JSON.stringify(data.list));
+        } catch (error) {
+        console.error(error);
+        }
+        },
+
+        async initializePage() {
+        /*Initilialized the page by getting all the current to do list and tasks of the user*/
+        await this.GetPref();
+        
+        this.Pref = this.prefs.map(pref => {
+            return {
+                "id_timepref": pref.id_timepref,
+                "name_timepref": pref.name_timepref,
+                "start_time": pref.start_time,
+                "length": pref.length,
+                "id_users": pref.id_users,
+                "miscellaneous": pref.miscellaneous
+            };
+        })
+
+        if(this.Pref[0].name_timepref == "lunchtime"){
+            this.Lunch1 = this.Pref[0].start_time;
+            this.Lunch2 = this.addDurationToTime(this.Pref[0].start_time, this.Pref[0].length)
+        }
+
+        if(this.Pref[1].name_timepref == "dinnertime"){
+            this.Dinner1 = this.Pref[1].start_time;
+            this.Dinner2 = this.addDurationToTime(this.Pref[1].start_time, this.Pref[1].length)
+        }
+        if(this.Pref[2].name_timepref == "sleeptime"){
+            this.Sleeping1 = this.Pref[2].start_time;
+            this.Sleeping2 = this.addDurationToTime(this.Pref[2].start_time, this.Pref[2].length)
+        }
+    },
+        convertToISO(event, field) {
+            const time = event.target.value;
+            const [hours, minutes] = time.split(':');
+            const isoTime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:00`;
+            this[field] = isoTime;
+        },
+        send(){
+            if(this.Lunch1 == "" || this.Lunch2 == "" || this.Dinner1 == "" || this.Dinner2 == "" || this.Sleeping1 == "" || this.Sleeping2 == "" ){
+                this.message = "Please fill all the fields"
+            }
+            else{
+            const lunchDuration = this.calculateDuration(this.Lunch1, this.Lunch2);
+            const dinnerDuration = this.calculateDuration(this.Dinner1, this.Dinner2);
+            const sleepingDuration = this.calculateDuration(this.Sleeping1, this.Sleeping2);
+            const StartTime = [this.Lunch1, this.Dinner1, this.Sleeping1]
+            const Duration = [lunchDuration, dinnerDuration, sleepingDuration]
+            for (let i = 0; i < 3; i++) {
+                const token = localStorage.getItem('token');
+                console.log(StartTime[i])
+                console.log(this.Questions[i])
+                fetch("http://127.0.0.1:8000/api/timepref/" + this.Questions[i] , {
+                   
+                    method: 'PATCH',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                    start_time: StartTime[i],
+                    length: Duration[i]
+                    })
+                }).then((response)=>{
+
+                if (response.ok) {
+                    this.message = "Update Successfully"
+                    return response.json();
+                }
+                else {   
+                        return response.json().then(error => {
+                            throw new Error(JSON.stringify(error));
+                    });
+                }})
+                .catch((error) => {
+                    
+                    let errorMessage;
+                    try {
+                        errorMessage = JSON.parse(error.message);
+                    } catch {
+                        errorMessage = {
+                        message: 'An error occurred while processing your request.'
+                        };
+                        this.message = errorMessage.message;
+                    }
+                    if(errorMessage.status === false){
+
+                        this.message = errorMessage.message;
+                    }
+                    else{
+                        this.message = errorMessage.errors;
+                    }
+                
+                    
+                });
+            }}
+            
+            }                
+            ,
+              
+            calculateDuration(time1, time2) {
+                const [hours1, minutes1] = time1.split(":").map(Number);
+                const [hours2, minutes2] = time2.split(":").map(Number);
+
+                const minutesTime1 = hours1 * 60 + minutes1;
+                const minutesTime2 = hours2 * 60 + minutes2;
+
+                return minutesTime2 - minutesTime1;
+            },
+            addDurationToTime(time, durationInMinutes) {
+                const [hours, minutes] = time.split(":").map(Number);
+
+                const timeInMinutes = hours * 60 + minutes;
+
+                const endTimeInMinutes = timeInMinutes + durationInMinutes;
+                const resultingHours = Math.floor(endTimeInMinutes / 60);
+                const resultingMinutes = endTimeInMinutes % 60;
+
+                const endTime = `${String(resultingHours).padStart(2, "0")}:${String(resultingMinutes).padStart(2, "0")}`;
+
+                return endTime;
+            }
+      },
+      beforeMount(){
+        
+        this.initializePage();
+      
     },
     mounted(){
         var thisID = document.getElementById("TopBtn");

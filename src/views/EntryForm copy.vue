@@ -1,6 +1,5 @@
 <template>
     <body>
-        <!-- <?php if($_SESSION['admin']==1){?> -->
         <div class="FormPage1">
             <div class="header-image">
                 <img alt="Vue logo" style="opacity: 0.7;" src="../assets/TimeToDo1.png" class="VueLogo" />
@@ -12,56 +11,39 @@
                         <div class="loginForm">
                             <h2>Your Preferences</h2>
                             <p class="Form-presentation"> <br> TimeToDo depends on an <i class="fa fa-bold" aria-hidden="true">algorithm</i>  to optimize your plannings. <br><br> The following questions will help us <i class="fa fa-bold" aria-hidden="true">taylor your planning</i> , depending on your needs :<br><br></p>
-                            <form action="#" method="post">
                                 <p class="Form-question">On which timeslot is your lunch break ?</p>
-                                <input type="hidden" name="nbquestion" style="display: none"
-                                    value="<?php echo $row['nbquestion']; ?>" />
-                                
-                                    <input type="hidden" name="question" style="display: none"
-                                    value="<?php echo $row['question']; ?>" />
-                                <input type="hidden" name="answer" style="display: none"
-                                    value="<?php echo $row['answer']; ?>" />
-                                <input type="hidden" name="category" style="display: none"
-                                    value="<?php echo $row['category']?>" />
-                                <input type="hidden" name="level" style="display: none"
-                                    value="<?php echo $row['level']?>" />
                                 <div class="loginInputBox">
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%;"/>
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Lunch1" @input="convertToISO($event, 'Lunch1')" type="time" step="900" name="txtQuestion" style="width:50%;"/>
+                                    <input v-model = "Lunch2" @input="convertToISO($event, 'Lunch2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
                                 </div>
                                 <p class="Form-question">On which timeslot is your diner break ?</p>
                                 <div class="loginInputBox">
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Dinner1" @input="convertToISO($event, 'Dinner1')" type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Dinner2" @input="convertToISO($event, 'Dinner2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
                                 </div>
                                 <p class="Form-question">What is your sleeping schedule ?</p>
                                 <div class="loginInputBox">
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                    <input type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Sleeping1" @input="convertToISO($event, 'Sleeping1')" type="time" step="900" name="txtQuestion" style="width:50%"/>
+                                    <input v-model = "Sleeping2" @input="convertToISO($event, 'Sleeping2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
                                 </div>
                                 <p class="Form-question">Would you rather have schedules in the morning or the afternoon ?</p>
                                 <div class="Switch-container">
                                     <p class="Switch-label">Morning</p>
                                     <label class="switch">
-                                        <input type="checkbox">
+                                        <input type="checkbox"  v-model="isMorningSelected">
                                         <span class="slider"></span>
                                     </label>
                                     <p class="Switch-label">Afternoon</p>
                                 </div>
-                                <!-- <div class="loginInputBox">
-                                    <input type="text" name="txtCategory" value="<?php echo $row['category']?>" />
-                                </div>
-                                <div class="loginInputBox">
-                                    <input type="text" name="txtLevel" value="<?php echo $row['level']?>" />
-                                </div> -->
                                 <br><br>
+                                <p class = "message">{{ message }}</p>
                                 <div class="loginInputBox FormInputBox">
-                                    <input type="submit" value="Submit Information" name="btnUpdate" />
+                                    <input @click = "send" type="submit" value="Submit Information" name="btnUpdate" />
                                 </div>
                                 <p class="forgotPswd MoveOn">
-                                    Skip for now ?<a href="./Register.html">Move on</a>
+                                    Skip for now ?<a href="/calendar-page">Move on</a>
                                 </p>
-                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -92,7 +74,103 @@
 <script>
 export default {
     name: "EntryFormPage1",
-};
+    data(){
+          return{
+            Questions: ["lunchtime", "dinnertime","sleeptime"],
+            Lunch1 : "",
+            Lunch2 : "",
+            Dinner1 : "",
+            Dinner2 : "",
+            Sleeping1 : "",
+            Sleeping2 : "",
+            isMorningSelected : false,
+            message :  "",
+            name_timepref: "",
+            start_time: "",
+            length : "",
+          }
+        },
+
+    methods:{
+        convertToISO(event, field) {
+            const time = event.target.value;
+            const [hours, minutes] = time.split(':');
+            const isoTime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:00`;
+            this[field] = isoTime;
+        },
+        send(){
+            if(this.Lunch1 == "" || this.Lunch2 == "" || this.Dinner1 == "" || this.Dinner2 == "" || this.Sleeping1 == "" || this.Sleeping2 == "" ){
+                this.message = "Please fill all the fields"
+            }
+            else{
+            const lunchDuration = this.calculateDuration(this.Lunch1, this.Lunch2);
+            const dinnerDuration = this.calculateDuration(this.Dinner1, this.Dinner2);
+            const sleepingDuration = this.calculateDuration(this.Sleeping1, this.Sleeping2);
+            const StartTime = [this.Lunch1, this.Dinner1, this.Sleeping1]
+            const Duration = [lunchDuration, dinnerDuration, sleepingDuration]
+            for (let i = 0; i < 3; i++) {
+                const token = localStorage.getItem('token');
+                console.log(token)
+                fetch("http://127.0.0.1:8000/api/timepref", {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                    name_timepref: this.Questions[i],
+                    start_time: StartTime[i],
+                    length: Duration[i]
+                    })
+                }).then((response)=>{
+        
+                if (response.ok) {
+                    return response.json();
+                }
+                else {   
+                        return response.json().then(error => {
+                            throw new Error(JSON.stringify(error));
+                    });
+                }})
+                
+                .then((parsed) => {localStorage.setItem('token',parsed.token);
+                })
+                .then(()=>{this.$router.push('/calendar-page');})
+                .catch((error) => {
+                    let errorMessage;
+                    try {
+                        errorMessage = JSON.parse(error.message);
+                    } catch {
+                        errorMessage = {
+                        message: 'An error occurred while processing your request.'
+                        };
+                        this.message = errorMessage.message;
+                    }
+                    if(errorMessage.status === false){
+
+                        this.message = errorMessage.message;
+                    }
+                    else{
+                        this.message = errorMessage.errors;
+                    }
+                
+                    
+                });
+            }}}                
+            ,
+              
+            calculateDuration(time1, time2) {
+                const [hours1, minutes1] = time1.split(":").map(Number);
+                const [hours2, minutes2] = time2.split(":").map(Number);
+
+                const minutesTime1 = hours1 * 60 + minutes1;
+                const minutesTime2 = hours2 * 60 + minutes2;
+
+                return minutesTime2 - minutesTime1;
+            }
+      }
+
+    }
 </script>
 
 <style></style>
@@ -125,3 +203,4 @@ export default {
                 </div>
             </section>
     <?php } ?> -->
+    

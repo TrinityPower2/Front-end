@@ -59,7 +59,8 @@
                                             </div>
                                         </form>
                                         <p class="forgotPswd">Forgot your password ? <router-link to="/fgpassword-page">Reset it</router-link></p>
-                                        <p class="forgotPswd">New here ? <router-link to="/register-page">Sign up</router-link></p>
+                                        <p class="forgotPswd" style="margin-top:-2%;">New here ? <router-link to="/register-page">Sign up</router-link></p>
+                                        <p class="forgotPswd" style="margin-top:-2%;">Need Help ?<router-link to="/help-page">Contact us</router-link></p>
                                     </div>
                                 </div>
                                 <img src="../assets/Login.png" alt="Calendar people" class="login-img">

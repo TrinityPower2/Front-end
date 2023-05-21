@@ -1,6 +1,6 @@
 <template>
     <body>
-        <header>
+      <header>
             <div class="headernav">
                 <div class="header-container">
                     <div class="header-image">
@@ -8,17 +8,14 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
                 <UserMenu></UserMenu>
-                
-                <!-- <router-link to="/todo-list-page" class="user"><font-awesome-icon icon="fa-solid fa-user-large" -->
-                        <!-- style="--fa-primary-color: #411f51; --fa-secondary-color: #3d1f51" /></router-link> -->
-                <!-- <div class="light">
+                <div class="light">
                     <DarkLightMode></DarkLightMode>
-                </div> -->
+                </div>
             </div>
         </header>
         <a id="top"></a>
@@ -28,18 +25,23 @@
                     <div class="loginContainer">
                         <div class="loginForm">
                             <form @submit.prevent action="" method="post">
+                            <form @submit.prevent action="" method="post">
                                 <h2 class="List-Title">Edit Profile</h2>
                                 <div class="loginInputBox">
                                 <input v-model="txtFName" type="text" name="txtFName" :placeholder="placeholderFName"><br>
                                 </div>
                                 <div class="loginInputBox">
                                 <input v-model="txtEmail" type="email" name="txtEmail" :placeholder="placeholderEmail"><br>
+                                <input v-model="txtEmail" type="email" name="txtEmail" :placeholder="placeholderEmail"><br>
                                 </div>
                                 <div style="color: red;">{{ message }}</div>
                                 <div class="loginInputBox" style="margin-left: -60px;">
                                 <input @click="updateInformation" type="submit" value="Update Information" name="btnUpdate">
+                                <input @click="updateInformation" type="submit" value="Update Information" name="btnUpdate">
                                 </div>
                             </form>
+                            <p class="forgotPswd">Change password ?<router-link to="/reset-password-page">Reset</router-link>
+                            </p>
                             <p class="forgotPswd">Change password ?<router-link to="/reset-password-page">Reset</router-link>
                             </p>
                         </div>
@@ -47,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"></a>
         <footer>
             <div class="content-footer">
                 <div class="top">
@@ -71,8 +73,8 @@
 </template>
 
 <script>
-//import UserMenu from "../components/UserMenu.vue";
-// import DarkLightMode from "../components/DarkLightMode.vue";
+import UserMenu from "../components/UserMenu.vue";
+import DarkLightMode from "../components/DarkLightMode.vue";
 export default {
   name: 'ProfilePage',
   data() {
@@ -131,7 +133,29 @@ export default {
           return response.json().then((error) => {
             throw new Error(JSON.stringify(error));
           });
+          return response.json().then((error) => {
+            throw new Error(JSON.stringify(error));
+          });
         }
+      })
+      .then((data) => {
+        this.txtFName = data.name;
+        this.txtEmail = data.email;
+        this.placeholderFName = data.name;
+        this.placeholderEmail = data.email;
+      })
+      .catch((error) => {
+        let errorMessage;
+        try {
+          errorMessage = JSON.parse(error.message);
+        } catch {
+          errorMessage = {
+            message: 'An error occurred while processing your request.',
+          };
+        }
+        this.message = errorMessage.message;
+      });
+  },
       })
       .then((data) => {
         this.txtFName = data.name;
@@ -153,6 +177,7 @@ export default {
   },
 };
 </script>
+
 
 
 <style></style>

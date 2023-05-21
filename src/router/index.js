@@ -54,6 +54,7 @@ import TodoListPage from "@/views/TodolistPage.vue";
 import CreateCalendarPage from "@/views/CreateCalendar.vue";
 import HelpPage from "@/views/HelpPage.vue";
 import ProfilePage from "@/views/UserProfilePage.vue";
+import TodoList2Page from "@/views/TodolistPage2.vue";
 import CalendarPage from "@/views/CalendarPage.vue";
 
 const routes = [
@@ -111,6 +112,11 @@ const routes = [
     path: "/todo-list-page",
     name: "TodoListPage",
     component: TodoListPage,
+  },
+  {
+    path: "/todo-list2-page",
+    name: "TodoList2Page",
+    component: TodoList2Page,
   },
   {
     path: "/create-calendar-page",
