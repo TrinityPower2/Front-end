@@ -164,7 +164,7 @@ export default {
                 fdata.append("report_photo", this.selectedFile);
 
             const request = new XMLHttpRequest();
-            request.open("POST", "http://127.0.0.1:8000/help_request");
+            request.open("POST", "api/help_request");
             request.send(fdata);
 
             this.sent = true;
