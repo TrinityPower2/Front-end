@@ -175,7 +175,7 @@ export default {
                 const [hours2, minutes2] = time2.split(":").map(Number);
 
                 const minutesTime1 = hours1 * 60 + minutes1;
-                const minutesTime2 = hours2 * 60 + minutes2;
+                let minutesTime2 = hours2 * 60 + minutes2;
 
                 if (hours2 < hours1) {
                     minutesTime2 += 24 * 60;
