@@ -160,6 +160,11 @@
                     <span class="close" @click="CloseNewCalendar">&times;</span>
                     <h1 class="modal-Title" style="margin-bottom: 40px">Add Event</h1>
                     <br>
+                    <div v-if="showAlert && invalidField === 'StartTime'" class="message">Start Time
+                        must be between 06:00 and 23:00</div>
+                    <div v-if="showAlert && invalidField === 'EndTime'" class="message">End Time
+                        must be between 06:00 and 23:00</div>
+                    <br>
                     <div class="modal-center">
                         <div class="custom-select2">
                             <select class="select-items" v-model="SelectedCalendar" id="Selected_Calendar">
@@ -182,6 +187,7 @@
                                     min="2023-04-01" max="2028-12-31">
                             </div>
                         </div>
+
                         <div class="New-list-element1" style="padding: 12px;">
 
                             <font-awesome-icon icon="fa-regular fa-hourglass-half" size="xl"
@@ -189,14 +195,17 @@
                             <div class="Timeslots-choice">
                                 <div class="custom-select2" id="Time-Task" style="margin-right: 0px;">
                                     <input class="select-items" type="time" id="day" name="day-task" v-model="StartTime"
-                                        min="6:00" max="23:00">
+                                        @blur="ValidateTime('StartTime')" min="6:00" max="23:00">
+
                                 </div>
                                 <div class="custom-select2" id="Time-Task">
                                     <input class="select-items" type="time" id="day" name="day-task" v-model="EndTime"
-                                        min="6:00" max="23:00">
+                                        @blur="ValidateTime('EndTime')" min="6:00" max="23:00">
+
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="New-list-element1" style="padding: 12px;">
                             <font-awesome-icon icon="fa-solid fa-palette" size="xl"
@@ -353,6 +362,10 @@
                     <input v-model="SelectedEventName" type="text" id="fname" name="fname" class="new-task-input"
                         placeholder="Event Name" style="margin-top:25px;" /><br />
                     <div class="message"> {{ message }}</div><br>
+                    <div v-if="showAlert && invalidField === 'StartTime'" class="message">Start Time
+                        must be between 06:00 and 23:00</div>
+                    <div v-if="showAlert && invalidField === 'EndTime'" class="message">End Time
+                        must be between 06:00 and 23:00</div>
                 </div>
                 <div class="modal-center2">
 
@@ -360,25 +373,25 @@
                         <font-awesome-icon icon="fa-regular fa-calendar-days" size="xl"
                             style="color: rgba(85, 84, 85, 0.986)" />
 
-
                         <div class="custom-select2" id="Time-Task">
                             <input class="DescriptionInput1" type="date" id="day" name="day-task" v-model="SelectedDate"
                                 min="2023-04-01" max="2028-12-31">
                         </div>
-
                     </div>
-                    <div class="New-list-element1" style="padding: 12px;">
 
+                    <div class="New-list-element1" style="padding: 12px;">
                         <font-awesome-icon icon="fa-regular fa-hourglass-half" size="xl"
                             style="color: rgba(85, 84, 85, 0.986)" />
                         <div class="Timeslots-choice">
+
                             <div class="custom-select2" id="Time-Task" style="margin-right: 0px;">
                                 <input class="select-items" type="time" id="day" name="day-task" v-model="StartTime"
-                                    min="6:00" max="23:00">
+                                    @blur="ValidateTime('StartTime')" min="06:00" max="23:00">
                             </div>
                             <div class="custom-select2" id="Time-Task">
                                 <input class="select-items" type="time" id="day" name="day-task" v-model="EndTime"
-                                    min="6:00" max="23:00">
+                                    @blur="ValidateTime('EndTime')" min="06:00" max="23:00">
+
                             </div>
                         </div>
                     </div>
@@ -769,8 +782,9 @@
                             </div>
                             <div class="Switch-container">
                                 <p class="Switch-label">YES</p>
-                                <label class="switch" >
-                                    <input type="checkbox" v-model="notificationEnabled" :value="true" @change="handleSliderChange">
+                                <label class="switch">
+                                    <input type="checkbox" v-model="notificationEnabled" :value="true"
+                                        @change="handleSliderChange">
                                     <span class="slider"
                                         :class="{ 'slider-right': notificationEnabled, 'slider-left': !notificationEnabled }"></span>
                                 </label>
@@ -1082,7 +1096,9 @@ export default {
             Tasks: [],
             UpdateTasks: [],
             notificationEnabled: false,
-            to_notify : 0
+            showAlert: false,
+            invalidField: '',
+            to_notify: 0
 
         }
     },
@@ -1102,7 +1118,7 @@ export default {
             if (this.notificationEnabled) {
                 this.to_notify = 1;
             } else {
-                this.to_notify = 0 
+                this.to_notify = 0
             }
         },
         onCheckboxChange(event, taskIndex) {
@@ -1170,9 +1186,9 @@ export default {
             console.log(cal)
             this.CalendarName = cal.name_calendar;
             this.CalColor = cal.calendar_color;
-            if(cal.to_notify == 0){
+            if (cal.to_notify == 0) {
                 this.notificationEnabled = false;
-            }else{
+            } else {
                 this.notificationEnabled = true;
             }
         },
@@ -1188,7 +1204,7 @@ export default {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' + token
                         },
-                        body: JSON.stringify({ name_calendar: this.CalendarName, color: this.CalColor, to_notify: this.to_notify})
+                        body: JSON.stringify({ name_calendar: this.CalendarName, color: this.CalColor, to_notify: this.to_notify })
                     })
                     .then((response) => {
 
@@ -1439,6 +1455,8 @@ export default {
             this.SelectedDate = "0"
             this.EndTime = "0"
             this.message = ""
+            this.showAlert = false
+            this.invalidField = ''
         },
         OpenmyModalNewCalendar() {
             document.getElementById("myModalNewCalendar").style.display = "block";
@@ -1453,7 +1471,9 @@ export default {
             this.StartTime = "0"
             this.SelectedDate = "0"
             this.EndTime = "0"
-            this.message = ""
+            this.message = "",
+            this.showAlert = false
+            this.invalidField = ''
         },
         OpenImportCalendarModal() {
             document.getElementById("ImportCalendarModal").style.display = "block";
@@ -1533,6 +1553,17 @@ export default {
             const endTime = `${String(resultingHours).padStart(2, "0")}:${String(resultingMinutes).padStart(2, "0")}:00`;
 
             return endTime;
+        },
+        ValidateTime(field) {
+            const time = this[field];
+            if (time < "06:00" || time > "23:00") {
+                this[field] = '';
+                this.showAlert = true;
+                this.invalidField = field;
+            } else {
+                this.showAlert = false;
+                this.invalidField = '';
+            }
         },
         async GetEvent() {
 
@@ -2017,6 +2048,8 @@ export default {
                             this.StartTime = '0';
                             this.SelectedDate = '0';
                             this.EndTime = '0';
+                            this.showAlert = false;
+                            this.invalidField = '';
                         } else {
                             Promise.all(createTaskPromises)
                                 .then(() => {
@@ -2035,6 +2068,8 @@ export default {
                                     this.StartTime = '0';
                                     this.SelectedDate = '0';
                                     this.EndTime = '0';
+                                    this.showAlert = false;
+                                    this.invalidField = '';
                                 })
                                 .catch((error) => {
                                     let errorMessage;
@@ -2148,6 +2183,7 @@ export default {
             this.getEventByWeek(this.selectedWeek);
             this.visibleCalendars = this.Calendar.map((calendar) => calendar.id_calendar);
             console.log(this.Calendar)
+            this.message = ""
 
         });
     },

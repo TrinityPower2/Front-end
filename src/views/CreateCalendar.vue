@@ -8,8 +8,8 @@
                     </div>
                 </div>
                 <div class="Navbar">
-                    <router-link to="/todo-list-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-list-page" class="to-page-nav">My Todo Lists</router-link>
+                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
+                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
                     <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
                 </div>
                 <UserMenu></UserMenu>
@@ -30,15 +30,16 @@
                                         aria-hidden="true">algorithm</i> to optimize your plannings. <br><br> Please enter
                                     the tasks you need to complete this week ! <br><br></p>
 
-                                <div class="created-tasks-container" v-for="(event, index) in Tasks.events" :key="index">
-                                    <div :class='"created-tasks-new " + event.color'>
+                                <div class="created-tasks-container1" v-for="(event, index) in Tasks.events" :key="index">
+                                    <div :class='"created-tasks-new1 " + event.color'>
                                         <p class="created-tasks-title">
                                             {{ event.name }}
                                         </p>
                                         <p class="created-tasks-title">
                                             {{ event.duration }}H
                                         </p>
-                                        <span class="close" @click="OpenmyModalEventDelete">&times;</span>
+                                        <span style="color:#6b666b50; " class="close"
+                                            @click="OpenmyModalEventDelete(index)">&times;</span>
                                     </div>
                                 </div>
 
@@ -54,16 +55,23 @@
                 <div class="modal-content-create">
                     <span class="close">&times;</span>
                     <h1 class="modal-Title" style="margin-bottom : 40px;">New Event</h1>
-                    <div class="modal-center1">
-
+                    <br>
+                    <div v-if="showAlert && invalidField === 'SelectedDate'" class="message">Time
+                        must be between 06:00 and 23:00</div>
+                    <br>
+                    <div class="modal-center">
                         <input v-model="SelectedEventName" type="text" id="fname" name="fname" class="new-task-input"
                             placeholder="Event Name"><br>
+                    </div>
+                    <div class="modal-center2">
+
+
                         <div class="New-list-element1" style="margin-top : 40px;">
                             <font-awesome-icon icon="fa-regular fa-clock" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
 
-                            <div class="custom-select create-select">
-                                <select class="select-items-create" v-model="SelectedDuration">
+                            <div class="custom-select2">
+                                <select class="select-items" style="position:static;" v-model="SelectedDuration">
                                     <option value="0">Length of event :</option>
                                     <option value="1">1H</option>
                                     <option value="2">2H</option>
@@ -84,19 +92,19 @@
                             <font-awesome-icon icon="fa-regular fa-calendar-days" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
 
-                            <div class="custom-select create-select">
-                                <div class="custom-select" id="Time-Task">
-                                    <input v-model="SelectedDate" class="select-items-create" type="datetime-local" id="day"
-                                        name="day-task" min="2023-04-01" max="2028-12-31">
-                                </div>
+
+                            <div class="custom-select2" id="Time-Task">
+                                <input v-model="SelectedDate" class="DescriptionInput2" type="datetime-local" id="day"
+                                @blur="ValidateTime('SelectedDate')" name="day-task" min="2023-05-22T06:00" max="2028-12-30T23:00">
                             </div>
+
                         </div>
 
                         <div class="New-list-element1">
                             <font-awesome-icon icon="fa-solid fa-palette" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
                             <div class="custom-select create-select">
-                                <select class="select-items-create" v-model="SelectedType">
+                                <select class="select-items" style="position:static;" v-model="SelectedType">
                                     <option value="0">Type of event :</option>
                                     <option value="red"><font-awesome-icon icon="fa-solid fa-circle"
                                             style="color: #00ff88" />Party</option>
@@ -121,7 +129,7 @@
                             <font-awesome-icon icon="fa-solid fa-repeat" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
                             <div class="custom-select create-select">
-                                <select class="select-items-create" v-model="SelectedFrequence">
+                                <select class="select-items" style="position:static;" v-model="SelectedFrequence">
                                     <option value="first">Choose Frequence : </option>
                                     <option value="6">Every day</option>
                                     <option value="5">Every 2 days</option>
@@ -137,7 +145,7 @@
                             <font-awesome-icon icon="fa-solid fa-circle-exclamation" size="xl"
                                 style="color: rgba(85, 84, 85, 0.986);" />
                             <div class="custom-select create-select">
-                                <select class="select-items-create" v-model="SelectedImportance">
+                                <select class="select-items" style="position:static;" v-model="SelectedImportance">
                                     <option value="0">Importance :</option>
                                     <option value="1">Urgent</option>
                                     <option value="2">Important</option>
@@ -147,7 +155,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="message"> {{ message }}</div><br>
+                        <div style="margin-left:132px;">
+                            <div class="message1"> {{ message }}</div><br>
+                        </div>
                         <div style="width: 90%; display: flex; justify-content: center; margin-top: 50px;">
                             <div class="AddTaskInputBox">
                                 <input @click="AddEvent" type="submit" value="Add" name="submit" />
@@ -156,9 +166,8 @@
                     </div>
                 </div>
             </div>
-            
 
-            <div id="myModaladdNewCalendar" class="modal">
+            <div id="myModaladdNewCalendar" class="modal1">
                 <!-- Modal content -->
                 <div class="modal-content">
                     <span class="close" @click="ClosemyModaladdNewCalendar">&times;</span>
@@ -181,21 +190,21 @@
                 </div>
             </div>
 
-            <div id="myModalPlus" class="modal">
+            <div id="myModalPlus" class="modal1">
                 <!-- Modal content -->
                 <div class="modal-content">
                     <span class="close" @click="ClosemyModalPlus">&times;</span>
                     <h1 class="modal-Title">Add to Calendar</h1>
                     <div class="modal-center">
-                        <div class="custom-select">
-                            <select class="select-items" v-model="SelectedCalendar" id="Selected_Calendar" @click="Fill()">
+                        <div class="custom-select2" style="margin-top:43px;">
+                            <select class="select-items" v-model="SelectedCalendar" id="Selected_Calendar">
                                 <option value="0">Choose Calendar :</option>
                                 <option v-for="option in Calendar" :value="option.id_calendar" :key="option.id_calendar">{{
                                     option.name_calendar }}</option>
                             </select>
                         </div>
                         <div class="AddInputBox">
-                            <input @click="addAddToCalendar" type="submit" value="Add" name="submit" />
+                            <input @click="AddExistingCalendar" type="submit" value="Add" name="submit" />
                         </div>
                     </div>
                 </div>
@@ -344,6 +353,7 @@
         </div>
 
 
+
         <!--<div id="CreateCalendarEvent" class="modal1">
             <div class="modal-content-create">
                 <span class="close" @click="CloseCreateCalendarEvent">&times;</span>
@@ -417,7 +427,7 @@
             </div>
         </div>-->
 
-        <div class="create-calendar-event" id="CreateCalendarEvent" style="display:none">
+        <div class="create-calendar-event1" id="CreateCalendarEvent">
             <div class="modal-content-create">
                 <span class="close">&times;</span>
                 <h1 class="modal-Title" style="margin-bottom : 40px;">Your new Calendar</h1>
@@ -436,50 +446,23 @@
                                                 aria-hidden="true">validate</i> below.<br><br> Otherwise, please check if
                                             you've entered too many tasks, or concurring tasks and choose to <i
                                                 class="fa fa-bold" aria-hidden="true">reselect</i> below. <br><br></p>
-                                        <div class="created-tasks-container">
-                                            <div class="created-tasks-new-container">
-                                                <div class="created-tasks-new" style="--color:#F291BB;">
-                                                    <p class="created-tasks-title">
-                                                        Soirée d'anniv hihi
-                                                    </p>
-
-                                                    <p class="created-tasks-title">
-                                                        5H
-                                                    </p>
-                                                </div>
-                                                <!-- <font-awesome-icon icon="fa-solid fa-plus" size="sm" class="new-task-remove" style="transform:rotate(45deg); margin-left: 13px;" /> -->
-                                            </div>
-                                            <div class="created-tasks-new-container">
-                                                <div class="created-tasks-new" style="--color:#90B5FF;">
-                                                    <p class="created-tasks-title">
-                                                        Projet d'IA
-                                                    </p>
-                                                    <p class="created-tasks-title">
-                                                        18H
-                                                    </p>
-                                                </div>
-                                                <!-- <font-awesome-icon icon="fa-solid fa-plus" size="sm" class="new-task-remove" style="transform:rotate(45deg); margin-left: 13px;" /> -->
+                                        <div class="created-tasks-container" v-for="(event, index) in events" :key="index">
+                                            <div :class='"created-tasks-new " + event.color'>
+                                                <p class="created-tasks-title">{{ event.name_event }}</p>
+                                                <p class="created-tasks-title">{{ Math.floor(event.length / 60) }}H</p>
                                             </div>
                                         </div>
-                                        <!--<button class="Create-planning-Btn" id="addCalendar">
-                                            Generate Planning
-                                        </button>
-                                         <div >
-                                    <input type="submit" value="" name="btnUpdate" />
-                                </div> 
-                                        <p class="forgotPswd MoveOn">
-                                            Not done yet ?<btn id="AddNewTask">Add Event</btn>
-                                        </p>-->
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="New-list-element1" style="margin-top : 40px;">
+
                         <div class="calendar-container">
                             <div class="calendar">
                                 <div class="timeline">
-
                                     <div class="time-marker">6 H</div>
                                     <div class="time-marker"></div>
                                     <div class="time-marker mid">6H30</div>
@@ -549,122 +532,44 @@
                                     <div class="time-marker mid">22H30</div>
                                     <div class="time-marker"></div>
                                     <div class="time-marker">23 H</div>
-
                                 </div>
                                 <div class="days">
-                                    <div class="day mon">
-                                        <div class="date">
-                                            <p class="date-num">9</p>
-                                            <p class="date-day">Mon</p>
-                                        </div>
-                                        <div class="events">
-                                            <div class="event start-13 end-15 project calendar-8">
-                                                <p class="calendar-title">Physics exam</p>
-                                                <p class="calendar-time">13H - 15H</p>
+                                    <div v-for="(week, index) in EventByWeek" :key="index">
+                                        <div :class='"day " + week.day'>
+                                            <div class="date">
+                                                <p class="date-num">{{ week.day_nb }}</p>
+                                                <p class="date-day">{{ week.day }}</p>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="day tues">
-                                        <div class="date">
-                                            <p class="date-num">10</p>
-                                            <p class="date-day">Tues</p>
-                                        </div>
-                                        <div class="events">
-                                            <div class="event start-16 end-18-30 health calendar-8" id="event">
-                                                <p class="calendar-title">Volleyball Practice</p>
-                                                <p class="calendar-time">16H - 18H30</p>
-                                            </div>
-                                            <div class="event start-10 end-11-30 class calendar-8">
-                                                <p class="calendar-title">Meeting</p>
-                                                <p class="calendar-time">10H - 11H30</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="day wed">
-                                        <div class="date">
-                                            <p class="date-num">11</p>
-                                            <p class="date-day">Wed</p>
-                                        </div>
-                                        <div class="events">
-                                            <div class="event start-12 end-19 holiday calendar-8">
-                                                <p class="calendar-title">Dentist Apointment</p>
-                                                <p class="calendar-time">12H - 19H</p>
-                                            </div>
-                                            <div class="event start-8 end-9-30 project calendar-8">
-                                                <p class="calendar-title">Maths Exam</p>
-                                                <p class="calendar-time">8H - 9H30</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="day thurs">
-                                        <div class="date">
-                                            <p class="date-num">12</p>
-                                            <p class="date-day">Thurs</p>
-                                        </div>
-                                        <div class="events">
-                                            <div class="event start-10 end-12 health calendar-8">
-                                                <p class="calendar-title">Volleyball Practice</p>
-                                                <p class="calendar-time">10H - 12H</p>
-                                            </div>
-                                            <div class="event start-19 end-23 party calendar-8">
-                                                <p class="calendar-title">Entertainment</p>
-                                                <p class="calendar-time">19H - 23H</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="day fri">
-                                        <div class="date">
-                                            <p class="date-num">13</p>
-                                            <p class="date-day">Fri</p>
-                                        </div>
-                                        <div class="events">
-                                        </div>
-                                    </div>
-                                    <div class="day sat">
-                                        <div class="date">
-                                            <p class="date-num">14</p>
-                                            <p class="date-day">Sat</p>
-                                        </div>
-                                        <div class="events">
-                                            <div class="event start-11 end-16 work calendar-8">
-                                                <p class="calendar-title">Volleyball Practice</p>
-                                                <p class="calendar-time">11H - 16H</p>
-                                            </div>
-                                            <div class="event start-17 end-20 family calendar-8">
-                                                <p class="calendar-title">Family Gathering</p>
-                                                <p class="calendar-time">15H - 20H</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="day sun">
-                                        <div class="date">
-                                            <p class="date-num">15</p>
-                                            <p class="date-day">Sun</p>
-                                        </div>
-                                        <div class="events">
-                                            <div class="event start-11 end-15 holiday calendar-8">
-                                                <p class="calendar-title">Flight to Dubai</p>
-                                                <p class="calendar-time">11H - 15H</p>
-                                            </div>
-                                            <div class="event start-7 end-9 project calendar-8">
-                                                <p class="calendar-title">English Exam</p>
-                                                <p class="calendar-time">7H - 9H</p>
+                                            <div class="events">
+                                                <div class="events" v-for="(cal, Calindex) in week.events" :key="Calindex">
+
+                                                    <div class="events" v-for="(event, Calindex) in cal.event"
+                                                        :key="Calindex">
+                                                        <div :id='event.id_calendar + "-" + event.id_event'
+                                                            :class='"event start-" + event.f_start_date + " end-" + event.f_end_date + " " + event.color + " calendar-" + week.color_calendar'>
+                                                            <p class="calendar-title">{{ event.name_event }}</p>
+                                                            <p class="calendar-time">
+                                                                {{ event.start_time }} - {{ event.end_time }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="delete-list-button">
-                        <div class="AddTaskInputBox no">
-                            <input class="close" type="submit" value="Generate Planning !" name="submit" />
-                        </div>
-                        <div class="AddTaskInputBox no">
-                            <input style="margin-left: 0px;" type="submit" value="Go Back To Review ->" name="submit" />
-                        </div>
+                    <div class="AddTaskInputBox no">
+                        <input class="close" type="submit" value="Generate Planning !" name="submit" @click = "CreateCalendar" />
                     </div>
+                    <div class="AddTaskInputBox no">
+                        <input style="margin-left: 0px;" type="submit" value="Go Back To Review ->" @click = "DeleteCalendar" name="submit" />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -713,32 +618,62 @@ export default {
             SelectedDuration: '0',
             SelectedDate: '',
             SelectedType: '0',
+            SelectedDelete: "",
             SelectedFrequence: 'first',
             SelectedImportance: '0',
+            daysOfWeek: [],
+            EventByWeek: [],
+            days: ['sun', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat'],
             CalColor: "0",
             CalendarName: "",
+            Processed: [],
+            Calendar: [],
+            ProcessedList: [],
             message: '',
-            Tasks: { id_calendar: 0, events: [] },
+            events: [],
+            Tasks: { color_calendar : "white", id_calendar: 0, events: [] },
+            showAlert: false,
+            invalidField: '',
+            Failed : []
         }
     },
     methods: {
         CreateCalendar() {
-            fetch("http://127.0.0.1:8000/api/algorithm_confirm",
+            const token = localStorage.getItem('token');
+            fetch("api/api/algorithm_confirm",
                 {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
                     }
                 })
+            window.location.href = "/calendar"
         },
         DeleteCalendar() {
-            fetch("http://127.0.0.1:8000/api/algorithm_cancel",
+            const token = localStorage.getItem('token');
+            fetch("api/api/algorithm_cancel",
                 {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
                     }
                 })
+            this.CloseCreateCalendarEvent()
+        },
+        ValidateTime(field) {
+            const dateTime = this[field];
+            const time = dateTime.slice(11, 16);
+            console.log(time)
+            if (time < "06:00" || time > "23:00") {
+                this[field] = '';
+                this.showAlert = true;
+                this.invalidField = field;
+            } else {
+                this.showAlert = false;
+                this.invalidField = '';
+            }
         },
 
         AddEvent() {
@@ -797,7 +732,7 @@ export default {
 
                     })
 
-                console.log(this.Tasks)
+                console.log("Tasks pulled ",this.Tasks)
                 // Display a message when it is successfully added
                 this.message = 'Information successfully added !';
                 console.log(this.message);
@@ -819,7 +754,69 @@ export default {
                 this.SelectedType = '0';
                 this.SelectedFrequence = 'first';
                 this.SelectedImportance = '0';
+                this.showAlert = false;
+                this.invalidField = '';
             }
+        },
+        AddExistingCalendar() {
+            this.ClosemyModalPlus()
+            const cal = this.Calendar.find(item => item.id_calendar === this.SelectedCalendar)
+            this.Tasks.id_calendar = this.SelectedCalendar;
+            this.Tasks.color_calendar = cal ? cal.color_calendar : null;
+            console.log(this.Tasks)
+            console.log("Tasks pulled ",this.Tasks)
+            const token = localStorage.getItem('token');
+            fetch('api/api/algorithm_loaded', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token,
+                },
+                body: JSON.stringify(this.Tasks)
+            }).then((response) => {
+
+                if (response.ok) {
+                    this.message = '';
+
+                    return response.json()
+                } else {
+                    return response.json().then(error => {
+                        throw new Error(JSON.stringify(error));
+                    });
+                }
+
+            }).then((json) => {
+                this.Processed = json.processed
+                this.Failed = json.failed
+                console.log(json)
+                return json.processed
+            }).then((process) => {
+                console.log(process)
+                this.getEventByWeek();
+                this.OpenCreateCalendarEvent(this.Failed);
+            })
+                .catch((error) => {
+                    let errorMessage;
+                    try {
+                        errorMessage = JSON.parse(error.message);
+                    } catch {
+                        errorMessage = {
+                            message: ' '
+                        };
+                    }
+                    this.message = errorMessage.message;
+                })
+                .catch((error) => {
+                    let errorMessage;
+                    try {
+                        errorMessage = JSON.parse(error.message);
+                    } catch {
+                        errorMessage = {
+                            message: ' '
+                        };
+                    }
+                    this.message = errorMessage.message;
+                });
         },
         CreateACalendar() {
             if (this.CalendarName == '' || this.CalColor == "0") {
@@ -851,9 +848,10 @@ export default {
                     })
                     .then((eventData) => {
                         console.log(eventData)
-                        this.Tasks.id_calendar = eventData.ref.id_calendar;
-                        console.log(this.Tasks)
+                        this.Tasks.id_calendar = eventData.task.id_calendar;
+                        this.Tasks.color_calendar = eventData.task.color;
 
+                        console.log("Tasks pulled ",this.Tasks)
 
                         fetch('api/api/algorithm_loaded', {
                             method: 'POST',
@@ -863,10 +861,9 @@ export default {
                             },
                             body: JSON.stringify(this.Tasks)
                         }).then((response) => {
+
                             if (response.ok) {
                                 this.message = '';
-                                
-                                
                                 return response.json()
                             } else {
                                 return response.json().then(error => {
@@ -875,8 +872,15 @@ export default {
                             }
 
                         }).then((json) => {
-                            console.log(json.processed)
-                            this.OpenCreateCalendarEvent(json.processed);
+                            this.Processed = json.processed;
+                            this.Failed = json.failed;
+                            console.log(this.Processed);
+                            console.log(json)
+                            return json.processed
+                        }).then((process) => {
+                            console.log(process)
+                            this.getEventByWeek()
+                            this.OpenCreateCalendarEvent(this.Failed)
                         })
                             .catch((error) => {
                                 let errorMessage;
@@ -905,6 +909,7 @@ export default {
             }
         },
         OpenCreateCalendarModal() {
+            this.getProcessed()
             document.getElementById("CreateCalendarModal").style.display = "block";
         },
         CloseCreateCalendarModal() {
@@ -932,7 +937,11 @@ export default {
             document.getElementById("ImportCalendarModal").style.display = "none";
             this.message = "";
         },
-        OpenmyModalEventDelete() {
+        OpenmyModalEventDelete(id) {
+
+            this.SelectedDelete = id;
+            console.log(id)
+            console.log(this.Tasks.events)
             document.getElementById("myModalEventDelete").style.display = "block";
         },
         ClosemyModalEventDelete() {
@@ -940,15 +949,17 @@ export default {
             this.message = "";
         },
         deleteTask() {
-            var element = document.querySelector('.created-tasks-new');
-            element.remove();
+            
+            this.Tasks.events.splice(this.SelectedDelete, 1)
             document.getElementById("myModalEventDelete").style.display = "none";
         },
         cancelDeleteTask() {
             document.getElementById("myModalEventDelete").style.display = "none";
         },
-        OpenCreateCalendarEvent() {
+        OpenCreateCalendarEvent(events) {
+            this.events = events;
             document.getElementById("CreateCalendarEvent").style.display = "block";
+            console.log("List of events: ", this.events)
         },
         CloseCreateCalendarEvent() {
             document.getElementById("CreateCalendarEvent").style.display = "none";
@@ -963,12 +974,202 @@ export default {
             this.ClosemyModaladdNewCalendar();
         },
         addAddToCalendar() {
-            this.OpenCreateCalendarEvent();
+            this.OpenCreateCalendarEvent(this.Failed);
             this.ClosemyModalPlus();
         },
         addCreatePlanning() {
             this.CreateACalendar();
             this.CloseCreateCalendarModal();
+        },
+        getWeek(date) {
+            const year = parseInt(date.slice(0, 4));
+            const month = parseInt(date.slice(5, 7));
+            const day = parseInt(date.slice(8));
+            const weekNumber = this.getISOWeekNumber(year, month, day) - 1;
+            const formattedWeek = `${year}-W${weekNumber.toString().padStart(2, '0')}`;
+
+            return formattedWeek;
+        },
+        getDaysOfWeek() {
+            this.daysOfWeek = []
+            const currentDate = new Date()
+            const day = currentDate.getDay()
+            const day_nb = currentDate.getDate()
+            for (let i = 0; i < 7; i++) {
+
+                this.daysOfWeek.push(day_nb + i);
+            }
+            this.days = this.days.slice(day).concat(this.days.slice(0, day))
+            console.log(this.day)
+            console.log(this.days)
+
+        },
+        GetTime(Date) {
+            const time = Date.slice(-8);
+            const hours = time.split(":")[0];
+            let minutes = time.split(":")[1];
+
+            if (minutes === 60) {
+                minutes = 0;
+            }
+
+            const formattedMinutes = (minutes !== 0) ? minutes.toString() : "00";
+            const formattedTime = `${hours}-${formattedMinutes}`;
+            return formattedTime;
+
+        },
+        addDurationToTime(time, durationInMinutes) {
+
+            const [hours, minutes] = time.split(":").map(Number);
+            const timeInMinutes = hours * 60 + minutes;
+            const endTimeInMinutes = timeInMinutes + parseInt(durationInMinutes);
+            const resultingHours = Math.floor(endTimeInMinutes / 60);
+            const resultingMinutes = endTimeInMinutes % 60;
+            const endTime = `${String(resultingHours).padStart(2, "0")}:${String(resultingMinutes).padStart(2, "0")}:00`;
+
+            return endTime;
+        },
+        format_sd(date) {
+            const Start_Date = new Date(date);
+
+
+            const year = Start_Date.getFullYear();
+            const month = Start_Date.getMonth() + 1;
+            const day = Start_Date.getDate();
+            const adjustedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+
+            const hours = Start_Date.getUTCHours();
+            const minutes = Start_Date.getUTCMinutes();
+            const seconds = Start_Date.getUTCSeconds();
+            const adjustedTime = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+
+
+            const converted_date = `${adjustedDate} ${adjustedTime}`;
+
+            return converted_date;
+        },
+        getProcessed() {
+
+            this.ProcessedList = this.Processed.map((ev) => {
+
+                if (ev.start_date.includes('Z')) {
+                    ev.start_date = this.format_sd(ev.start_date)
+                }
+                console.log(this.GetTime(ev.start_date))
+                console.log(this.GetTime(this.addDurationToTime(ev.start_date.slice(-8), ev.length)))
+                console.log(this.addDurationToTime(ev.start_date.slice(-8), ev.length))
+                return {
+                    name_calendar: ev.name_calendar,
+                    id_calendar: ev.id_calendar,
+                    calendar_color: ev.calendar_color,
+                    name_event: ev.name_event,
+                    start_time: this.GetTime(ev.start_date),
+                    start_date: ev.start_date,
+                    end_time: this.GetTime(this.addDurationToTime(ev.start_date.slice(-8), ev.length)),
+                    end_date: this.addDurationToTime(ev.start_date.slice(-8), ev.length),
+                    length: ev.length,
+                    color: ev.color,
+                    day: this.getDay(ev.start_date),
+                    day_nb: ev.start_date.substr(8, 2),
+                    f_start_date: this.formattedTime(ev.start_date),
+                    f_end_date: this.formattedTime(this.addDurationToTime(ev.start_date.slice(-8), ev.length))
+
+
+                }
+            })
+
+            return this.ProcessedList
+        },
+        formattedTime(Date) {
+            const time = Date.slice(-8);
+            const hours = time.split(":")[0];
+            let minutes = time.split(":")[1];
+
+            minutes = Math.round(minutes / 15) * 15;
+
+            if (minutes === 60) {
+                minutes = 0;
+            }
+
+            const formattedMinutes = (minutes !== 0) ? minutes.toString() : "00";
+            const formattedTime = `${hours}-${formattedMinutes}`;
+            return formattedTime;
+
+        },
+        getDay(dateString) {
+            var date = new Date(dateString);
+            var dayOfWeek = date.getDay();
+
+            var day = this.days[dayOfWeek - 1];
+
+            return day;
+        },
+        async getEventByWeek() {
+
+            const eventsForWeek = {};
+
+            await this.daysOfWeek
+            await this.getProcessed()
+            console.log(this.ProcessedList)
+            for (const [index, day] of this.days.entries()) {
+                const day_nb = this.daysOfWeek[index];
+                eventsForWeek[day] = {
+                    day: day,
+                    day_nb: day_nb,
+                    color_calendar : "",
+                    events: {},
+                };
+            }
+
+            this.ProcessedList.forEach((event) => {
+
+                const day = event.day;
+                const id_cal = event.id_calendar;
+                
+                if (!eventsForWeek[day].events[id_cal]) {
+                    eventsForWeek[day].events[id_cal] = {
+                        event: [],
+                    };
+                }
+                eventsForWeek[day].colr_calendar = this.Tasks.color_calendar;
+                eventsForWeek[day].events[id_cal].event.push(event);
+            })
+
+
+
+            this.EventByWeek = eventsForWeek;
+            console.log(this.EventByWeek)
+            return eventsForWeek;
+        },
+        async GetCalendar() {
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch("api/api/calendar/", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+                const data = await response.json();
+                this.calendar = JSON.parse(JSON.stringify(data.calendars));
+            } catch (error) {
+                console.error(error.message);
+            }
+        },
+        async initializePage() {
+
+            await this.GetCalendar();
+
+            this.Calendar = this.calendar.map((calendar) => {
+
+                return {
+                    name_calendar: calendar.name_calendar,
+                    id_calendar: calendar.id_calendar,
+                    color_calendar : calendar.color
+                };
+            })
         },
         /*
         handleFileChange(event) {
@@ -1010,6 +1211,14 @@ export default {
         },
         */
     },
+    beforeMount() {
+        this.initializePage().then(() => {
+            const currentWeek = new Date().toISOString().slice(0, 10)
+            this.getEventByWeek(currentWeek);
+            console.log(this.Calendar)
+
+        });
+    },
     mounted() {
         var thisID = document.getElementById("TopBtn");
         var myScrollFunc = function () {
@@ -1024,6 +1233,7 @@ export default {
         window.addEventListener("beforeunload", this.handleBeforeUnload);
         const week = localStorage.getItem("selectedWeek");
         this.selectedWeek = week;
+        this.getDaysOfWeek();
     },
 };
 /*

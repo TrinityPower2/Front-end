@@ -296,6 +296,12 @@ header div {
   margin-top: -20px;
 }
 
+.message1{
+  color : #c18cd6;
+  margin-top : 15px;
+  text-align : center;
+}
+
 /*---------------------------Login and Register buttons-----------------------------*/
 
 /* router-link{
@@ -1105,23 +1111,6 @@ bold {
   background: inherit;
   border-radius: inherit;
 }
-
-
-/*--------------------------CHANGEMENT : LE YES-NO UPDATE------------------------*/
-
-.Form-banner-container-update {
-  width: 50%; 
-  height: auto; 
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-right: none; 
-  border-bottom: none; 
-  align-items: baseline;
-  position: relative;
-  box-shadow: 0px -20px 256px 28px rgba(255, 255, 255, 0.778) inset;
-}
-
-
 .FormContainer {
   width: 523px;
 }
@@ -1871,7 +1860,7 @@ body.dark .modal{
 /*style the items (options), including the selected item:*/
 
 
-.select-items,.custom-select, .select-items-create {
+.select-items,.custom-select {
   color: #ffffff;
   padding: 8px 16px;
   /* border: 1px solid transparent; */
@@ -1907,6 +1896,16 @@ body.dark .modal{
   border-radius: 15px;
 }
 
+.select-items-create {
+  position: static;
+  background-color: #d6a5e9;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border-radius: 15px;
+}
+
 
 /*hide the items when the select box is closed:*/
 
@@ -1917,16 +1916,6 @@ body.dark .modal{
 
 .select-items option:hover, .same-as-selected {
   background-color: rgba(157, 157, 157, 0.1);
-}
-
-.select-items-create {
-  position: static;
-  background-color: #d6a5e9;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 99;
-  border-radius: 15px;
 }
 
 /*
@@ -2060,23 +2049,6 @@ body.dark .modal1{
 
 .new-list-desc{
   background-color: #1f022bcb;
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 20px;
-  margin-right: 30px;
-  border-radius: 15px;
-  color: white;
-  padding: 8px 16px;
-  min-width: 150px;
-  width: fit-content;
-  border: 1px solid transparent;
-  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-}
-
-/*--------------------- CHANGEMENT IMPORT FILE*------------------------*/
-.import-file{
-
-  background-color: #d6a5e9;
   text-align: center;
   margin-top: 40px;
   margin-bottom: 20px;
@@ -2309,6 +2281,7 @@ body.dark .modal1{
   margin-top:40px ;
 }
 
+
 .MoveOn btn {
   color: #c18cd6c4;
   font-weight: 600;
@@ -2388,14 +2361,31 @@ body.dark .modal1{
   padding-top: 2px;
 }
 
+.created-tasks-new1{
+  display: flex;
+  justify-content: space-around;
+  border-radius: 15px;
+  background-color: var(--color);
+  margin: 20px;
+  padding-top: 2px;
+  align-items: center;
+}
+
 .created-tasks-container{
   margin-top: 50px;
   margin-bottom: 90px;
 }
 
+.created-tasks-container1{
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
 .created-tasks-title{
+  color:#6b666b;
   margin-top: 12px;
   margin-bottom: 12px;
+  font-weight: 500;
 }
 
 .New-list-element1{
@@ -2443,30 +2433,6 @@ body.dark .modal1{
   margin : 0px;
 }
 
-
-/*--------------------------------------------------------------------------------------------------*/
-
-/*------------------------------------------------CHANGEMENT : TIMESLOT J'Y ARRIVE PAS----------------------------------------------------*/
-
-
-.Timeslots-choice {
-  display: flex;
-  align-items: center;
-  margin-left: 10px;
-}
-
-.Timeslots-choice .custom-select:not(:first-child) {
-  margin-left: 5px;
-}
-
-.custom-select input.select-items[type="date"] {
-  width: 100%;
-}
-
-.custom-select input.select-items[type="time"] {
-  width: 80px;
-  padding: 5px;
-}
 
 /*--------------------------------------------------------------------------------------------------*/
 
@@ -3062,13 +3028,35 @@ body.dark .Calendar-page-container{
   background-color: #d6a5e9;
   border: none;
   outline: none;
-  padding: 5px 16px;
+  padding: 5px 12px;
   height: 40px;
   border-radius: 15px;
   border-bottom: 1px solid rgba(65, 64, 64, 0.5);
   border-right: 1px solid rgba(19, 19, 19, 0.2);
   /* borde: 1px solid rgba(48, 48, 48, 0.2); */
   font-size: 16px;
+  letter-spacing: 1px;
+  color: rgb(255, 255, 255);
+  box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
+}
+
+.DescriptionInput2 {
+  position: relative;
+  margin-top: 16px;
+  /* margin-bottom: 20px; */
+  min-width: 180px;
+  width: -moz-fit-content;
+  width: fit-content;
+  float: center;
+  background-color: #d6a5e9;
+  border: none;
+  outline: none;
+  padding: 5px 12px;
+  height: 38px;
+  border-radius: 15px;
+  border-bottom: 1px solid rgba(65, 64, 64, 0.5);
+  border-right: 1px solid rgba(19, 19, 19, 0.2);
+  font-size: 12px;
   letter-spacing: 1px;
   color: rgb(255, 255, 255);
   box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
@@ -3863,7 +3851,7 @@ body.dark .days {
   border: 2px solid var(--CalendarColor4) ;
 }
 
-.calendar-orange{
+.calendar-magenta{
   border: 2px solid var(--CalendarColor5) ;
 }
 
@@ -3871,7 +3859,7 @@ body.dark .days {
   border: 2px solid var(--CalendarColor6) ;
 }
 
-.calendar-red{
+.calendar-grey{
   border: 2px solid var(--CalendarColor7) ;
 }
 
@@ -3987,16 +3975,14 @@ body.dark .days {
   --eventColor5: #f3baff;
   --eventColor6: #f1a1d7;
   --eventColor7: #f7bb77;
-  --eventColor8: #fffffe;
   --CalendarColor1: pink;
-  --CalendarColor2: #8ecdaf;
+  --CalendarColor2: #00ff88;
   --CalendarColor3: #0084ff;
   --CalendarColor4: #d400ff;
-  --CalendarColor5: #ff8400;
+  --CalendarColor5: #ff00ae;
   --CalendarColor6: #020000;
-  --CalendarColor7: #fa0808;
+  --CalendarColor7: #9e9595;
   --CalendarColor8: #ffdd00;
-  --CalendarColor9: #fffffd;
 
 }
 
@@ -4050,75 +4036,72 @@ body.dark .days {
 
 /* Place on Timeline*/
 
-.hidden {
-  display: none;
-}
 
 /* .start-6 {
   grid-row-start: 1;
 }
 
-.start-06-15 {
+.start-6-15 {
   grid-row-start: 2;
 }
 
-.start-06-30 {
+.start-6-30 {
   grid-row-start: 3;
 }
 
-.start-06-45 {
+.start-6-45 {
   grid-row-start: 4;
 }
 
-.start-07-00 {
+.start-7 {
   grid-row-start: 5;
 }
 
-.start-07-15 {
+.start-7-15 {
   grid-row-start: 6;
 }
 
-.start-07-30 {
+.start-7-30 {
   grid-row-start: 7;
 }
 
-.start-07-45 {
+.start-7-45 {
   grid-row-start: 8;
 }
 
-.start-08-00 {
+.start-8 {
   grid-row-start: 9;
 }
 
-.start-08-15 {
+.start-8-15 {
   grid-row-start: 10;
 }
 
-.start-08-30 {
+.start-8-30 {
   grid-row-start: 11;
 }
 
-.start-08-45 {
+.start-8-45 {
   grid-row-start: 12;
 }
 
-.start-09-00 {
+.start-9 {
   grid-row-start: 13;
 }
 
-.start-09-15 {
+.start-9-15 {
   grid-row-start: 14;
 }
 
-.start-09-30 {
+.start-9-30 {
   grid-row-start: 15;
 }
 
-.start-09-45 {
+.start-9-45 {
   grid-row-start: 16;
 }
 
-.start-10-00 {
+.start-10 {
   grid-row-start: 17;
 }
 
@@ -4134,7 +4117,7 @@ body.dark .days {
   grid-row-start: 20;
 }
 
-.start-11-00 {
+.start-11 {
   grid-row-start: 21;
 }
 
@@ -4150,7 +4133,7 @@ body.dark .days {
   grid-row-start: 24;
 }
 
-.start-12-00 {
+.start-12 {
   grid-row-start: 25;
 }
 
@@ -4166,7 +4149,7 @@ body.dark .days {
   grid-row-start: 28;
 }
 
-.start-13-00 {
+.start-13 {
   grid-row-start: 29;
 }
 
@@ -4182,7 +4165,7 @@ body.dark .days {
   grid-row-start: 32;
 }
 
-.start-14-00 {
+.start-14 {
   grid-row-start: 33;
 }
 
@@ -4198,7 +4181,7 @@ body.dark .days {
   grid-row-start: 36;
 }
 
-.start-15-00 {
+.start-15 {
   grid-row-start: 37;
 }
 
@@ -4214,7 +4197,7 @@ body.dark .days {
   grid-row-start: 40;
 }
 
-.start-16-00{
+.start-16 {
   grid-row-start: 41;
 }
 
@@ -4230,7 +4213,7 @@ body.dark .days {
   grid-row-start: 44;
 }
 
-.start-17-00 {
+.start-17 {
   grid-row-start: 45;
 }
 
@@ -4246,7 +4229,7 @@ body.dark .days {
   grid-row-start: 48;
 }
 
-.start-18-00 {
+.start-18 {
   grid-row-start: 49;
 }
 
@@ -4262,7 +4245,7 @@ body.dark .days {
   grid-row-start: 52;
 }
 
-.start-19-00 {
+.start-19 {
   grid-row-start: 53;
 }
 
@@ -4278,7 +4261,7 @@ body.dark .days {
   grid-row-start: 56;
 }
 
-.start-20-00 {
+.start-20 {
   grid-row-start: 57;
 }
 
@@ -4294,7 +4277,7 @@ body.dark .days {
   grid-row-start: 60;
 }
 
-.start-21-00 {
+.start-21 {
   grid-row-start: 61;
 }
 
@@ -4310,7 +4293,7 @@ body.dark .days {
   grid-row-start: 64;
 }
 
-.start-22-00 {
+.start-22 {
   grid-row-start: 65;
 }
 
@@ -4326,7 +4309,7 @@ body.dark .days {
   grid-row-start: 68;
 }
 
-.start-23-00 {
+.start-23 {
   grid-row-start: 69;
 }
 
@@ -4334,71 +4317,71 @@ body.dark .days {
 
 
 
-.end-06-00 {
+.end-6 {
   grid-row-end: 1;
 }
 
-.end-06-15 {
+.end-6-15 {
   grid-row-end: 2;
 }
 
-.start-06-30 {
+.end-6-30 {
   grid-row-end: 3;
 }
 
-.start-06-45 {
+.end-6-45 {
   grid-row-end: 4;
 }
 
-.start-07-00 {
+.end-7 {
   grid-row-end: 5;
 }
 
-.end-07-15 {
+.end-7-15 {
   grid-row-end: 6;
 }
 
-.end-07-30 {
+.end-7-30 {
   grid-row-end: 7;
 }
 
-.end-07-45 {
+.end-7-45 {
   grid-row-end: 8;
 }
 
-.end-08-00 {
+.end-8 {
   grid-row-end: 9;
 }
 
-.end-08-15 {
+.end-8-15 {
   grid-row-end: 10;
 }
 
-.end-08-30 {
+.end-8-30 {
   grid-row-end: 11;
 }
 
-.end-08-45 {
+.end-8-45 {
   grid-row-end: 12;
 }
 
-.end-09-00 {
+.end-9 {
   grid-row-end: 13;
 }
 
-.end-09-15 {
+.end-9-15 {
   grid-row-end: 14;
 }
 
-.end-09-30 {
+.end-9-30 {
   grid-row-end: 15;
 }
 
-.end-09-45 {
+.end-9-45 {
   grid-row-end: 16;
 }
 
-.end-10-00 {
+.end-10 {
   grid-row-end: 17;
 }
 
@@ -4414,7 +4397,7 @@ body.dark .days {
   grid-row-end: 20;
 }
 
-.end-11-00 {
+.end-11 {
   grid-row-end: 21;
 }
 
@@ -4430,7 +4413,7 @@ body.dark .days {
   grid-row-end: 24;
 }
 
-.end-12-00 {
+.end-12 {
   grid-row-end: 25;
 }
 
@@ -4446,7 +4429,7 @@ body.dark .days {
   grid-row-end: 28;
 }
 
-.end-13-00 {
+.end-13 {
   grid-row-end: 29;
 }
 
@@ -4462,7 +4445,7 @@ body.dark .days {
   grid-row-end: 32;
 }
 
-.end-14-00 {
+.end-14 {
   grid-row-end: 33;
 }
 
@@ -4478,7 +4461,7 @@ body.dark .days {
   grid-row-end: 36;
 }
 
-.end-15-00 {
+.end-15 {
   grid-row-end: 37;
 }
 
@@ -4494,7 +4477,7 @@ body.dark .days {
   grid-row-end: 40;
 }
 
-.end-16-00 {
+.end-16 {
   grid-row-end: 41;
 }
 
@@ -4510,7 +4493,7 @@ body.dark .days {
   grid-row-end: 44;
 }
 
-.end-17-00 {
+.end-17 {
   grid-row-end: 45;
 }
 
@@ -4526,7 +4509,7 @@ body.dark .days {
   grid-row-end: 48;
 }
 
-.end-18-00 {
+.end-18 {
   grid-row-end: 49;
 }
 
@@ -4542,7 +4525,7 @@ body.dark .days {
   grid-row-end: 52;
 }
 
-.end-19-00 {
+.end-19 {
   grid-row-end: 53;
 }
 
@@ -4558,7 +4541,7 @@ body.dark .days {
   grid-row-end: 56;
 }
 
-.end-20-00 {
+.end-20 {
   grid-row-end: 57;
 }
 
@@ -4574,7 +4557,7 @@ body.dark .days {
   grid-row-end: 60;
 }
 
-.end-21-00 {
+.end-21 {
   grid-row-end: 61;
 }
 
@@ -4590,7 +4573,7 @@ body.dark .days {
   grid-row-end: 64;
 }
 
-.end-22-00 {
+.end-22 {
   grid-row-end: 65;
 }
 
@@ -4606,7 +4589,7 @@ body.dark .days {
   grid-row-end: 68;
 }
 
-.end-23-00 {
+.end-23 {
   grid-row-end: 69;
 }
 
@@ -4649,69 +4632,62 @@ body.dark .days {
   border: 2px solid var(--CalendarColor1) ;
 }
 
-.calendar-green{
+.calendar-2{
   border: 2px solid var(--CalendarColor2) ;
 }
 
-.calendar-blue{
+.calendar-3{
   border: 2px solid var(--CalendarColor3) ;
 }
 
-.calendar-purple{
+.calendar-4{
   border: 2px solid var(--CalendarColor4) ;
 }
 
-.calendar-magenta{
+.calendar-5{
   border: 2px solid var(--CalendarColor5) ;
 }
 
-.calendar-black{
+.calendar-6{
   border: 2px solid var(--CalendarColor6) ;
 }
 
-.calendar-grey{
+.calendar-7{
   border: 2px solid var(--CalendarColor7) ;
 }
 
-.calendar-yellow{
+.calendar-8{
   border: 2px solid var(--CalendarColor8) ;
 }
 
-.calendar-white{
-  border: 2px solid var(--CalendarColor9) ;
-} 
-
-.red {
+.holiday {
   background: var(--eventColor1);
 }
 
-.yellow{
+.class{
   background: var(--eventColor2);
 }
 
-.blue {
+.project {
   background: var(--eventColor3);
 }
 
-.green {
+.party {
   background: var(--eventColor4);
 }
 
-.purple  {
+.work  {
   background: var(--eventColor5);
 }
 
-.pink {
+.health {
   background: var(--eventColor6);
 }
 
-.orange {
+.family {
   background: var(--eventColor7);
 }
 
-.white {
-  background: var(--eventColor8);
-}
 
 .date {
   display: flex;
@@ -4926,4 +4902,21 @@ body.dark .logo-name {
 .top .media-icons a:nth-child(3):hover {
   color: #f291bb;
   background: #fff;
+}
+
+.create-calendar-event1{
+  display : none;
+}
+
+.alert-message  {
+  color: red;
+  padding: 3px 5px;
+  font-size: 12px;
+  margin-top: 5px;
+  width: fit-content;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
 }
