@@ -17,9 +17,6 @@
                         <router-link to="/help-page" class="to-page-user-nav">Help</router-link>
                     </li>
                     <li>
-                        <router-link to="/legal-mentions-page" class="to-page-user-nav">Legal Mentions</router-link>
-                    </li>
-                    <li>
                         <a @click="()=>logout()" class="to-page-user-nav">Logout</a>
                     </li>
                 </ul>
