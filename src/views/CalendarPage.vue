@@ -1646,8 +1646,14 @@ export default {
         getDay(dateString) {
             var date = new Date(dateString);
             var dayOfWeek = date.getDay();
-
-            var day = this.days[dayOfWeek - 1];
+            console.log(dayOfWeek)
+            console.log(this.days[6])
+            if(dayOfWeek == 0){
+                dayOfWeek = 6
+                var day = this.days[dayOfWeek]
+            }else{
+                day = this.days[dayOfWeek-1]
+            }
 
             return day;
         },
@@ -1716,13 +1722,20 @@ export default {
                 };
             }
 
+            console.log(eventsForWeek)
+            console.log(eventsForWeek['sun'])
+
             this.Calendar.forEach((calendar) => {
                 calendar.event.forEach((event) => {
+                    console.log(event)
                     if (event.week == this.selectedWeek) {
                         const day = event.day;
                         const id_cal = calendar.id_calendar;
+                        console.log(eventsForWeek[day].events)
+                       
 
                         if (!eventsForWeek[day].events[id_cal]) {
+                            console.log(eventsForWeek[day].events[id_cal])
                             eventsForWeek[day].events[id_cal] = {
                                 calendar: calendar,
                                 event: [],
