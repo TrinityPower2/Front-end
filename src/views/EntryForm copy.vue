@@ -146,9 +146,6 @@ export default {
                             throw new Error(JSON.stringify(error));
                     });
                 }})
-                
-                .then((parsed) => {localStorage.setItem('token',parsed.token);
-                })
                 .then(()=>{this.$router.push('/calendar-page');})
                 .catch((error) => {
                     let errorMessage;

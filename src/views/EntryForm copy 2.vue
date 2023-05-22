@@ -63,7 +63,7 @@
                                 <input @click="send" type="submit" value="Submit Information" name="btnUpdate" />
                             </div>
                             <p class="forgotPswd MoveOn">
-                                Skip for now ?<a href="./Register.html">Move on</a>
+                                Skip for now ?<router-link to="/calendar-page">Move on</router-link>
                             </p>
                         </div>
                     </div>

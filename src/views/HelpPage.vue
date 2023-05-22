@@ -177,6 +177,10 @@ export default {
             this.link = "";
             this.selectedFile = null;
             this.labelText = "No file selected";
+
+            if(!localStorage.getItem("token"))
+                this.$router.push("/");
+
         },
         handleFileChange(event) {
             const file = event.target.files[0];

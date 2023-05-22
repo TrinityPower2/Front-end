@@ -19,6 +19,9 @@
                     <li>
                         <router-link to="/legal-mentions-page" class="to-page-user-nav">Legal Mentions</router-link>
                     </li>
+                    <li>
+                        <a @click="()=>logout()" class="to-page-user-nav">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -34,6 +37,12 @@ export default {
         let menu = document.querySelector('.user-menu');
         profile.onclick = function () {
             menu.classList.toggle('active')
+        }
+    },
+    methods: {
+        logout() {
+            localStorage.removeItem('token')
+            this.$router.push('/')
         }
     }
 }
