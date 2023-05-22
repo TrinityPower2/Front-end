@@ -96,7 +96,7 @@ export default {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({ txt_FName: this.txtFName, txt_Email: this.txtEmail })
+      body: JSON.stringify({ name: this.txtFName, email: this.txtEmail })
     })
     .then(response => {
         console.log(this.txtFName)
