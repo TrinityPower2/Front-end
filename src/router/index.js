@@ -59,12 +59,12 @@ import CalendarPage from "@/views/CalendarPage.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "/debug",
     name: "HelloWorld'",
     component: HelloWorld,
   },
   {
-    path: "/landing-page",
+    path: "/",
     name: "LandingPage",
     component: LandingPage,
   },

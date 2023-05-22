@@ -36,7 +36,7 @@
                 so?<br /><br />This is the place for you
             </p>
 
-            <a href="./Register.html" class="TryOutBtnLink">Try it out!</a>
+            <router-link to="/register-page" class="TryOutBtnLink">Try it out!</router-link>
         </div>
         <div class="SiteContent-container">
             <div class="VocabPrez">
@@ -75,7 +75,7 @@
             </div>
             <div class="WelcomePrompt WelcomeEnd">
                 <h1> </h1>
-                <a href="./Register.html" class="TryOutBtnLink">Get started!</a>
+                <router-link to="/register-page" class="TryOutBtnLink">Get started!</router-link>
             </div>
         </div>
         <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
