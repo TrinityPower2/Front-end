@@ -168,6 +168,15 @@ export default {
             request.send(fdata);
 
             this.sent = true;
+
+            // Reset every variable
+            this.name = "";
+            this.email = "";
+            this.summary = "";
+            this.details = "";
+            this.link = "";
+            this.selectedFile = null;
+            this.labelText = "No file selected";
         },
         handleFileChange(event) {
             const file = event.target.files[0];
