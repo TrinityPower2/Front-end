@@ -29,7 +29,7 @@
                           <div class="loginInputBox">
                               <input v-model = "newpassword" type="password" placeholder="New Password" name="newpassword">
                           </div>
-                          <div class = "message" > {{message}}</div>
+                          <div class = "message" style="margin-top: 40px;"> {{message}}</div>
                           <div class="loginInputBox">
                               <input @click ="()=>reset()"  id="NewPwdbtn" type="submit" value="Edit" name="btnChange">
                           </div>

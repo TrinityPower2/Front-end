@@ -94,7 +94,7 @@
                                 <div class="loginInputBox">
                                     <input  v-model = "email" type="text" placeholder="Email Address" name="email">
                                 </div>
-                                <div class = "message" style="margin-top: 40px;" >{{message}}</div>
+                                <div class = "message" style="color: red;" >{{message}}</div>
                                 <div class="loginInputBox">
                                     <input @click="()=>send()" type="submit" value="Send" name="submit">
                                 </div>
@@ -124,8 +124,8 @@
         },
         methods:{
           send(){
-            fetch("api/api/auth/recovery", 
-            {method: 'POST',
+            fetch("/reset_password", 
+            {method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 

@@ -296,6 +296,12 @@ header div {
   margin-top: -20px;
 }
 
+.message1{
+  color : #c18cd6;
+  margin-top : 15px;
+  text-align : center;
+}
+
 /*---------------------------Login and Register buttons-----------------------------*/
 
 /* router-link{
@@ -1890,6 +1896,16 @@ body.dark .modal{
   border-radius: 15px;
 }
 
+.select-items-create {
+  position: static;
+  background-color: #d6a5e9;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border-radius: 15px;
+}
+
 
 /*hide the items when the select box is closed:*/
 
@@ -2061,6 +2077,13 @@ body.dark .modal1{
   flex-direction: column;
   flex-wrap: wrap;
   align-content: flex-end;
+  align-items: center;
+}
+
+.modal-center3 {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
   align-items: center;
 }
 
@@ -2265,6 +2288,10 @@ body.dark .modal1{
   margin-top:40px ;
 }
 
+.create-calendar-event1{
+  display:none;
+}
+
 .MoveOn btn {
   color: #c18cd6c4;
   font-weight: 600;
@@ -2344,14 +2371,31 @@ body.dark .modal1{
   padding-top: 2px;
 }
 
+.created-tasks-new1{
+  display: flex;
+  justify-content: space-around;
+  border-radius: 15px;
+  background-color: var(--color);
+  margin: 20px;
+  padding-top: 2px;
+  align-items: center;
+}
+
 .created-tasks-container{
   margin-top: 50px;
   margin-bottom: 90px;
 }
 
+.created-tasks-container1{
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
 .created-tasks-title{
+  color:#6b666b;
   margin-top: 12px;
   margin-bottom: 12px;
+  font-weight: 500;
 }
 
 .New-list-element1{
@@ -2994,13 +3038,35 @@ body.dark .Calendar-page-container{
   background-color: #d6a5e9;
   border: none;
   outline: none;
-  padding: 5px 16px;
+  padding: 5px 12px;
   height: 40px;
   border-radius: 15px;
   border-bottom: 1px solid rgba(65, 64, 64, 0.5);
   border-right: 1px solid rgba(19, 19, 19, 0.2);
   /* borde: 1px solid rgba(48, 48, 48, 0.2); */
   font-size: 16px;
+  letter-spacing: 1px;
+  color: rgb(255, 255, 255);
+  box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
+}
+
+.DescriptionInput2 {
+  position: relative;
+  margin-top: 16px;
+  /* margin-bottom: 20px; */
+  min-width: 180px;
+  width: -moz-fit-content;
+  width: fit-content;
+  float: center;
+  background-color: #d6a5e9;
+  border: none;
+  outline: none;
+  padding: 5px 12px;
+  height: 38px;
+  border-radius: 15px;
+  border-bottom: 1px solid rgba(65, 64, 64, 0.5);
+  border-right: 1px solid rgba(19, 19, 19, 0.2);
+  font-size: 12px;
   letter-spacing: 1px;
   color: rgb(255, 255, 255);
   box-shadow: 0 5px 15px rgba(77, 77, 77, 0.05);
