@@ -124,7 +124,7 @@ export default {
             for (let i = 0; i < 4; i++) {
                 const token = localStorage.getItem('token');
                 console.log(token)
-                fetch("http://127.0.0.1:8000/api/timepref", {
+                fetch("api/api/timepref", {
                     method: 'POST',
                     headers: {
                     'Content-Type': 'application/json',

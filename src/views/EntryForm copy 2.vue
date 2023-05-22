@@ -128,7 +128,7 @@ export default {
             const token = localStorage.getItem('token');
 
             try {
-                const response = await fetch("http://127.0.0.1:8000/api/timepref/", {
+                const response = await fetch("api/api/timepref/", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ export default {
                 for (let i = 0; i < 4; i++) {
                     const token = localStorage.getItem('token');
 
-                    fetch("http://127.0.0.1:8000/api/timepref/" + this.Questions[i], {
+                    fetch("api/api/timepref/" + this.Questions[i], {
 
                         method: 'PATCH',
                         headers: {
