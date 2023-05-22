@@ -177,6 +177,12 @@ export default {
                 const minutesTime1 = hours1 * 60 + minutes1;
                 const minutesTime2 = hours2 * 60 + minutes2;
 
+                if (hours2 < hours1) {
+                    minutesTime2 += 24 * 60;
+                }
+
+                console.log(minutesTime1, minutesTime2);
+
                 return minutesTime2 - minutesTime1;
             }
       }
