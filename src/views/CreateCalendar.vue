@@ -648,7 +648,7 @@ export default {
                         'Authorization': 'Bearer ' + token
                     }
                 })
-            window.location.href = "/calendar"
+            window.location.href = "/calendar-page";
         },
         DeleteCalendar() {
             const token = localStorage.getItem('token');
@@ -1131,7 +1131,7 @@ export default {
                         event: [],
                     };
                 }
-                eventsForWeek[day].colr_calendar = this.Tasks.color_calendar;
+                eventsForWeek[day].color_calendar = this.Tasks.color_calendar;
                 eventsForWeek[day].events[id_cal].event.push(event);
             })
 

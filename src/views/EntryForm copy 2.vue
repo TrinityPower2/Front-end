@@ -2,17 +2,17 @@
     <body>
         <a id="top"></a>
         <div class="FormPage1">
-            <div class="headernav" >
+            <div class="headernav">
                 <div class="header-container1">
-            <div class="header-image">
-                <img alt="Vue logo" style="opacity: 0.7;" src="../assets/TimeToDo1.png" class="VueLogo" />
-            </div>
-            <div class="Navbar">
-                    <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
-                    <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
-                    <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
-                </div>
-                <UserMenu></UserMenu>
+                    <div class="header-image">
+                        <img alt="Vue logo" style="opacity: 0.7;" src="../assets/TimeToDo1.png" class="VueLogo" />
+                    </div>
+                    <div class="Navbar">
+                        <router-link to="/calendar-page" class="to-page-nav">My Plannings</router-link>
+                        <router-link to="/todo-list2-page" class="to-page-nav">My Todo Lists</router-link>
+                        <router-link to="/create-calendar-page" class="to-page-nav">Create a Planning</router-link>
+                    </div>
+                    <UserMenu></UserMenu>
                 </div>
             </div>
             <div class="FormBox">
@@ -20,46 +20,58 @@
                     <div class="Form-banner-container">
                         <div class="loginForm">
                             <h2>Your Preferences</h2>
-                            <p class="Form-presentation"> <br> TimeToDo depends on an <i class="fa fa-bold" aria-hidden="true">algorithm</i>  to optimize your plannings. <br><br> The following questions will help us <i class="fa fa-bold" aria-hidden="true">taylor your planning</i> , depending on your needs :<br><br></p>
-                                <p class="Form-question">On which timeslot is your lunch break ?</p>
-                                <div class="loginInputBox">
-                                    <input v-model = "Lunch1" @input="convertToISO($event, 'Lunch1')" type="time" step="900" name="txtQuestion" style="width:50%;"/>
-                                    <input v-model = "Lunch2" @input="convertToISO($event, 'Lunch2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                </div>
-                                <p class="Form-question">On which timeslot is your diner break ?</p>
-                                <div class="loginInputBox">
-                                    <input v-model = "Dinner1" @input="convertToISO($event, 'Dinner1')" type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                    <input v-model = "Dinner2" @input="convertToISO($event, 'Dinner2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                </div>
-                                <p class="Form-question">What is your sleeping schedule ?</p>
-                                <div class="loginInputBox">
-                                    <input v-model = "Sleeping1" @input="convertToISO($event, 'Sleeping1')" type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                    <input v-model = "Sleeping2" @input="convertToISO($event, 'Sleeping2')" type="time" step="900" name="txtQuestion" style="width:50%"/>
-                                </div>
-                                <p class="Form-question">Would you rather have schedules in the morning or the afternoon ?</p>
-                                <div class="Switch-container">
-                                    <p class="Switch-label">Morning</p>
-                                    <label class="switch">
-                                        <input type="checkbox"  v-model="notificationEnabled" :value="true" @change="handleSliderChange">
-                                        <span class="slider" :class="{ 'slider-right': notificationEnabled, 'slider-left': !notificationEnabled }"></span>
-                                    </label>
-                                    <p class="Switch-label">Afternoon</p>
-                                </div>
-                                
-                                <br><br>
-                                <p class = "message">{{ message }}</p>
-                                <div class="loginInputBox FormInputBox">
-                                    <input @click = "send" type="submit" value="Submit Information" name="btnUpdate" />
-                                </div>
-                                <p class="forgotPswd MoveOn">
-                                    Skip for now ?<a href="./Register.html">Move on</a>
-                                </p>
+                            <p class="Form-presentation"> <br> TimeToDo depends on an <i class="fa fa-bold"
+                                    aria-hidden="true">algorithm</i> to optimize your plannings. <br><br> The following
+                                questions will help us <i class="fa fa-bold" aria-hidden="true">taylor your planning</i> ,
+                                depending on your needs :<br><br></p>
+                            <p class="Form-question">On which timeslot is your lunch break ?</p>
+                            <div class="loginInputBox">
+                                <input v-model="Lunch1" @input="convertToISO($event, 'Lunch1')" type="time" step="900"
+                                    name="txtQuestion" style="width:50%;" />
+                                <input v-model="Lunch2" @input="convertToISO($event, 'Lunch2')" type="time" step="900"
+                                    name="txtQuestion" style="width:50%" />
+                            </div>
+                            <p class="Form-question">On which timeslot is your diner break ?</p>
+                            <div class="loginInputBox">
+                                <input v-model="Dinner1" @input="convertToISO($event, 'Dinner1')" type="time" step="900"
+                                    name="txtQuestion" style="width:50%" />
+                                <input v-model="Dinner2" @input="convertToISO($event, 'Dinner2')" type="time" step="900"
+                                    name="txtQuestion" style="width:50%" />
+                            </div>
+                            <p class="Form-question">What is your sleeping schedule ?</p>
+                            <div class="loginInputBox">
+                                <input v-model="Sleeping1" @input="convertToISO($event, 'Sleeping1')" type="time" step="900"
+                                    name="txtQuestion" style="width:50%" />
+                                <input v-model="Sleeping2" @input="convertToISO($event, 'Sleeping2')" type="time" step="900"
+                                    name="txtQuestion" style="width:50%" />
+                            </div>
+                            <p class="Form-question">Would you rather have schedules in the morning or the afternoon ?</p>
+                            <div class="Switch-container">
+                                <p class="Switch-label">Morning</p>
+                                <label class="switch">
+                                    <input type="checkbox" v-model="notificationEnabled" :value="true"
+                                        @change="handleSliderChange">
+                                    <span class="slider"
+                                        :class="{ 'slider-right': notificationEnabled, 'slider-left': !notificationEnabled }"></span>
+                                </label>
+                                <p class="Switch-label">Afternoon</p>
+                            </div>
+
+                            <br><br>
+                            <p class="message">{{ message }}</p>
+                            <div class="loginInputBox FormInputBox">
+                                <input @click="send" type="submit" value="Submit Information" name="btnUpdate" />
+                            </div>
+                            <p class="forgotPswd MoveOn">
+                                Skip for now ?<a href="./Register.html">Move on</a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
+        <a id="TopBtn" href="#top" class="fa fa-angle-double-up hide" style="font-size: 24px"><font-awesome-icon
+                icon="fa-solid fa-arrow-up" size="xs" style="color: #fff0fe;" /></a>
         <footer style="margin-top: 0%">
             <div class="content-footer">
                 <div class="top">
@@ -88,203 +100,217 @@ import UserMenu from "../components/UserMenu.vue";
 export default {
     name: "EntryFormPage2",
     components: {
-    UserMenu,
-    // DarkLightMode
+        UserMenu,
+        // DarkLightMode
     },
-    data(){
-          return{
-            Questions: ["lunchtime", "dinnertime","sleeptime", "prefered_period"],
-            Pref : [],
-            Lunch1 : "",
-            Lunch2 : "",
-            Dinner1 : "",
-            Dinner2 : "",
-            Sleeping1 : "",
-            Sleeping2 : "",
-            isMorningSelected : false,
-            message :  "",
+    data() {
+        return {
+            Questions: ["lunchtime", "dinnertime", "sleeptime", "prefered_period"],
+            Pref: [],
+            Lunch1: "",
+            Lunch2: "",
+            Dinner1: "",
+            Dinner2: "",
+            Sleeping1: "",
+            Sleeping2: "",
+            isMorningSelected: false,
+            message: "",
             name_timepref: "",
             start_time: "",
-            length : "",
-            notificationEnabled : false,
-            to_notify : "morning"
-          }
-        },
-
-    methods:{
-        async GetPref() {
-        const token = localStorage.getItem('token');
-
-        try {
-        const response = await fetch("http://127.0.0.1:8000/api/timepref/", {
-            method: 'GET',
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-            }
-        });
-
-        const data = await response.json();
-        this.prefs = JSON.parse(JSON.stringify(data.list));
-        } catch (error) {
-        console.error(error);
+            length: "",
+            notificationEnabled: false,
+            to_notify: "morning"
         }
+    },
+
+    methods: {
+        async GetPref() {
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/api/timepref/", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                const data = await response.json();
+                this.prefs = JSON.parse(JSON.stringify(data.list));
+            } catch (error) {
+                console.error(error);
+            }
         },
         handleSliderChange() {
             if (this.notificationEnabled) {
-                
+
                 this.to_notify = "afternoon";
                 console.log(this.to_notify)
             } else {
-                this.to_notify = "morning" 
+                this.to_notify = "morning"
                 console.log(this.to_notify)
-                
+
             }
         },
         async initializePage() {
-        /*Initilialized the page by getting all the current to do list and tasks of the user*/
-        await this.GetPref();
-        
-        this.Pref = this.prefs.map(pref => {
-            return {
-                "id_timepref": pref.id_timepref,
-                "name_timepref": pref.name_timepref,
-                "start_time": pref.start_time,
-                "length": pref.length,
-                "id_users": pref.id_users,
-                "miscellaneous": pref.miscellaneous
-            };
-        })
+            /*Initilialized the page by getting all the current to do list and tasks of the user*/
+            await this.GetPref();
 
-        if(this.Pref[0].name_timepref == "lunchtime"){
-            this.Lunch1 = this.Pref[0].start_time;
-            this.Lunch2 = this.addDurationToTime(this.Pref[0].start_time, this.Pref[0].length)
-        }
+            this.Pref = this.prefs.map(pref => {
+                return {
+                    "id_timepref": pref.id_timepref,
+                    "name_timepref": pref.name_timepref,
+                    "start_time": pref.start_time,
+                    "length": pref.length,
+                    "id_users": pref.id_users,
+                    "miscellaneous": pref.miscellaneous
+                };
+            })
+            console.log(this.Pref)
+            if (this.Pref[0].name_timepref == "lunchtime") {
+                this.Lunch1 = this.Pref[0].start_time;
+                this.Lunch2 = this.addDurationToTime(this.Pref[0].start_time, this.Pref[0].length)
+            }
 
-        if(this.Pref[1].name_timepref == "dinnertime"){
-            this.Dinner1 = this.Pref[1].start_time;
-            this.Dinner2 = this.addDurationToTime(this.Pref[1].start_time, this.Pref[1].length)
-        }
-        if(this.Pref[2].name_timepref == "sleeptime"){
-            this.Sleeping1 = this.Pref[2].start_time;
-            this.Sleeping2 = this.addDurationToTime(this.Pref[2].start_time, this.Pref[2].length)
-        }
-        if(this.Pref[3].miscellaneous == "afternoon"){
-            this.notificationEnabled = true;
-        }else{
-            this.notificationEnabled = false;
-        }
-    },
+            if (this.Pref[1].name_timepref == "dinnertime") {
+                this.Dinner1 = this.Pref[1].start_time;
+                this.Dinner2 = this.addDurationToTime(this.Pref[1].start_time, this.Pref[1].length)
+            }
+            if (this.Pref[2].name_timepref == "sleeptime") {
+                this.Sleeping1 = this.Pref[2].start_time;
+                this.Sleeping2 = this.addDurationToTime(this.Pref[2].start_time, this.Pref[2].length)
+                console.log(this.Sleeping1, this.Sleeping2)
+            }
+            if (this.Pref[3].miscellaneous == "afternoon") {
+                this.notificationEnabled = true;
+                
+            } else {
+                this.notificationEnabled =false;
+               
+            }
+        },
         convertToISO(event, field) {
             const time = event.target.value;
             const [hours, minutes] = time.split(':');
             const isoTime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:00`;
             this[field] = isoTime;
         },
-        send(){
-            
-            if(this.Lunch1 == "" || this.Lunch2 == "" || this.Dinner1 == "" || this.Dinner2 == "" || this.Sleeping1 == "" || this.Sleeping2 == "" ){
+        send() {
+
+            if (this.Lunch1 == "" || this.Lunch2 == "" || this.Dinner1 == "" || this.Dinner2 == "" || this.Sleeping1 == "" || this.Sleeping2 == "") {
                 this.message = "Please fill all the fields"
             }
-            else{
-            const lunchDuration = this.calculateDuration(this.Lunch1, this.Lunch2);
-            const dinnerDuration = this.calculateDuration(this.Dinner1, this.Dinner2);
-            const sleepingDuration = this.calculateDuration(this.Sleeping1, this.Sleeping2);
-            const StartTime = [this.Lunch1, this.Dinner1, this.Sleeping1, ""]
-            const Duration = [lunchDuration, dinnerDuration, sleepingDuration, 10]
-            const miscellaneous = ["", "", "", this.to_notify]
-            
-            for (let i = 0; i < 4; i++) {
-                const token = localStorage.getItem('token');
-                
-                fetch("http://127.0.0.1:8000/api/timepref/" + this.Questions[i] , {
-                   
-                    method: 'PATCH',
-                    headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify({
-                    start_time: StartTime[i],
-                    length: Duration[i],
-                    miscellaneous: miscellaneous[i]
+            else {
+                const lunchDuration = this.calculateDuration(this.Lunch1, this.Lunch2);
+                const dinnerDuration = this.calculateDuration(this.Dinner1, this.Dinner2);
+                const sleepingDuration = this.calculateDuration(this.Sleeping1, this.Sleeping2);
+                const StartTime = [this.Lunch1, this.Dinner1, this.Sleeping1, ""]
+                const Duration = [lunchDuration, dinnerDuration, sleepingDuration, 10]
+                const miscellaneous = ["", "", "", this.to_notify]
+
+                for (let i = 0; i < 4; i++) {
+                    const token = localStorage.getItem('token');
+
+                    fetch("http://127.0.0.1:8000/api/timepref/" + this.Questions[i], {
+
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            start_time: StartTime[i],
+                            length: Duration[i],
+                            miscellaneous: miscellaneous[i]
+                        })
+                    }).then((response) => {
+
+                        if (response.ok) {
+                            this.message = "Update Successfully"
+                            //window.location.reload();
+                            return response.json();
+                        }
+                        else {
+                            return response.json().then(error => {
+                                throw new Error(JSON.stringify(error));
+                            });
+                        }
                     })
-                }).then((response)=>{
+                        .catch((error) => {
 
-                if (response.ok) {
-                    this.message = "Update Successfully"
-                    window.location.reload();
-                    return response.json();
+                            let errorMessage;
+                            try {
+                                errorMessage = JSON.parse(error.message);
+                            } catch {
+                                errorMessage = {
+                                    message: 'An error occurred while processing your request.'
+                                };
+                                this.message = errorMessage.message;
+                            }
+                            if (errorMessage.status === false) {
+
+                                this.message = errorMessage.message;
+                            }
+                            else {
+                                this.message = errorMessage.errors;
+                            }
+
+
+                        });
                 }
-                else {   
-                        return response.json().then(error => {
-                            throw new Error(JSON.stringify(error));
-                    });
-                }})
-                .catch((error) => {
-                    
-                    let errorMessage;
-                    try {
-                        errorMessage = JSON.parse(error.message);
-                    } catch {
-                        errorMessage = {
-                        message: 'An error occurred while processing your request.'
-                        };
-                        this.message = errorMessage.message;
-                    }
-                    if(errorMessage.status === false){
-
-                        this.message = errorMessage.message;
-                    }
-                    else{
-                        this.message = errorMessage.errors;
-                    }
-                
-                    
-                });
-            }}
-            
-            }                
-            ,
-              
-            calculateDuration(time1, time2) {
-                const [hours1, minutes1] = time1.split(":").map(Number);
-                const [hours2, minutes2] = time2.split(":").map(Number);
-
-                const minutesTime1 = hours1 * 60 + minutes1;
-                const minutesTime2 = hours2 * 60 + minutes2;
-
-                return minutesTime2 - minutesTime1;
-            },
-            addDurationToTime(time, durationInMinutes) {
-                const [hours, minutes] = time.split(":").map(Number);
-
-                const timeInMinutes = hours * 60 + minutes;
-
-                const endTimeInMinutes = timeInMinutes + durationInMinutes;
-                const resultingHours = Math.floor(endTimeInMinutes / 60);
-                const resultingMinutes = endTimeInMinutes % 60;
-
-                const endTime = `${String(resultingHours).padStart(2, "0")}:${String(resultingMinutes).padStart(2, "0")}`;
-
-                return endTime;
             }
-      },
-      beforeMount(){
-        
-        this.initializePage();
-      
+
+        }
+        ,
+
+        calculateDuration(time1, time2) {
+            const [hours1, minutes1] = time1.split(":").map(Number);
+            const [hours2, minutes2] = time2.split(":").map(Number);
+
+            const minutesTime1 = hours1 * 60 + minutes1;
+            let minutesTime2 = hours2 * 60 + minutes2;
+
+            
+            if (hours2 < hours1) {
+                minutesTime2 += 24 * 60;
+            }
+
+            console.log(minutesTime1, minutesTime2);
+            return minutesTime2 - minutesTime1;
+        },
+        addDurationToTime(time, durationInMinutes) {
+            const [hours, minutes] = time.split(":").map(Number);
+            console.log(hours)
+            console.log(minutes)
+            const timeInMinutes = hours * 60 + minutes;
+
+            const endTimeInMinutes = timeInMinutes + durationInMinutes;
+            var resultingHours = Math.floor(endTimeInMinutes / 60);
+            const resultingMinutes = endTimeInMinutes % 60;
+            if(resultingHours >= 24){
+                resultingHours = resultingHours - 24;
+            }
+            const endTime = `${String(resultingHours).padStart(2, "0")}:${String(resultingMinutes).padStart(2, "0")}`;
+
+            return endTime;
+        }
     },
-    mounted(){
+    beforeMount() {
+
+        this.initializePage();
+
+    },
+    mounted() {
         var thisID = document.getElementById("TopBtn");
         var myScrollFunc = function () {
-        var y = window.scrollY;
-        if (y >= 300) {
-            thisID.className = "fa fa-angle-double-up show";
-        } else {
-            thisID.className = "fa fa-angle-double-up hide";
-        }
-    };
+            var y = window.scrollY;
+            if (y >= 300) {
+                thisID.className = "fa fa-angle-double-up show";
+            } else {
+                thisID.className = "fa fa-angle-double-up hide";
+            }
+        };
         window.addEventListener("scroll", myScrollFunc);
     }
 };
